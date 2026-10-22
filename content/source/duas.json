@@ -1,0 +1,52 @@
+{
+ "Duas": [
+  {
+   "MainHeading": "Dua before sleeping",
+   "SubHeading": "Fall asleep under Allah’s protection and mercy.",
+   "actiontype": "dhikr",
+   "arabic": "اللَّهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا",
+   "Translation": "O Allah, in Your name I die and I live.",
+   "Transliteration": "Allahumma bismika amootu wa ahya"
+  },
+  {
+   "MainHeading": "Dua after waking up",
+   "SubHeading": "Wake up with gratitude and renewed blessings",
+   "actiontype": "dhikr",
+   "arabic": "الْـحَمْدُ لِلَّهِ الَّذِي أَحْيَانَا بَعْدَ مَا أَمَاتَنَا وَإِلَيْهِ النُّشُورُ",
+   "Translation": "All praise is for Allah who gave us life after causing us to die, and to Him is the resurrection.",
+   "Transliteration": "Alhamdu lillahi alladhi ahyana ba’da ma amatana wa ilayhi an-nushoor"
+  },
+  {
+   "MainHeading": "Dua when entering the house",
+   "SubHeading": "Invite barakah and safety into your home",
+   "actiontype": "dhikr",
+   "arabic": "بِسْمِ اللَّهِ وَلَجْنَا وَبِسْمِ اللَّهِ خَرَجْنَا وَعَلَى اللَّهِ رَبِّنَا تَوَكَّلْنَا",
+   "Translation": "In the name of Allah we enter, in the name of Allah we leave, and upon our Lord we place our trust.",
+   "Transliteration": "Bismillahi walajna wa bismillahi kharajna wa alallahi rabbina tawakkalna"
+  },
+  {
+   "MainHeading": "Dua when exiting the house",
+   "SubHeading": "Step out shielded by His protection",
+   "actiontype": "dhikr",
+   "arabic": "بِسْمِ اللَّهِ تَوَكَّلْتُ عَلَى اللَّهِ وَلَا حَوْلَ وَلَا قُوَّةَ إِلَّا بِاللَّهِ",
+   "Translation": "In the name of Allah, I place my trust in Allah, and there is no power nor strength except with Allah.",
+   "Transliteration": "Bismillahi tawakkaltu alallah wa la hawla wa la quwwata illa billah"
+  },
+  {
+   "MainHeading": "Dua when entering the bathroom",
+   "SubHeading": "Seek protection from harm and impurity",
+   "actiontype": "dhikr",
+   "arabic": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَائِثِ",
+   "Translation": "O Allah, I seek refuge with You from male and female devils.",
+   "Transliteration": "Allahumma inni a’udhu bika minal khubuthi wal khabaith"
+  },
+  {
+   "MainHeading": "Dua when leaving the bathroom",
+   "SubHeading": "Step out with purity and praise to Allah",
+   "actiontype": "dhikr",
+   "arabic": "غُفْرَانَكَ",
+   "Translation": "I seek Your forgiveness.",
+   "Transliteration": "Ghufranaka"
+  }
+ ]
+}

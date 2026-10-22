@@ -1,0 +1,529 @@
+{
+ "Namaz Dua": [
+  {
+   "Namaz": "Fajr",
+   "Title": "Astaghfirullah",
+   "actiontype": "dhikr",
+   "Count": "3.0",
+   "Arabic": "أَسْتَغْفِرُ اللَّهَ",
+   "Translation": "I seek forgiveness from Allah",
+   "Transliteration": "Astaghfirullāh"
+  },
+  {
+   "Namaz": "Fajr",
+   "Title": "Short durood",
+   "actiontype": "dhikr",
+   "Arabic": "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ",
+   "Translation": "O Allah, send blessings upon Muhammad",
+   "Transliteration": "Allahumma salli ala Muhammad"
+  },
+  {
+   "Namaz": "Fajr",
+   "Title": "Ayat ul Kursi",
+   "actiontype": "quran",
+   "Surah": "2.0",
+   "startingVerse": "255.0",
+   "endingVerse": "255.0"
+  },
+  {
+   "Namaz": "Fajr",
+   "Title": "Surah Ikhlas",
+   "actiontype": "quran",
+   "Surah": "112.0",
+   "startingVerse": "1.0",
+   "endingVerse": "4.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Fajr",
+   "Title": "Surah Falaq",
+   "actiontype": "quran",
+   "Surah": "113.0",
+   "startingVerse": "1.0",
+   "endingVerse": "5.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Fajr",
+   "Title": "Surah Nas",
+   "actiontype": "quran",
+   "Surah": "114.0",
+   "startingVerse": "1.0",
+   "endingVerse": "6.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Fajr",
+   "Title": "Reflecting on peace",
+   "actiontype": "dhikr",
+   "Arabic": "اللَّهُمَّ أَنْتَ السَّلَامُ، وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
+   "Translation": "O Allah, You are Peace, and from You comes peace. Blessed are You, O Possessor of Majesty and Honor.",
+   "Transliteration": "Allahumma anta as-salaamu wa minka as-salaam, tabaarakta yaa dhal-jalaali wal-ikraam"
+  },
+  {
+   "Namaz": "Fajr",
+   "Title": "Subhanallah",
+   "actiontype": "dhikr",
+   "Count": "33.0",
+   "Arabic": "سُبْحَانَ اللَّهِ",
+   "Translation": "Glory be to Allah",
+   "Transliteration": "Subhanallah"
+  },
+  {
+   "Namaz": "Fajr",
+   "Title": "Alhamdulilah",
+   "actiontype": "dhikr",
+   "Count": "33.0",
+   "Arabic": "الْـحَمْدُ لِلَّهِ",
+   "Translation": "All praise is due to Allah",
+   "Transliteration": "Alhamdulilah"
+  },
+  {
+   "Namaz": "Fajr",
+   "Title": "Allahu Akbar",
+   "actiontype": "dhikr",
+   "Count": "34.0",
+   "Arabic": "اللَّهُ أَكْبَرُ",
+   "Translation": "Allah is the greatest",
+   "Transliteration": "Allahu Akbar"
+  },
+  {
+   "Namaz": "Fajr",
+   "Title": "Purification of tongue and heart",
+   "actiontype": "dhikr",
+   "Count": "100.0",
+   "Arabic": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+   "Translation": "Glory is to Allah and all praise is to Him",
+   "Transliteration": "Subḥānallāhi wa biḥamdih"
+  },
+  {
+   "Namaz": "Fajr",
+   "Title": "Remembrance",
+   "actiontype": "dhikr",
+   "Count": "100.0",
+   "Arabic": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+   "Translation": "There is no god but Allah, alone, and He has no partner",
+   "Transliteration": "Lā ilāha illallāhu waḥdahu lā sharīka lah"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Astaghfirullah",
+   "actiontype": "dhikr",
+   "Count": "3.0",
+   "Arabic": "أَسْتَغْفِرُ اللَّهَ",
+   "Translation": "I seek forgiveness from Allah",
+   "Transliteration": "Astaghfirullāh"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Ayat ul Kursi",
+   "actiontype": "quran",
+   "Surah": "2.0",
+   "startingVerse": "255.0",
+   "endingVerse": "255.0"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Short durood",
+   "actiontype": "dhikr",
+   "Arabic": "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ",
+   "Translation": "O Allah, send blessings upon Muhammad",
+   "Transliteration": "Allahumma salli ala Muhammad"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Surah Ikhlas",
+   "actiontype": "quran",
+   "Surah": "112.0",
+   "startingVerse": "1.0",
+   "endingVerse": "4.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Surah Falaq",
+   "actiontype": "quran",
+   "Surah": "113.0",
+   "startingVerse": "1.0",
+   "endingVerse": "5.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Surah Nas",
+   "actiontype": "quran",
+   "Surah": "114.0",
+   "startingVerse": "1.0",
+   "endingVerse": "6.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Reflecting on peace",
+   "actiontype": "dhikr",
+   "Arabic": "اللَّهُمَّ أَنْتَ السَّلَامُ، وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
+   "Translation": "O Allah, You are Peace, and from You comes peace. Blessed are You, O Possessor of Majesty and Honor.",
+   "Transliteration": "Allahumma anta as-salaamu wa minka as-salaam, tabaarakta yaa dhal-jalaali wal-ikraam"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Subhanallah",
+   "actiontype": "dhikr",
+   "Count": "33.0",
+   "Arabic": "سُبْحَانَ اللَّهِ",
+   "Translation": "Glory be to Allah",
+   "Transliteration": "Subhanallah"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Alhamdulilah",
+   "actiontype": "dhikr",
+   "Count": "33.0",
+   "Arabic": "الْـحَمْدُ لِلَّهِ",
+   "Translation": "All praise is due to Allah",
+   "Transliteration": "Alhamdulilah"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Allahu Akbar",
+   "actiontype": "dhikr",
+   "Count": "34.0",
+   "Arabic": "اللَّهُ أَكْبَرُ",
+   "Translation": "Allah is the greatest",
+   "Transliteration": "Allahu Akbar"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Purification of tongue and heart",
+   "actiontype": "dhikr",
+   "Count": "100.0",
+   "Arabic": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+   "Translation": "Glory is to Allah and all praise is to Him",
+   "Transliteration": "Subḥānallāhi wa biḥamdih"
+  },
+  {
+   "Namaz": "Dhuhr",
+   "Title": "Remembrance",
+   "actiontype": "dhikr",
+   "Count": "100.0",
+   "Arabic": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+   "Translation": "There is no god but Allah, alone, and He has no partner",
+   "Transliteration": "Lā ilāha illallāhu waḥdahu lā sharīka lah"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Astaghfirullah",
+   "actiontype": "dhikr",
+   "Count": "3.0",
+   "Arabic": "أَسْتَغْفِرُ اللَّهَ",
+   "Translation": "I seek forgiveness from Allah",
+   "Transliteration": "Astaghfirullāh"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Ayat ul Kursi",
+   "actiontype": "quran",
+   "Surah": "2.0",
+   "startingVerse": "255.0",
+   "endingVerse": "255.0"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Short durood",
+   "actiontype": "dhikr",
+   "Arabic": "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ",
+   "Translation": "O Allah, send blessings upon Muhammad",
+   "Transliteration": "Allahumma salli ala Muhammad"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Surah Ikhlas",
+   "actiontype": "quran",
+   "Surah": "112.0",
+   "startingVerse": "1.0",
+   "endingVerse": "4.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Surah Falaq",
+   "actiontype": "quran",
+   "Surah": "113.0",
+   "startingVerse": "1.0",
+   "endingVerse": "5.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Surah Nas",
+   "actiontype": "quran",
+   "Surah": "114.0",
+   "startingVerse": "1.0",
+   "endingVerse": "6.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Reflecting on peace",
+   "actiontype": "dhikr",
+   "Arabic": "اللَّهُمَّ أَنْتَ السَّلَامُ، وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
+   "Translation": "O Allah, You are Peace, and from You comes peace. Blessed are You, O Possessor of Majesty and Honor.",
+   "Transliteration": "Allahumma anta as-salaamu wa minka as-salaam, tabaarakta yaa dhal-jalaali wal-ikraam"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Subhanallah",
+   "actiontype": "dhikr",
+   "Count": "33.0",
+   "Arabic": "سُبْحَانَ اللَّهِ",
+   "Translation": "Glory be to Allah",
+   "Transliteration": "Subhanallah"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Alhamdulilah",
+   "actiontype": "dhikr",
+   "Count": "33.0",
+   "Arabic": "الْـحَمْدُ لِلَّهِ",
+   "Translation": "All praise is due to Allah",
+   "Transliteration": "Alhamdulilah"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Allahu Akbar",
+   "actiontype": "dhikr",
+   "Count": "34.0",
+   "Arabic": "اللَّهُ أَكْبَرُ",
+   "Translation": "Allah is the greatest",
+   "Transliteration": "Allahu Akbar"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Purification of tongue and heart",
+   "actiontype": "dhikr",
+   "Count": "100.0",
+   "Arabic": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+   "Translation": "Glory is to Allah and all praise is to Him",
+   "Transliteration": "Subḥānallāhi wa biḥamdih"
+  },
+  {
+   "Namaz": "Asr",
+   "Title": "Remembrance",
+   "actiontype": "dhikr",
+   "Count": "100.0",
+   "Arabic": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+   "Translation": "There is no god but Allah, alone, and He has no partner",
+   "Transliteration": "Lā ilāha illallāhu waḥdahu lā sharīka lah"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Astaghfirullah",
+   "actiontype": "dhikr",
+   "Count": "3.0",
+   "Arabic": "أَسْتَغْفِرُ اللَّهَ",
+   "Translation": "I seek forgiveness from Allah",
+   "Transliteration": "Astaghfirullāh"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Ayat ul Kursi",
+   "actiontype": "quran",
+   "Surah": "2.0",
+   "startingVerse": "255.0",
+   "endingVerse": "255.0"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Short durood",
+   "actiontype": "dhikr",
+   "Arabic": "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ",
+   "Translation": "O Allah, send blessings upon Muhammad",
+   "Transliteration": "Allahumma salli ala Muhammad"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Surah Ikhlas",
+   "actiontype": "quran",
+   "Surah": "112.0",
+   "startingVerse": "1.0",
+   "endingVerse": "4.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Surah Falaq",
+   "actiontype": "quran",
+   "Surah": "113.0",
+   "startingVerse": "1.0",
+   "endingVerse": "5.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Surah Nas",
+   "actiontype": "quran",
+   "Surah": "114.0",
+   "startingVerse": "1.0",
+   "endingVerse": "6.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Reflecting on peace",
+   "actiontype": "dhikr",
+   "Arabic": "اللَّهُمَّ أَنْتَ السَّلَامُ، وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
+   "Translation": "O Allah, You are Peace, and from You comes peace. Blessed are You, O Possessor of Majesty and Honor.",
+   "Transliteration": "Allahumma anta as-salaamu wa minka as-salaam, tabaarakta yaa dhal-jalaali wal-ikraam"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Subhanallah",
+   "actiontype": "dhikr",
+   "Count": "33.0",
+   "Arabic": "سُبْحَانَ اللَّهِ",
+   "Translation": "Glory be to Allah",
+   "Transliteration": "Subhanallah"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Alhamdulilah",
+   "actiontype": "dhikr",
+   "Count": "33.0",
+   "Arabic": "الْـحَمْدُ لِلَّهِ",
+   "Translation": "All praise is due to Allah",
+   "Transliteration": "Alhamdulilah"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Allahu Akbar",
+   "actiontype": "dhikr",
+   "Count": "34.0",
+   "Arabic": "اللَّهُ أَكْبَرُ",
+   "Translation": "Allah is the greatest",
+   "Transliteration": "Allahu Akbar"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Purification of tongue and heart",
+   "actiontype": "dhikr",
+   "Count": "100.0",
+   "Arabic": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+   "Translation": "Glory is to Allah and all praise is to Him",
+   "Transliteration": "Subḥānallāhi wa biḥamdih"
+  },
+  {
+   "Namaz": "Maghrib",
+   "Title": "Remembrance",
+   "actiontype": "dhikr",
+   "Count": "100.0",
+   "Arabic": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+   "Translation": "There is no god but Allah, alone, and He has no partner",
+   "Transliteration": "Lā ilāha illallāhu waḥdahu lā sharīka lah"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Astaghfirullah",
+   "actiontype": "dhikr",
+   "Count": "3.0",
+   "Arabic": "أَسْتَغْفِرُ اللَّهَ",
+   "Translation": "I seek forgiveness from Allah",
+   "Transliteration": "Astaghfirullāh"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Ayat ul Kursi",
+   "actiontype": "quran",
+   "Surah": "2.0",
+   "startingVerse": "255.0",
+   "endingVerse": "255.0"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Short durood",
+   "actiontype": "dhikr",
+   "Arabic": "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ",
+   "Translation": "O Allah, send blessings upon Muhammad",
+   "Transliteration": "Allahumma salli ala Muhammad"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Surah Ikhlas",
+   "actiontype": "quran",
+   "Surah": "112.0",
+   "startingVerse": "1.0",
+   "endingVerse": "4.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Surah Falaq",
+   "actiontype": "quran",
+   "Surah": "113.0",
+   "startingVerse": "1.0",
+   "endingVerse": "5.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Surah Nas",
+   "actiontype": "quran",
+   "Surah": "114.0",
+   "startingVerse": "1.0",
+   "endingVerse": "6.0",
+   "Count": "3.0"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Reflecting on peace",
+   "actiontype": "dhikr",
+   "Arabic": "اللَّهُمَّ أَنْتَ السَّلَامُ، وَمِنْكَ السَّلَامُ، تَبَارَكْتَ يَا ذَا الْجَلَالِ وَالْإِكْرَامِ",
+   "Translation": "O Allah, You are Peace, and from You comes peace. Blessed are You, O Possessor of Majesty and Honor.",
+   "Transliteration": "Allahumma anta as-salaamu wa minka as-salaam, tabaarakta yaa dhal-jalaali wal-ikraam"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Subhanallah",
+   "actiontype": "dhikr",
+   "Count": "33.0",
+   "Arabic": "سُبْحَانَ اللَّهِ",
+   "Translation": "Glory be to Allah",
+   "Transliteration": "Subhanallah"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Alhamdulilah",
+   "actiontype": "dhikr",
+   "Count": "33.0",
+   "Arabic": "الْـحَمْدُ لِلَّهِ",
+   "Translation": "All praise is due to Allah",
+   "Transliteration": "Alhamdulilah"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Allahu Akbar",
+   "actiontype": "dhikr",
+   "Count": "34.0",
+   "Arabic": "اللَّهُ أَكْبَرُ",
+   "Translation": "Allah is the greatest",
+   "Transliteration": "Allahu Akbar"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Purification of tongue and heart",
+   "actiontype": "dhikr",
+   "Count": "100.0",
+   "Arabic": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+   "Translation": "Glory is to Allah and all praise is to Him",
+   "Transliteration": "Subḥānallāhi wa biḥamdih"
+  },
+  {
+   "Namaz": "Isha",
+   "Title": "Remembrance",
+   "actiontype": "dhikr",
+   "Count": "100.0",
+   "Arabic": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ",
+   "Translation": "There is no god but Allah, alone, and He has no partner",
+   "Transliteration": "Lā ilāha illallāhu waḥdahu lā sharīka lah"
+  }
+ ]
+}

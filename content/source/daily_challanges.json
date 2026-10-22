@@ -1,0 +1,455 @@
+{
+ "Daily challenges": [
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Morning gratitude",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ\nرَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَٰذَا الْيَوْمِ، وَخَيْرَ مَا بَعْدَهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَٰذَا الْيَوْمِ، وَشَرِّ مَا بَعْدَهُ\nرَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ وَعَذَابٍ فِي الْقَبْرِ",
+   "Translation": "We have entered a new morning and with it all dominion belongs to Allah and all praise is due to Allah\nThere is no god but Allah alone without partner. To Him belongs the dominion and to Him belongs all praise and He is over all things capable\nMy Lord, I ask You for the good of this day and the good of what follows it and I seek refuge in You from the evil of this day and the evil of what follows it. My Lord, I seek refuge in You from laziness and the difficulties of old age. My Lord, I seek refuge in You from the punishment of the Hellfire and the punishment of the grave",
+   "Transliteration": "Asbahna wa asbahal mulku lillahi wal hamdu lillah la ilaha illallahu wahdahu la sharika lah lahul mulku wa lahul hamdu wa huwa ala kulli shay'in qadir. Rabbi asaluka khayra ma fi hadha al-yawm wa khayra ma ba'dahu wa a'udhu bika min sharri ma fi hadha al-yawm wa sharri ma ba'dahu. Rabbi a'udhu bika minal kasali wa su'il kibar. Rabbi a'udhu bika min adhabin fin-nar wa adhabin fil-qabr."
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Ayat ul Kursi",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "2",
+   "startingVerse": "255",
+   "endingVerse": "255"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Surah Ikhlas",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "112",
+   "startingVerse": "1",
+   "endingVerse": "4",
+   "Count": "3"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Surah Falaq",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "113",
+   "startingVerse": "1",
+   "endingVerse": "5",
+   "Count": "3"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Surah Nas",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "114",
+   "startingVerse": "1",
+   "endingVerse": "6",
+   "Count": "3"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Infinite Praiser",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "3",
+   "arabic": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ، عَدَدَ خَلْقِهِ، وَرِضَا نَفْسِهِ، وَزِنَةَ عَرْشِهِ، وَمِدَادَ كَلِمَاتِهِ",
+   "Translation": "Glory is to Allah and praise is to Him by the number of His creation, by His pleasure, by the weight of His Throne, and by the ink of His words.",
+   "Transliteration": "Subhanallahi wa bihamdihi adada khalqihi wa rida nafsihi wa zinata arshihi wa midada kalimatihi"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Morning Reliance",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ",
+   "Translation": "O Allah, by You we enter the morning, and by You we enter the evening, by You we live, and by You we die, and to You is the resurrection.",
+   "Transliteration": "Allahumma bika asbahna wa bika amsayna wa bika nahya wa bika namut wa ilaykan-nushoor"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Affirmation of Faith",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "أَصْبَحْنَا عَلَىٰ فِطْرَةِ الإِسْلَامِ، وَكَلِمَةِ الإِخْلاَصِ، وَعَلَىٰ دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ، وَعَلَىٰ مِلَّةِ أَبِينَا إِبْرَاهِيمَ، حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ",
+   "Translation": "We have entered the morning upon the natural religion of Islam, the word of sincere devotion (Shahadah), the religion of our Prophet Muhammad ﷺ, and the way of our father Abraham, who was upright and a Muslim, and was not of those who associate others with Allah.",
+   "Transliteration": "Asbahna ala fitratil-Islam wa kalimatil-ikhlas wa ala dini nabiyyina Muhammad sallallahu alayhi wa sallam wa ala millati abina Ibrahim hanifan Musliman wa ma kana min al-mushrikeen"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Tawheed and Protection",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "اللَّهُمَّ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، عَالِمَ الْغَيْبِ وَالشَّهَادَةِ، لَا إِلَهَ إِلَّا أَنْتَ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي، وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ، وَأَنْ أَقْتَرِفَ عَلَىٰ نَفْسِي سُوءًا، أَوْ أَجُرَّهُ إِلَىٰ مُسْلِمٍ",
+   "Translation": "O Allah Creator of the heavens and the earth Knower of the unseen and the seen there is no god but You Lord and Owner of everything I seek refuge in You from the evil of myself from the evil of Shaytan and his traps and from bringing harm upon myself or dragging it onto another Muslim",
+   "Transliteration": "Allahumma fatiras samawati wal ard ʿalimal ghaybi wash shahadah la ilaha illa anta rabbakulli shay’in wa malikahu aʿudhu bika min sharri nafsi wa min sharri ash shaytani wa shirkih wa an aqtarifa ʿala nafsi su’an aw ajurrahu ila muslim"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Dua for Contentment",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "3",
+   "arabic": "رَضِيتُ بِاللّٰهِ رَبًّا وَبِالْإِسْلَامِ دِينًا وَبِمُحَمَّدٍ ﷺ نَبِيًّا",
+   "Translation": "I am pleased with Allah as my Lord, Islam as my religion, and Muhammad ﷺ as my Prophet.",
+   "Transliteration": "Raditu billahi rabban wa bil-islami dinan wa bi-Muhammadin nabiyyan"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Protection Dua",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "3",
+   "arabic": "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
+   "Translation": "In the name of Allah with whose name nothing on earth or in the heavens can cause harm, and He is the All-Hearing, All-Knowing",
+   "Transliteration": "Bismillahil-ladhi la yadurru maasmihi shay'un fil-ardi wa la fis-sama'i wa huwa as-sami'ul alim"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Wellbeing & Health",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "3",
+   "arabic": "اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ",
+   "Translation": "O Allah, grant well-being to my body. O Allah, grant well-being to my hearing. O Allah, grant well-being to my sight. There is no deity but You.",
+   "Transliteration": "Allahumma aafini fi badani Allahumma aafini fi sam'i Allahumma aafini fi basari la ilaha illa anta"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Dua for Forgiveness",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "3",
+   "arabic": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَهَ إِلَّا أَنْتَ",
+   "Translation": "O Allah, I seek refuge in You from disbelief and poverty, and I seek refuge in You from the punishment of the grave. There is no deity except You.",
+   "Transliteration": "Allahumma inni a'udhu bika minal-kufri wal-faqr wa a'udhu bika min adhabil-qabr la ilaha illa anta"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Total dependence on Allah",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "يَا حَيُّ يَا قَيُّومُ، بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَىٰ نَفْسِي طَرْفَةَ عَيْنٍ",
+   "Translation": "O Ever-Living, O Sustainer, by Your mercy I seek help, rectify for me all of my affairs, and do not leave me to myself even for the blink of an eye.",
+   "Transliteration": "Ya Hayyu ya Qayyum birahmatika astagheeth aslih li sha'ni kullah wa la takilni ila nafsi tarfata ayn"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Sayyid ul Astaghfar",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+   "Translation": "O Allah, You are my Lord. There is no god but You. You created me and I am Your servant, and I abide to Your covenant and promise as best I can. I seek refuge in You from the evil of what I have done. I admit to You Your blessings upon me, and I admit to You my sins, so forgive me, for surely no one forgives sins except You.",
+   "Transliteration": "Allahumma anta rabbi la ilaha illa anta khalaqtani wa ana abduk wa ana ala ahdika wa wa'dika ma ista'ta't a'udhu bika min sharri ma sana't aboo'u laka bini'matika alayya wa aboo'u bidhanbi faghfir li fa innahu la yaghfiru adh-dhunuba illa anta"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Protection from harm",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي، وَعَنْ يَمِينِي وَعَنْ شِمَالِي، وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي",
+   "Translation": "O Allah I ask You for well-being in this world and the Hereafter O Allah I ask You for forgiveness and well-being in my religious and worldly affairs and my family and my wealth O Allah conceal my faults and calm my fears O Allah protect me from in front of me and from behind me and from my right and from my left and from above me and I seek refuge in Your greatness from being taken unaware from beneath me",
+   "Transliteration": "Allahumma inni as’aluka al-afiyah fid-dunya wal-akhirah Allahumma inni as’aluka al-afwa wal-afiyah fi dini wa dunyaya wa ahli wa mali Allahumma astur ‘awrati wa amin raw‘ati Allahumma ihfazni min bayni yadayya wa min khalfī wa ‘an yamini wa ‘an shimali wa min fawqi wa a‘udhu bi ‘azamatika an ughtala min tahti"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Remembrance",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
+   "Translation": "There is no god but Allah alone, without partner. To Him belongs the dominion, and to Him belongs all praise, and He is over all things capable.",
+   "Transliteration": "La ilaha illallahu wahdahu la sharika lah lahul mulku wa lahul hamdu wa huwa ala kulli shay'in qadir"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Lightest yet Heaviest",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "100",
+   "arabic": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+   "Translation": "Glory is to Allah and praise is to Him",
+   "Transliteration": "Subhanallahi wa bihamdihi"
+  },
+  {
+   "Challenge": "Morning Recitations",
+   "Title": "Dhikr: Astaghfirullah",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "100",
+   "arabic": "أَسْتَغْفِرُ اللَّهَ",
+   "Translation": "I seek forgiveness from Allah",
+   "Transliteration": "Astaghfirullāh"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Evening gratitude",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "اللَّهُمَّ أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ\nرَبِّ أَسْأَلُكَ خَيْرَ مَا فِي هَذِهِ اللَّيْلَةِ، وَخَيْرَ مَا بَعْدَهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِي هَذِهِ اللَّيْلَةِ، وَشَرِّ مَا بَعْدَهَا\nرَبِّ أَعُوذُ بِكَ مِنَ الْكَسَلِ، وَسُوءِ الْكِبَرِ، رَبِّ أَعُوذُ بِكَ مِنْ عَذَابٍ فِي النَّارِ، وَعَذَابٍ فِي الْقَبْرِ",
+   "Translation": "O Allah, we have entered the evening and so has the dominion, all belongs to Allah. All praise is for Allah. There is no god but Allah alone without partner. To Him belongs the kingdom and to Him belongs the praise, and He is over all things capable. My Lord, I ask You for the good of this night and the good of what follows it. And I seek refuge in You from the evil of this night and the evil of what follows it. My Lord, I seek refuge in You from laziness and the hardships of old age. My Lord, I seek refuge in You from the punishment of the Fire and the punishment of the grave.",
+   "Transliteration": "Allahumma amsayna wa amsal mulku lillah walhamdu lillah. La ilaha illallahu wahdahu la sharika lah. Lahul mulku wa lahul hamdu wa huwa ala kulli shay'in qadir. Rabbi asaluka khayra ma fi hadhihi al-laylah wa khayra ma ba'daha. Wa a'udhu bika min sharri ma fi hadhihi al-laylah wa sharri ma ba'daha. Rabbi a'udhu bika minal kasal wa su'il kibar. Rabbi a'udhu bika min adhabin fin-nar wa adhabin fil-qabr."
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Ayat ul Kursi",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "2",
+   "startingVerse": "255",
+   "endingVerse": "255"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Evening Reliance",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "اللَّهُمَّ بِكَ أَمْسَيْنَا، وَبِكَ أَصْبَحْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ الْمَصِيرُ",
+   "Translation": "O Allah, by Your leave we have reached the evening and by Your leave we reach the morning. By Your leave we live and by Your leave we die. And to You is the return.",
+   "Transliteration": "Allahumma bika amsayna wa bika asbahna wa bika nahya wa bika namut wa ilaykal maseer."
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Affirmation of Faith",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "أَمْسَيْنَا عَلَىٰ فِطْرَةِ الإِسْلَامِ، وَكَلِمَةِ الإِخْلَاصِ، وَعَلَىٰ دِينِ نَبِيِّنَا مُحَمَّدٍ ﷺ، وَعَلَىٰ مِلَّةِ أَبِينَا إِبْرَاهِيمَ، حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ",
+   "Translation": "We have entered the evening upon the natural religion of Islam, and the word of sincere devotion, and upon the religion of our Prophet Muhammad ﷺ, and the way of our forefather Ibrahim, who was upright and a Muslim, and was not among the polytheists.",
+   "Transliteration": "Amsayna ala fitratil Islam wa kalimatil ikhlas wa ala deeni nabiyyina Muhammadin sallallahu alayhi wa sallam wa ala millati abina Ibrahima hanifan musliman wa ma kana minal mushrikeen."
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Tawheed and Protection",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "اللَّهُمَّ فَاطِرَ السَّمَاوَاتِ وَالْأَرْضِ، عَالِمَ الْغَيْبِ وَالشَّهَادَةِ، لَا إِلَهَ إِلَّا أَنْتَ، رَبَّ كُلِّ شَيْءٍ وَمَلِيكَهُ، أَعُوذُ بِكَ مِنْ شَرِّ نَفْسِي، وَمِنْ شَرِّ الشَّيْطَانِ وَشِرْكِهِ، وَأَنْ أَقْتَرِفَ عَلَىٰ نَفْسِي سُوءًا، أَوْ أَجُرَّهُ إِلَىٰ مُسْلِمٍ",
+   "Translation": "O Allah Creator of the heavens and the earth Knower of the unseen and the seen there is no god but You Lord and Owner of everything I seek refuge in You from the evil of myself from the evil of Shaytan and his traps and from bringing harm upon myself or dragging it onto another Muslim",
+   "Transliteration": "Allahumma fatiras samawati wal ard ʿalimal ghaybi wash shahadah la ilaha illa anta rabbakulli shay’in wa malikahu aʿudhu bika min sharri nafsi wa min sharri ash shaytani wa shirkih wa an aqtarifa ʿala nafsi su’an aw ajurrahu ila muslim"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Protection Dua",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "3",
+   "arabic": "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ وَهُوَ السَّمِيعُ الْعَلِيمُ",
+   "Translation": "In the name of Allah with whose name nothing on earth or in the heavens can cause harm, and He is the All-Hearing, All-Knowing",
+   "Transliteration": "Bismillahil-ladhi la yadurru maasmihi shay'un fil-ardi wa la fis-sama'i wa huwa as-sami'ul alim"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Dua for Forgiveness",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "3",
+   "arabic": "اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَهَ إِلَّا أَنْتَ",
+   "Translation": "O Allah, I seek refuge in You from disbelief and poverty, and I seek refuge in You from the punishment of the grave. There is no deity except You.",
+   "Transliteration": "Allahumma inni a'udhu bika minal-kufri wal-faqr wa a'udhu bika min adhabil-qabr la ilaha illa anta"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Evening Protection Duʿa",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "3",
+   "arabic": "أَعُوذُ بِكَلِمَاتِ اللّٰهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ",
+   "Translation": "I seek refuge in the perfect words of Allah from the evil of what He has created.",
+   "Transliteration": "A'udhu bikalimatillahi tammati min sharri ma khalaq."
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Wellbeing & Health",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "3",
+   "arabic": "اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ",
+   "Translation": "O Allah, grant well-being to my body. O Allah, grant well-being to my hearing. O Allah, grant well-being to my sight. There is no deity but You.",
+   "Transliteration": "Allahumma aafini fi badani Allahumma aafini fi sam'i Allahumma aafini fi basari la ilaha illa anta"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Total dependence on Allah",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "يَا حَيُّ يَا قَيُّومُ، بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَىٰ نَفْسِي طَرْفَةَ عَيْنٍ",
+   "Translation": "O Ever-Living, O Sustainer, by Your mercy I seek help, rectify for me all of my affairs, and do not leave me to myself even for the blink of an eye.",
+   "Transliteration": "Ya Hayyu ya Qayyum birahmatika astagheeth aslih li sha'ni kullah wa la takilni ila nafsi tarfata ayn"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Sayyid ul Astaghfar",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَٰهَ إِلَّا أَنْتَ خَلَقْتَنِي وَأَنَا عَبْدُكَ وَأَنَا عَلَىٰ عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+   "Translation": "O Allah, You are my Lord. There is no god but You. You created me and I am Your servant, and I abide to Your covenant and promise as best I can. I seek refuge in You from the evil of what I have done. I admit to You Your blessings upon me, and I admit to You my sins, so forgive me, for surely no one forgives sins except You.",
+   "Transliteration": "Allahumma anta rabbi la ilaha illa anta khalaqtani wa ana abduk wa ana ala ahdika wa wa'dika ma ista'ta't a'udhu bika min sharri ma sana't aboo'u laka bini'matika alayya wa aboo'u bidhanbi faghfir li fa innahu la yaghfiru adh-dhunuba illa anta"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Protection from harm",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي، وَعَنْ يَمِينِي وَعَنْ شِمَالِي، وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي",
+   "Translation": "O Allah I ask You for well-being in this world and the Hereafter O Allah I ask You for forgiveness and well-being in my religious and worldly affairs and my family and my wealth O Allah conceal my faults and calm my fears O Allah protect me from in front of me and from behind me and from my right and from my left and from above me and I seek refuge in Your greatness from being taken unaware from beneath me",
+   "Transliteration": "Allahumma inni as’aluka al-afiyah fid-dunya wal-akhirah Allahumma inni as’aluka al-afwa wal-afiyah fi dini wa dunyaya wa ahli wa mali Allahumma astur ‘awrati wa amin raw‘ati Allahumma ihfazni min bayni yadayya wa min khalfī wa ‘an yamini wa ‘an shimali wa min fawqi wa a‘udhu bi ‘azamatika an ughtala min tahti"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Surah Ikhlas",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "112",
+   "startingVerse": "1",
+   "endingVerse": "4",
+   "Count": "3"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Surah Falaq",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "113",
+   "startingVerse": "1",
+   "endingVerse": "5",
+   "Count": "3"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Surah Nas",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "114",
+   "startingVerse": "1",
+   "endingVerse": "6",
+   "Count": "3"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Remembrance",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ",
+   "Translation": "There is no god but Allah alone, without partner. To Him belongs the dominion, and to Him belongs all praise, and He is over all things capable.",
+   "Transliteration": "La ilaha illallahu wahdahu la sharika lah lahul mulku wa lahul hamdu wa huwa ala kulli shay'in qadir"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Lightest yet Heaviest",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "100",
+   "arabic": "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
+   "Translation": "Glory is to Allah and praise is to Him",
+   "Transliteration": "Subhanallahi wa bihamdihi"
+  },
+  {
+   "Challenge": "Evening Recitations",
+   "Title": "Dhikr: Astaghfirullah",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Count": "100",
+   "arabic": "أَسْتَغْفِرُ اللَّهَ",
+   "Translation": "I seek forgiveness from Allah",
+   "Transliteration": "Astaghfirullāh"
+  },
+  {
+   "Challenge": "Nightly Recitations",
+   "Title": "Last two verses of Baqarah",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "2",
+   "startingVerse": "285",
+   "endingVerse": "286"
+  },
+  {
+   "Challenge": "Nightly Recitations",
+   "Title": "Surah Mulk",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "67",
+   "startingVerse": "1",
+   "endingVerse": "30"
+  },
+  {
+   "Challenge": "Nightly Recitations",
+   "Title": "Surah Sajdah",
+   "actiontype": "quran",
+   "day": "friday",
+   "Surah": "32",
+   "startingVerse": "1",
+   "endingVerse": "30"
+  },
+  {
+   "Challenge": "Nightly Recitations",
+   "Title": "Sleeping Dua",
+   "actiontype": "dhikr",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "arabic": "اللَّهُمَّ بِاسْمِكَ أَمُوتُ وَأَحْيَا",
+   "Translation": "O Allah, in Your name I die and I live.",
+   "Transliteration": "Allahumma bismika amootu wa ahya"
+  },
+  {
+   "Challenge": "Nightly Recitations",
+   "Title": "Ayat ul Kursi",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "2",
+   "startingVerse": "255",
+   "endingVerse": "255"
+  },
+  {
+   "Challenge": "Nightly Recitations",
+   "Title": "Surah Ikhlas",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "112",
+   "startingVerse": "1",
+   "endingVerse": "4"
+  },
+  {
+   "Challenge": "Nightly Recitations",
+   "Title": "Surah Falaq",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "113",
+   "startingVerse": "1",
+   "endingVerse": "5"
+  },
+  {
+   "Challenge": "Nightly Recitations",
+   "Title": "Surah Nas",
+   "actiontype": "quran",
+   "day": "monday, tuesday, wednesday, thursday, friday, saturday, sunday",
+   "Surah": "114",
+   "startingVerse": "1",
+   "endingVerse": "6"
+  },
+  {
+   "Challenge": "Friday Recitations",
+   "Title": "Salawat",
+   "actiontype": "dhikr",
+   "day": "friday",
+   "arabic": "اللَّهُمَّ صَلِّ عَلَىٰ مُحَمَّدٍ",
+   "Translation": "O Allah, send blessings upon Muhammad",
+   "Transliteration": "Allahumma salli ala Muhammad"
+  },
+  {
+   "Challenge": "Friday Recitations",
+   "Title": "Surah Kahaf",
+   "actiontype": "quran",
+   "day": "friday",
+   "Surah": "18",
+   "startingVerse": "1",
+   "endingVerse": "110"
+  },
+  {
+   "Challenge": "The Fortress",
+   "Title": "Surah Baqrah",
+   "actiontype": "quran",
+   "day": "monday, wednesday, sunday",
+   "Surah": "2",
+   "startingVerse": "1",
+   "endingVerse": "286"
+  }
+ ]
+}

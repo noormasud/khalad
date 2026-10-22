@@ -1,0 +1,80 @@
+import React, { useState } from 'react';
+import { Linking, Pressable, View } from 'react-native';
+import { router } from 'expo-router';
+import Constants from 'expo-constants';
+import { Card, Row, Screen, T, ToggleRow } from '../../src/components/ui';
+import { Icon } from '../../src/components/Icon';
+import { ReaderSettings } from '../../src/components/ReaderSettings';
+import { useTheme } from '../../src/theme';
+import { useApp } from '../../src/state/AppState';
+import { METHOD_LABELS } from '../../src/lib/prayer';
+import { computeStreak } from '../../src/lib/streak';
+import { setAnalytics } from '../../src/lib/analytics';
+import { PRIVACY_URL, SUPPORT_EMAIL } from '../../src/lib/config';
+
+export default function More() {
+  const t = useTheme();
+  const { settings, updateSettings, progress, today } = useApp();
+  const [reading, setReading] = useState(false);
+  const streak = computeStreak({ metDays: progress.metDays, pausedDays: progress.pausedDays, freezesPerMonth: 2, today });
+
+  return (
+    <Screen>
+      <T size={26} weight="bold" accessibilityRole="header">More</T>
+
+      <Pressable accessibilityRole="button" onPress={() => router.push('/supporter')}>
+        <Card style={{ backgroundColor: t.accentSoft, borderWidth: 0, flexDirection: 'row', alignItems: 'center', gap: 12 }}>
+          <View style={{ flex: 1 }}>
+            <T size={15} weight="bold">Keep Khalad ad-free</T>
+            <T size={12}>Become a Supporter · sadaqah jariyah</T>
+          </View>
+          <Icon name="chevron-right" color={t.accentText} />
+        </Card>
+      </Pressable>
+
+      <Card style={{ paddingVertical: 0 }}>
+        <Row icon="pin" label="Prayer times" value={`${settings.location?.label ?? 'Not set'} · ${settings.hanafi ? 'Hanafi' : 'Standard'}`} onPress={() => router.push('/settings/prayer')} />
+        <Row icon="compass" label="Qibla" onPress={() => router.push('/qibla')} />
+        <Row icon="flame" label="Reading streak" value={`${streak.current} days`} onPress={() => router.push('/streak')} />
+        <Row icon="book" label="Reading" value="Font, size, translation" onPress={() => setReading(true)} last />
+      </Card>
+
+      <Card style={{ paddingVertical: 0 }}>
+        <Row icon="bell" label="Notifications" value={settings.prayerLine ? 'Lock-screen line on' : 'Off'} onPress={() => router.push('/settings/notifications')} />
+        <ToggleRow label="Salah checklist" sub="A private tick list on Today" value={settings.salahChecklist} onChange={(v) => updateSettings({ salahChecklist: v })} />
+        <View style={{ minHeight: 56, flexDirection: 'row', alignItems: 'center', gap: 8 }}>
+          <T size={14} weight="medium" style={{ flex: 1 }}>Appearance</T>
+          {(['system', 'light', 'dark'] as const).map((m) => (
+            <Pressable
+              key={m}
+              accessibilityRole="radio"
+              accessibilityState={{ checked: settings.theme === m }}
+              onPress={() => updateSettings({ theme: m })}
+              style={{ minHeight: 36, paddingHorizontal: 10, borderRadius: 10, justifyContent: 'center', backgroundColor: settings.theme === m ? t.inverseBg : 'transparent' }}
+            >
+              <T size={12} weight="semibold" color={settings.theme === m ? t.inverseText : t.textMuted}>{m[0].toUpperCase() + m.slice(1)}</T>
+            </Pressable>
+          ))}
+        </View>
+      </Card>
+
+      <Card style={{ paddingVertical: 0 }}>
+        <ToggleRow
+          label="Share anonymous usage"
+          sub="Helps decide what to build next. Never location or name."
+          value={settings.analytics}
+          onChange={(v) => {
+            updateSettings({ analytics: v });
+            setAnalytics(v, settings.anonId);
+          }}
+        />
+        <Row label="Share your thoughts" onPress={() => Linking.openURL(`mailto:${SUPPORT_EMAIL}?subject=Khalad%20feedback`).catch(() => undefined)} />
+        <Row label="Privacy policy" onPress={() => Linking.openURL(PRIVACY_URL).catch(() => undefined)} />
+        <Row label="About & sources" onPress={() => router.push('/about')} last />
+      </Card>
+
+      <T size={11} faint style={{ textAlign: 'center' }}>{`Khalad ${Constants.expoConfig?.version ?? ''} · ${METHOD_LABELS[settings.method]}`}</T>
+      <ReaderSettings visible={reading} onClose={() => setReading(false)} />
+    </Screen>
+  );
+}
