@@ -1,5 +1,8 @@
 import React, { useEffect, useRef } from 'react';
-import { Animated, Easing, StyleSheet, Text, View } from 'react-native';
+import { Animated, Easing, Image, StyleSheet, Text, View } from 'react-native';
+
+export const LOGO = require('../../assets/logo-glyph.png');
+export const LOGO_RATIO = 0.592; // height / width of the خلد mark
 import { Dots } from './ui';
 import { useTheme } from '../theme';
 
@@ -44,9 +47,9 @@ export function AnimatedSplash({ done, onFinish }: { done: boolean; onFinish: ()
           transform: [{ translateY: enter.interpolate({ inputRange: [0, 1], outputRange: [12, 0] }) }],
         }}
       >
-        {/* System font here on purpose: it is drawn before custom fonts finish loading. */}
-        <Text style={{ fontSize: 64, fontWeight: '700', color: t.text, writingDirection: 'rtl' }}>خلد</Text>
-        <Text style={{ fontSize: 15, letterSpacing: 2, color: t.textMuted }}>KHALAD</Text>
+        <Image source={LOGO} accessibilityLabel="Khalad" style={{ width: 150, height: 150 * LOGO_RATIO, tintColor: t.text }} resizeMode="contain" />
+        {/* System font on purpose: drawn before custom fonts finish loading. */}
+        <Text style={{ fontSize: 13, letterSpacing: 3, color: t.textMuted, marginTop: 10 }}>ETERNAL & EVERLASTING DEEDS</Text>
       </Animated.View>
       <View style={{ position: 'absolute', bottom: 96 }}>
         <Dots />

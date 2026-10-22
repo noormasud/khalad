@@ -12,17 +12,24 @@
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#FFFFFF",
-      "dark": { "image": "./assets/splash.png", "backgroundColor": "#0E0E0E" }
+      "dark": {
+        "image": "./assets/splash-dark.png",
+        "backgroundColor": "#0E0E0E"
+      }
     },
     "android": {
       "package": "com.islamicapp.khalad",
       "versionCode": 100,
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#0E0E0E"
       },
       "edgeToEdgeEnabled": true,
-      "permissions": ["ACCESS_COARSE_LOCATION", "POST_NOTIFICATIONS", "VIBRATE"],
+      "permissions": [
+        "ACCESS_COARSE_LOCATION",
+        "POST_NOTIFICATIONS",
+        "VIBRATE"
+      ],
       "blockedPermissions": [
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_BACKGROUND_LOCATION",
@@ -52,7 +59,11 @@
       ],
       [
         "expo-notifications",
-        { "icon": "./assets/notification-icon.png", "color": "#1B7F47", "defaultChannel": "reminders" }
+        {
+          "icon": "./assets/notification-icon.png",
+          "color": "#1B7F47",
+          "defaultChannel": "reminders"
+        }
       ],
       [
         "expo-build-properties",
@@ -65,7 +76,13 @@
         }
       ]
     ],
-    "experiments": { "typedRoutes": false },
-    "extra": { "eas": { "projectId": "" } }
+    "experiments": {
+      "typedRoutes": false
+    },
+    "extra": {
+      "eas": {
+        "projectId": ""
+      }
+    }
   }
 }

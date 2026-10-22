@@ -1,8 +1,9 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Image, View } from 'react-native';
 import { router } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Arabic, Button, T } from '../../src/components/ui';
+import { Button, T } from '../../src/components/ui';
+import { LOGO, LOGO_RATIO } from '../../src/components/Splash';
 import { useTheme } from '../../src/theme';
 
 export default function Welcome() {
@@ -10,12 +11,12 @@ export default function Welcome() {
   return (
     <SafeAreaView edges={['top', 'bottom']} style={{ flex: 1, backgroundColor: t.surface, padding: 28 }}>
       <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', gap: 6 }}>
-        <Arabic center scale={2.4}>خلد</Arabic>
+        <Image source={LOGO} accessibilityLabel="خلد" style={{ width: 170, height: 170 * LOGO_RATIO, tintColor: t.text, marginBottom: 8 }} resizeMode="contain" />
         <T size={38} weight="extrabold" style={{ letterSpacing: -1, lineHeight: 44 }}>
           Khalad<T size={38} weight="extrabold" color={t.accent}>.</T>
         </T>
         <T size={15} muted style={{ textAlign: 'center', maxWidth: 290, marginTop: 6 }}>
-          From khulud, permanence. Small daily deeds that last.
+          Eternal & everlasting deeds. Small daily acts that last.
         </T>
       </View>
       <View style={{ gap: 10 }}>
