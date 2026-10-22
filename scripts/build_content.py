@@ -17,6 +17,11 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "content", "source")
 
 
+with open(os.path.join(ROOT, "src", "data", "chapters.ts"), encoding="utf-8") as _f:
+    SURAH_NAMES = [m.replace("\\'", "'") for m in re.findall(r"\[(?:'|\")(.+?)(?:'|\"), '", _f.read())]
+assert len(SURAH_NAMES) == 114, len(SURAH_NAMES)
+
+
 def load(name, sheet):
     with open(os.path.join(SRC, name), encoding="utf-8") as f:
         return json.load(f)[sheet]
@@ -52,6 +57,14 @@ def item(row, sort, *, title_key="Title", type_key="actiontype", surah="Surah",
         "verse_from": num(row.get(vf)),
         "verse_to": num(row.get(vt)),
     }
+    if not out["title"]:
+        # Some sheets (e.g. Dhul Hijjah) have no title column: name it from the reading itself.
+        if typ == "quran" and out["surah"]:
+            out["title"] = f"{SURAH_NAMES[out['surah'] - 1]} {out['surah']}:{out['verse_from']}" + (
+                f"–{out['verse_to']}" if out["verse_to"] != out["verse_from"] else "")
+        else:
+            tl = out["transliteration"] or "Dhikr"
+            out["title"] = tl if len(tl) <= 40 else tl[:40].rsplit(" ", 1)[0] + "…"
     if typ == "quran":
         # Quran text always comes from the Quran.com API, never from a spreadsheet.
         out["arabic"] = None

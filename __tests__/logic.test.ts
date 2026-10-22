@@ -157,6 +157,8 @@ describe('bundled content', () => {
     const keys = new Set(c.adhkar_sets.map((s: any) => s.key));
     for (const it of c.adhkar_items) {
       expect(keys.has(it.set_key)).toBe(true);
+      expect(typeof it.title === 'string' && it.title.length > 0).toBe(true);
+      expect(it.repeat).toBeGreaterThanOrEqual(1);
       if (it.type === 'quran') {
         const ch = CHAPTERS[it.surah - 1];
         expect(ch).toBeDefined();
