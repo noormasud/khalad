@@ -80,6 +80,17 @@
         {
           "widgets": [
             {
+              "name": "NextPrayer",
+              "label": "Next prayer",
+              "description": "The next prayer time, quietly. No countdown.",
+              "previewImage": "./assets/widget-preview/prayer.png",
+              "minWidth": "150dp",
+              "minHeight": "70dp",
+              "targetCellWidth": 2,
+              "targetCellHeight": 1,
+              "updatePeriodMillis": 1800000
+            },
+            {
               "name": "HadithOfDay",
               "label": "Hadith of the day",
               "description": "One verified hadith or sunnah, new each day",

@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { Pressable, View } from 'react-native';
+import { Alert, Platform, Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 import { Button, Card, ProgressBar, Screen, T, TickCircle } from '../../src/components/ui';
 import { Icon } from '../../src/components/Icon';
@@ -15,6 +15,7 @@ import { computeStreak } from '../../src/lib/streak';
 import { dailyPick } from '../../src/lib/content';
 import { chapter } from '../../src/data/chapters';
 import { GOALS } from '../../src/state/model';
+import { pinWidget } from '../../src/widgets/refresh';
 
 type Slot = { key: string; title: string; when: string; state: 'done' | 'now' | 'later'; actions: { label: string; href: string }[] };
 
@@ -173,6 +174,8 @@ export default function Today() {
         </Card>
       ) : null}
 
+      <WidgetPrompt />
+
       {challenges.length > 0 ? (
         <Card style={{ gap: 10 }}>
           <T size={12} weight="bold" color={t.accent}>{`${formatHijri(hijri).replace(/ \d+$/, '')} · today`}</T>
@@ -284,6 +287,66 @@ function SalahCard() {
             </Pressable>
           );
         })}
+      </View>
+    </Card>
+  );
+}
+
+/**
+ * Android never lets an app place a widget by itself, so this one-time card asks:
+ * each button opens the phone's own "Add to home screen" prompt.
+ */
+function WidgetPrompt() {
+  const t = useTheme();
+  const { settings, updateSettings } = useApp();
+  if (Platform.OS !== 'android' || !settings.onboarded || settings.widgetPromptDone) return null;
+  const add = async (name: string) => {
+    track('widget_pin_request', { widget: name, from: 'today' });
+    const ok = await pinWidget(name);
+    if (ok) updateSettings({ widgetPromptDone: true });
+    else
+      Alert.alert(
+        'Add the widget yourself',
+        'Touch and hold an empty space on your home screen, tap Widgets, find Khalad, then drag the widget onto your home screen.',
+        [{ text: 'OK', onPress: () => updateSettings({ widgetPromptDone: true }) }],
+      );
+  };
+  const options: { name: string; label: string }[] = [
+    { name: 'NextPrayer', label: 'Next prayer' },
+    { name: 'TodayReading', label: 'Today’s reading' },
+    { name: 'HadithOfDay', label: 'Hadith' },
+  ];
+  return (
+    <Card style={{ gap: 10 }}>
+      <View style={{ flexDirection: 'row', alignItems: 'flex-start', gap: 8 }}>
+        <View style={{ flex: 1, gap: 2 }}>
+          <T size={14} weight="bold">Put Khalad on your home screen</T>
+          <T size={12} muted>Quiet widgets. Pick one, your phone asks to place it.</T>
+        </View>
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Not now"
+          hitSlop={10}
+          onPress={() => {
+            track('widget_prompt_dismissed');
+            updateSettings({ widgetPromptDone: true });
+          }}
+          style={{ width: 32, height: 32, alignItems: 'center', justifyContent: 'center', marginTop: -4, marginRight: -6 }}
+        >
+          <Icon name="close" size={16} color={t.textMuted} />
+        </Pressable>
+      </View>
+      <View style={{ flexDirection: 'row', flexWrap: 'wrap', gap: 8 }}>
+        {options.map((o) => (
+          <Pressable
+            key={o.name}
+            accessibilityRole="button"
+            onPress={() => add(o.name)}
+            style={({ pressed }) => ({ minHeight: 40, paddingHorizontal: 14, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: t.accentSoft, opacity: pressed ? 0.7 : 1 })}
+          >
+            <T size={13} weight="semibold" color={t.accentText} numberOfLines={1}>{`+\u00A0${o.label.replace(/ /g, '\u00A0')}`}</T>
+          </Pressable>
+        ))}
       </View>
     </Card>
   );

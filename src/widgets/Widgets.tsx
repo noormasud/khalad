@@ -2,7 +2,7 @@ import React from 'react';
 import { FlexWidget, TextWidget } from 'react-native-android-widget';
 import type { WidgetData } from './data';
 
-export const WIDGET_NAMES = ['HadithOfDay', 'TodayReading'] as const;
+export const WIDGET_NAMES = ['NextPrayer', 'HadithOfDay', 'TodayReading'] as const;
 export type WidgetName = (typeof WIDGET_NAMES)[number];
 
 type Hex = `#${string}`;
@@ -60,8 +60,26 @@ export function ReadingWidget({ data, width }: { data: WidgetData; width: number
   );
 }
 
-/** What to draw for a widget name. Hadith follows light/dark; reading is always black. */
+/** Small and quiet: the next prayer, and the one after it. No countdown. */
+export function PrayerWidget({ data, mode }: { data: WidgetData; mode: 'light' | 'dark' }) {
+  const c = PALETTE[mode];
+  const p = data.prayer;
+  return (
+    <FlexWidget
+      clickAction="OPEN_APP"
+      accessibilityLabel={p ? `Next prayer ${p.next}, then ${p.then}` : 'Set your location in Khalad for prayer times'}
+      style={{ height: 'match_parent', width: 'match_parent', backgroundColor: c.bg, borderRadius: 22, paddingHorizontal: 16, paddingVertical: 12, flexDirection: 'column', justifyContent: 'center', flexGap: 2 }}
+    >
+      <TextWidget text="NEXT PRAYER" maxLines={1} style={{ fontSize: 10, fontWeight: '700', color: c.label, letterSpacing: 0.06 }} />
+      <TextWidget text={p ? p.next : 'Set your location'} maxLines={1} truncate="END" style={{ fontSize: 20, fontWeight: '700', color: c.text }} />
+      <TextWidget text={p ? `then ${p.then}` : 'Open Khalad to start'} maxLines={1} truncate="END" style={{ fontSize: 12, color: c.muted }} />
+    </FlexWidget>
+  );
+}
+
+/** What to draw for a widget name. Hadith and prayer follow light/dark; reading is always black. */
 export function renderFor(name: string, data: WidgetData, width: number) {
   if (name === 'TodayReading') return <ReadingWidget data={data} width={width} />;
+  if (name === 'NextPrayer') return { light: <PrayerWidget data={data} mode="light" />, dark: <PrayerWidget data={data} mode="dark" /> };
   return { light: <HadithWidget data={data} mode="light" />, dark: <HadithWidget data={data} mode="dark" /> };
 }

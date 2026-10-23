@@ -54,6 +54,7 @@ export default function More() {
       {Platform.OS === 'android' ? (
         <Card style={{ paddingVertical: 0 }}>
           <T size={13} weight="bold" style={{ paddingTop: 12 }}>Home-screen widgets</T>
+          <Row icon="moon" label="Next prayer" value="Add" onPress={() => addWidget('NextPrayer')} />
           <Row icon="heart" label="Hadith of the day" value="Add" onPress={() => addWidget('HadithOfDay')} />
           <Row icon="book" label="Today’s reading" value="Add" onPress={() => addWidget('TodayReading')} last />
         </Card>

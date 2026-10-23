@@ -63,7 +63,7 @@ function Shell({ fontsReady }: { fontsReady: boolean }) {
     const id = setTimeout(() => refreshWidgets(buildWidgetData(settings, progress, content)), 1200);
     return () => clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [ready, progress.metDays, progress.pagesByDay, progress.versesByDay, progress.lastRead, settings.goal, content.daily_items, today]);
+  }, [ready, progress.metDays, progress.pagesByDay, progress.versesByDay, progress.lastRead, settings.goal, settings.location, settings.method, settings.hanafi, settings.adjustments, settings.use24h, content.daily_items, today]);
 
   // Which screens get used (and which don't).
   useEffect(() => {

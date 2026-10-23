@@ -238,6 +238,9 @@ describe('home-screen widgets', () => {
     expect(w.reading.progress).toBe(0.5);
     expect(w.reading.uri).toBe('khalad://surah/18?verse=10');
   });
+  it('shows no prayer times until a location is set', () => {
+    expect(buildWidgetData(DEFAULT_SETTINGS, DEFAULT_PROGRESS, bundled as any, now).prayer).toBeNull();
+  });
   it('starts at Al-Fatihah for a new reader, and says when the goal is done', () => {
     expect(buildWidgetData(DEFAULT_SETTINGS, DEFAULT_PROGRESS, bundled as any, now).reading.uri).toBe('khalad://surah/1');
     const met = { ...DEFAULT_PROGRESS, metDays: ['2026-10-23'], pagesByDay: { '2026-10-23': [1] } };

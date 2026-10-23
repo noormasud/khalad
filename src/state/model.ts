@@ -31,6 +31,8 @@ export type Settings = {
   /** Adhkar & duas: meaning hidden by default to keep the Arabic in focus. */
   adhkarMeaning: boolean;
   adhkarTransliteration: boolean;
+  /** The one-time "add a widget" card on Today has been dealt with. */
+  widgetPromptDone: boolean;
   showTranslation: boolean;
   translationLang: 'ur' | 'en';
   translationIds: { en: number; ur: number };
@@ -57,6 +59,7 @@ export const DEFAULT_SETTINGS: Settings = {
   arabicSize: 'medium',
   adhkarMeaning: false,
   adhkarTransliteration: true,
+  widgetPromptDone: false,
   showTranslation: true,
   translationLang: 'ur',
   // Quran.com translation resource ids. The app always shows the name the API returns.
