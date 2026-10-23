@@ -6,7 +6,9 @@ import {
   DEFAULT_PROGRESS,
   DEFAULT_SETTINGS,
   hydrate,
+  normalizeSadaqah,
   type Progress,
+  rollSadaqah,
   recordVerses,
   type Settings,
   toggleInDay,
@@ -47,7 +49,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       ]);
       if (!alive) return;
       setSettings(hydrate(DEFAULT_SETTINGS, s));
-      setProgress(hydrate(DEFAULT_PROGRESS, p));
+      const hp = hydrate(DEFAULT_PROGRESS, p);
+      setProgress({ ...hp, sadaqah: rollSadaqah(normalizeSadaqah(hp.sadaqah), dayKey().slice(0, 7)) });
       loaded.current = true;
       setReady(true);
     })();
@@ -70,6 +73,14 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     if (!ready || !progress.paused || progress.pausedDays.includes(today)) return;
     setProgress((p) => ({ ...p, pausedDays: [...p.pausedDays, today] }));
   }, [ready, progress.paused, progress.pausedDays, today]);
+
+  // A new month files last month's sadaqah into history (also while the app stays open).
+  useEffect(() => {
+    if (!ready) return;
+    const month = today.slice(0, 7);
+    if (progress.sadaqah.month === month) return;
+    setProgress((p) => ({ ...p, sadaqah: rollSadaqah(p.sadaqah, month) }));
+  }, [ready, today, progress.sadaqah.month]);
 
   // Persist after changes (skipped until the first load finishes, so defaults never overwrite saved data).
   useEffect(() => {

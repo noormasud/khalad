@@ -43,9 +43,8 @@ export default function Today() {
   const readHref = last ? `/surah/${last.surah}?verse=${last.verse}` : '/surah/1';
 
   const daily = useMemo(() => {
-    const sunnah = content.daily_items.filter((d) => d.kind === 'sunnah');
-    const hadith = content.daily_items.filter((d) => d.kind === 'hadith');
-    return dailyPick(sunnah.length ? sunnah : hadith, now);
+    // One item a day from the verified Hadith and Sunnah together.
+    return dailyPick(content.daily_items, now);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [content.daily_items, today]);
 
@@ -91,8 +90,8 @@ export default function Today() {
       when: tm ? `After Isha · ${formatTime(tm.isha, settings.use24h)}` : 'After Isha',
       state: nightDone ? 'done' : (win(tm?.isha) as Slot['state']),
       actions: [
-        ...(hasSet('night') ? [{ label: done.has('night') ? 'Night adhkar ✓' : 'Night adhkar', href: '/adhkar/night' }] : []),
-        { label: surahs.has(67) ? 'Al-Mulk ✓' : 'Surah Al-Mulk', href: '/surah/67?mark=1' },
+        ...(hasSet('night') ? [{ label: done.has('night') ? 'Adhkar ✓' : 'Adhkar', href: '/adhkar/night' }] : []),
+        { label: surahs.has(67) ? 'Surah Mulk ✓' : 'Surah Mulk', href: '/surah/67?mark=1' },
       ],
     });
     return list;

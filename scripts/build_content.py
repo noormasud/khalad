@@ -139,17 +139,17 @@ for r in zil:
 # Sunnah reminders (rules) -----------------------------------------------------
 reminders = [
     {"key": "kahf", "title": "Surah Al-Kahf", "subtitle": "Fridays", "rule": "weekly", "weekdays": [5],
-     "hijri_days": None, "anchor": "sunrise", "offset_min": 60, "surah": 18, "set_key": None, "on_by_default": True, "sort": 0},
+     "hijri_days": None, "anchor": "sunrise", "offset_min": 60, "surah": 18, "set_key": None, "on_by_default": True, "sort": 0, "day_before": False},
     {"key": "mulk", "title": "Surah Al-Mulk", "subtitle": "Every night", "rule": "daily", "weekdays": None,
-     "hijri_days": None, "anchor": "isha", "offset_min": 45, "surah": 67, "set_key": None, "on_by_default": True, "sort": 1},
+     "hijri_days": None, "anchor": "isha", "offset_min": 45, "surah": 67, "set_key": None, "on_by_default": True, "sort": 1, "day_before": False},
     {"key": "sajdah", "title": "Surah As-Sajdah", "subtitle": "At night, before sleeping", "rule": "daily", "weekdays": None,
-     "hijri_days": None, "anchor": "isha", "offset_min": 45, "surah": 32, "set_key": None, "on_by_default": False, "sort": 2},
-    {"key": "fast_mon_thu", "title": "Monday & Thursday fasts", "subtitle": "Reminder the evening before", "rule": "weekly",
-     "weekdays": [0, 3], "hijri_days": None, "anchor": "maghrib", "offset_min": 30, "surah": None, "set_key": None, "on_by_default": False, "sort": 3},
-    {"key": "white_days", "title": "White days fasts", "subtitle": "13th–15th of each Hijri month", "rule": "hijri_monthly",
-     "weekdays": None, "hijri_days": [12, 13, 14], "anchor": "maghrib", "offset_min": 30, "surah": None, "set_key": None, "on_by_default": False, "sort": 4},
+     "hijri_days": None, "anchor": "isha", "offset_min": 45, "surah": 32, "set_key": None, "on_by_default": False, "sort": 2, "day_before": False},
+    {"key": "fast_mon_thu", "title": "Monday & Thursday fasts", "subtitle": "Reminder the evening before, after Maghrib", "rule": "weekly",
+     "weekdays": [1, 4], "hijri_days": None, "anchor": "maghrib", "offset_min": 30, "surah": None, "set_key": None, "on_by_default": False, "sort": 3, "day_before": True},
+    {"key": "white_days", "title": "White days fasts", "subtitle": "13th–15th Hijri · reminder the evening before", "rule": "hijri_monthly",
+     "weekdays": None, "hijri_days": [13, 14, 15], "anchor": "maghrib", "offset_min": 30, "surah": None, "set_key": None, "on_by_default": False, "sort": 4, "day_before": True},
     {"key": "friday_salawat", "title": "Friday salawat", "subtitle": "Send blessings on the Prophet ﷺ", "rule": "weekly",
-     "weekdays": [5], "hijri_days": None, "anchor": "dhuhr", "offset_min": 0, "surah": None, "set_key": "friday", "on_by_default": False, "sort": 5},
+     "weekdays": [5], "hijri_days": None, "anchor": "dhuhr", "offset_min": 0, "surah": None, "set_key": "friday", "on_by_default": False, "sort": 5, "day_before": False},
 ]
 
 # Hadith / Sunnah (unverified until checked) -----------------------------------
@@ -172,14 +172,20 @@ for r in load("Sunnah.json", "Sunnah List"):
     body, ref = split_ref(r["Sunnah"])
     daily_items.append({"kind": "sunnah", "text": body, "reference": ref})
 
-# Bundled copy (no hadith: those must be verified first) ------------------------
+# Verified starter set (checked word-for-word against sunnah.com) ----------------
+with open(os.path.join(ROOT, "content", "verified_daily.json"), encoding="utf-8") as f:
+    verified_daily = json.load(f)["items"]
+for v in verified_daily:
+    assert v["kind"] in ("hadith", "sunnah") and v["reference"] and 3 <= len(v["text"]) <= 1000, v
+
+# Bundled copy: only verified items ever ship --------------------------------------
 bundle = {
     "version": 1,
     "adhkar_sets": sets,
     "adhkar_items": [dict(it, set_key=k) for k, lst in items.items() for it in lst],
     "sunnah_reminders": reminders,
     "seasonal_challenges": challenges,
-    "daily_items": [],
+    "daily_items": [dict(v, id="v%d" % (i + 1), sort=i) for i, v in enumerate(verified_daily)],
     "ummah_goals": [],
 }
 os.makedirs(os.path.join(ROOT, "src", "data"), exist_ok=True)
@@ -216,7 +222,7 @@ for it in bundle["adhkar_items"]:
     lines.append("insert into public.adhkar_items (%s) values (%s);" % (",".join(cols), ",".join(q(it[c]) for c in cols)))
 for r in reminders:
     cols = ("key", "title", "subtitle", "rule", "weekdays", "hijri_days", "anchor", "offset_min", "surah", "set_key",
-            "on_by_default", "sort")
+            "on_by_default", "sort", "day_before")
     lines.append("insert into public.sunnah_reminders (%s) values (%s);" % (",".join(cols), ",".join(q(r[c]) for c in cols)))
 for c in challenges:
     cols = ("title", "subtitle", "hijri_month", "hijri_days", "set_key", "sort")
@@ -224,7 +230,18 @@ for c in challenges:
 for i, d in enumerate(daily_items):
     lines.append("insert into public.daily_items (kind,text,reference,verified,sort) values (%s,%s,%s,false,%d);"
                  % (q(d["kind"]), q(d["text"]), q(d["reference"]), i))
+verified_sql = []
+for i, v in enumerate(verified_daily):
+    verified_sql.append(
+        "insert into public.daily_items (kind,text,reference,verified,verified_by,sort) select %s,%s,%s,true,'sunnah.com check 2026-10-23',%d "
+        "where not exists (select 1 from public.daily_items where reference = %s and verified);"
+        % (q(v["kind"]), q(v["text"]), q(v["reference"]), 1000 + i, q(v["reference"])))
+lines.extend(verified_sql)
 lines.append("commit;")
+with open(os.path.join(ROOT, "supabase", "migrations", "0003_verified_daily.sql"), "w", encoding="utf-8") as f:
+    f.write("-- Verified Hadith / Sunnah of the day starter set (generated by scripts/build_content.py).\n"
+            "-- Each item was checked word-for-word against sunnah.com. Safe to run more than once.\n"
+            "begin;\n" + "\n".join(verified_sql) + "\ncommit;\n")
 with open(os.path.join(ROOT, "supabase", "seed.sql"), "w", encoding="utf-8") as f:
     f.write("\n".join(lines) + "\n")
 

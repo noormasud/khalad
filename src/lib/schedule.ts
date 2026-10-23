@@ -1,6 +1,6 @@
 // Works out WHEN quiet notifications should fire. Pure logic (no Expo imports) so it is unit-tested.
 import { addDays, formatTime } from './dates';
-import { toHijri } from './hijri';
+import { HIJRI_MONTHS, type HijriDate, toHijri } from './hijri';
 import { type DayTimes, PRAYER_LABELS, type PrayerName, SALAH } from './prayer';
 
 export type ReminderRule = {
@@ -14,7 +14,22 @@ export type ReminderRule = {
   offset_min: number;
   surah?: number | null;
   set_key?: string | null;
+  /**
+   * For fasts: `weekdays` / `hijri_days` name the FAST days, and the reminder fires
+   * the evening BEFORE (anchor + offset on the previous day), since the fast begins at Fajr.
+   */
+  day_before?: boolean | null;
 };
+
+const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+/** Days on which a voluntary fast must not be kept, plus Ramadan (already fasting). */
+export function noVoluntaryFast(h: HijriDate): boolean {
+  if (h.month === 9) return true; // Ramadan
+  if (h.month === 10 && h.day === 1) return true; // Eid al-Fitr
+  if (h.month === 12 && h.day >= 10 && h.day <= 13) return true; // Eid al-Adha + days of Tashriq
+  return false;
+}
 
 export type PlannedNotification = {
   id: string;
@@ -67,21 +82,28 @@ export function planNotifications(input: PlanInput): PlannedNotification[] {
     }
 
     const hijri = toHijri(day, input.hijriAdjust);
+    const hijriNext = toHijri(next, input.hijriAdjust);
     for (const r of input.reminders) {
       if (!input.enabledReminders[r.key]) continue;
+      const before = !!r.day_before;
+      // The day the deed belongs to: today, or tomorrow for a fast reminded the evening before.
+      const target = before ? next : day;
+      const h = before ? hijriNext : hijri;
       const due =
         r.rule === 'daily' ||
-        (r.rule === 'weekly' && (r.weekdays ?? []).includes(day.getDay())) ||
-        (r.rule === 'hijri_monthly' && (r.hijri_days ?? []).includes(hijri.day));
+        (r.rule === 'weekly' && (r.weekdays ?? []).includes(target.getDay())) ||
+        (r.rule === 'hijri_monthly' && (r.hijri_days ?? []).includes(h.day));
       const anchor = times[r.anchor];
       if (!due || !anchor || !Number.isFinite(r.offset_min)) continue;
+      if (before && noVoluntaryFast(h)) continue;
       const at = new Date(anchor.getTime() + r.offset_min * 60000);
       const route = r.surah ? `/surah/${r.surah}` : r.set_key ? `/adhkar/${r.set_key}` : '/deeds';
+      const label = r.rule === 'hijri_monthly' ? `${h.day} ${HIJRI_MONTHS[h.month - 1]}` : WEEKDAYS[target.getDay()];
       out.push({
         id: `rem-${r.key}-${at.getTime()}`,
         at,
-        title: r.title,
-        body: r.subtitle ?? '',
+        title: before ? `Sunnah fast tomorrow · ${label}` : r.title,
+        body: before ? `${r.title}. Suhoor ends at Fajr, ${formatTime(tomorrowFajr, input.use24h)}.` : r.subtitle ?? '',
         channel: 'reminders',
         data: { route },
       });

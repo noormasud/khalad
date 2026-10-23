@@ -87,5 +87,6 @@ export const arabicFonts = {
 
 export type ArabicFontKey = keyof typeof arabicFonts;
 
-export const arabicSizes = { small: 24, medium: 28, large: 32, extraLarge: 36 } as const;
+export const arabicSizes = { small: 22, medium: 28, large: 32, extraLarge: 38, huge: 46 } as const;
+export const ARABIC_SIZE_ORDER = ['small', 'medium', 'large', 'extraLarge', 'huge'] as const;
 export type ArabicSizeKey = keyof typeof arabicSizes;

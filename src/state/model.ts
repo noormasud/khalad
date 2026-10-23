@@ -27,7 +27,10 @@ export type Settings = {
   anonId: string;
   theme: 'system' | 'light' | 'dark';
   arabicFont: 'noto' | 'amiri' | 'scheherazade';
-  arabicSize: 'small' | 'medium' | 'large' | 'extraLarge';
+  arabicSize: 'small' | 'medium' | 'large' | 'extraLarge' | 'huge';
+  /** Adhkar & duas: meaning hidden by default to keep the Arabic in focus. */
+  adhkarMeaning: boolean;
+  adhkarTransliteration: boolean;
   showTranslation: boolean;
   translationLang: 'ur' | 'en';
   translationIds: { en: number; ur: number };
@@ -52,6 +55,8 @@ export const DEFAULT_SETTINGS: Settings = {
   theme: 'system',
   arabicFont: 'noto',
   arabicSize: 'medium',
+  adhkarMeaning: false,
+  adhkarTransliteration: true,
   showTranslation: true,
   translationLang: 'ur',
   // Quran.com translation resource ids. The app always shows the name the API returns.
@@ -77,8 +82,12 @@ export type Progress = {
   surahDone: Record<string, number[]>;
   salah: Record<string, string[]>;
   tasbih: { day: string; count: number };
-  sadaqah: { month: string; target: number; paid: number; currency: string };
+  sadaqah: Sadaqah;
 };
+
+export type SadaqahMonth = { month: string; target: number; paid: number; currency: string };
+/** The current month plus closed months. A closed month keeps the goal it had, so editing the goal never rewrites the past. */
+export type Sadaqah = SadaqahMonth & { history: SadaqahMonth[]; recapSeen: string };
 
 export const DEFAULT_PROGRESS: Progress = {
   v: 1,
@@ -94,8 +103,48 @@ export const DEFAULT_PROGRESS: Progress = {
   surahDone: {},
   salah: {},
   tasbih: { day: '', count: 0 },
-  sadaqah: { month: '', target: 0, paid: 0, currency: 'PKR' },
+  sadaqah: { month: '', target: 0, paid: 0, currency: 'PKR', history: [], recapSeen: '' },
 };
+
+const SADAQAH_HISTORY = 36;
+
+/** Fill in fields older app versions didn't store. */
+export function normalizeSadaqah(raw: unknown): Sadaqah {
+  const d = DEFAULT_PROGRESS.sadaqah;
+  const r = (raw && typeof raw === 'object' ? raw : {}) as Record<string, unknown>;
+  const num = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) && v >= 0 ? v : 0);
+  const str = (v: unknown, f: string) => (typeof v === 'string' ? v : f);
+  const history = Array.isArray(r.history)
+    ? (r.history as unknown[])
+        .filter((h): h is Record<string, unknown> => !!h && typeof h === 'object' && typeof (h as any).month === 'string')
+        .map((h) => ({ month: h.month as string, target: num(h.target), paid: num(h.paid), currency: str(h.currency, d.currency) }))
+    : [];
+  return { month: str(r.month, ''), target: num(r.target), paid: num(r.paid), currency: str(r.currency, d.currency), history, recapSeen: str(r.recapSeen, '') };
+}
+
+/**
+ * Move to `month` ("YYYY-MM"). A finished month is filed into history with the goal it had;
+ * the goal and currency carry forward and the running total starts again at 0.
+ */
+export function rollSadaqah(raw: Sadaqah, month: string): Sadaqah {
+  const s = normalizeSadaqah(raw);
+  if (s.month === month) return s;
+  if (!s.month) return { ...s, month, paid: 0 };
+  if (s.month > month) return { ...s, month }; // phone clock went backwards: keep the total rather than lose it
+  const used = s.paid > 0 || s.target > 0;
+  const history = used
+    ? [{ month: s.month, target: s.target, paid: s.paid, currency: s.currency }, ...s.history.filter((h) => h.month !== s.month)]
+        .sort((a, b) => (a.month < b.month ? 1 : -1))
+        .slice(0, SADAQAH_HISTORY)
+    : s.history;
+  return { ...s, month, paid: 0, history };
+}
+
+/** "YYYY-MM" for the month before `month`. */
+export function previousMonth(month: string): string {
+  const [y, m] = month.split('-').map(Number);
+  return m === 1 ? `${y - 1}-12` : `${y}-${String(m - 1).padStart(2, '0')}`;
+}
 
 /** Merge stored data over defaults so new fields added in later versions get sensible values. */
 export function hydrate<T extends object>(defaults: T, stored: unknown): T {

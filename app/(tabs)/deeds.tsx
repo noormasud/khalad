@@ -11,6 +11,7 @@ import { requestPermission } from '../../src/lib/notifications';
 import { ensureAnonymousSession, supabase } from '../../src/lib/supabase';
 import { dayKey } from '../../src/lib/dates';
 import { track } from '../../src/lib/analytics';
+import { normalizeSadaqah, rollSadaqah } from '../../src/state/model';
 
 export default function Deeds() {
   const t = useTheme();
@@ -28,9 +29,9 @@ export default function Deeds() {
     track('reminder_toggle', { key, on });
   };
 
-  const sadaqah = progress.sadaqah;
   const thisMonth = today.slice(0, 7);
-  const sadaqahActive = sadaqah.month === thisMonth && sadaqah.target > 0;
+  const sadaqah = rollSadaqah(normalizeSadaqah(progress.sadaqah), thisMonth);
+  const sadaqahActive = sadaqah.target > 0;
 
   return (
     <Screen>
@@ -69,7 +70,7 @@ export default function Deeds() {
               <T size={12} muted>{`${sadaqah.currency} ${sadaqah.paid.toLocaleString()} of ${sadaqah.target.toLocaleString()} this month`}</T>
             </>
           ) : (
-            <T size={13} muted>Set a private monthly goal and log what you give.</T>
+            <T size={13} muted>{sadaqah.paid > 0 ? `${sadaqah.currency} ${sadaqah.paid.toLocaleString()} this month` : 'Set a private monthly goal and log what you give.'}</T>
           )}
         </Card>
       </Pressable>

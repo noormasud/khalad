@@ -3,12 +3,13 @@ import { computeStreak } from '../src/lib/streak';
 import { toHijri } from '../src/lib/hijri';
 import { addDays, dayKey, formatTime } from '../src/lib/dates';
 import { cleanTranslation, mapApiVerses, validateSurah } from '../src/lib/quranText';
-import { planNotifications } from '../src/lib/schedule';
-import { DEFAULT_PROGRESS, DEFAULT_SETTINGS, hydrate, recordVerses } from '../src/state/model';
+import { noVoluntaryFast, planNotifications } from '../src/lib/schedule';
+import { DEFAULT_PROGRESS, DEFAULT_SETTINGS, hydrate, normalizeSadaqah, previousMonth, recordVerses, rollSadaqah } from '../src/state/model';
 import { CHAPTERS, TOTAL_VERSES } from '../src/data/chapters';
 import { placeLabel } from '../src/data/cities';
 import { methodForTimeZone, hanafiDefaultForTimeZone } from '../src/lib/prayer';
 import bundled from '../src/data/bundled-content.json';
+import verifiedDaily from '../content/verified_daily.json';
 
 const D = (s: string) => s;
 
@@ -151,6 +152,64 @@ describe('notification plan', () => {
   });
 });
 
+describe('fast reminders', () => {
+  const fake = (d: Date) => {
+    const at = (h: number, m = 0) => new Date(d.getFullYear(), d.getMonth(), d.getDate(), h, m);
+    return { fajr: at(5), sunrise: at(6, 30), dhuhr: at(12, 30), asr: at(16), maghrib: at(18), isha: at(19, 30) };
+  };
+  const monThu = { key: 'mt', title: 'Monday & Thursday fasts', rule: 'weekly' as const, weekdays: [1, 4], anchor: 'maghrib' as const, offset_min: 30, day_before: true };
+  it('reminds on Sunday and Wednesday evening, after Maghrib, for Monday and Thursday', () => {
+    const now = new Date(2026, 10, 1, 9, 0); // Sunday 1 Nov 2026 (not Ramadan)
+    const plan = planNotifications({ now, days: 7, timesForDate: fake, prayerLine: false, reminders: [monThu], enabledReminders: { mt: true }, hijriAdjust: 0 });
+    expect(plan.map((n) => n.at.getDay())).toEqual([0, 3]);
+    expect(plan.every((n) => n.at.getHours() === 18 && n.at.getMinutes() === 30)).toBe(true);
+    expect(plan[0].title).toBe('Sunnah fast tomorrow · Monday');
+    expect(plan[0].body).toContain('Fajr');
+  });
+  it('reminds the evening before each white day (13th–15th) and never on the fast day', () => {
+    const white = { key: 'w', title: 'White days fasts', rule: 'hijri_monthly' as const, hijri_days: [13, 14, 15], anchor: 'maghrib' as const, offset_min: 30, day_before: true };
+    const now = new Date(2026, 10, 1, 9, 0);
+    const plan = planNotifications({ now, days: 30, timesForDate: fake, prayerLine: false, reminders: [white], enabledReminders: { w: true }, hijriAdjust: 0 });
+    expect(plan).toHaveLength(3);
+    for (const n of plan) {
+      const fastDay = new Date(n.at.getFullYear(), n.at.getMonth(), n.at.getDate() + 1, 12);
+      expect([13, 14, 15]).toContain(toHijri(fastDay).day);
+      expect([12, 13, 14]).toContain(toHijri(n.at).day);
+    }
+  });
+  it('skips Eid, the days of Tashriq and Ramadan', () => {
+    expect(noVoluntaryFast({ year: 1448, month: 12, day: 13 })).toBe(true);
+    expect(noVoluntaryFast({ year: 1448, month: 12, day: 10 })).toBe(true);
+    expect(noVoluntaryFast({ year: 1448, month: 10, day: 1 })).toBe(true);
+    expect(noVoluntaryFast({ year: 1448, month: 9, day: 14 })).toBe(true);
+    expect(noVoluntaryFast({ year: 1448, month: 11, day: 13 })).toBe(false);
+  });
+});
+
+describe('sadaqah months', () => {
+  const base = { month: '2026-10', target: 5000, paid: 5500, currency: 'PKR', history: [], recapSeen: '' };
+  it('files the finished month with its own goal and starts the new month at 0 with the same goal', () => {
+    const s = rollSadaqah(base, '2026-11');
+    expect(s).toMatchObject({ month: '2026-11', paid: 0, target: 5000, currency: 'PKR' });
+    expect(s.history).toEqual([{ month: '2026-10', target: 5000, paid: 5500, currency: 'PKR' }]);
+  });
+  it('changing the goal later never rewrites past months', () => {
+    const s = { ...rollSadaqah(base, '2026-11'), target: 8000 };
+    expect(s.history[0].target).toBe(5000);
+    expect(rollSadaqah(s, '2026-12').history.map((h) => [h.month, h.target])).toEqual([['2026-11', 8000], ['2026-10', 5000]]);
+  });
+  it('is a no-op within the same month, and upgrades old saved data', () => {
+    expect(rollSadaqah(base, '2026-10').paid).toBe(5500);
+    const old = normalizeSadaqah({ month: '2026-09', target: 100, paid: 40, currency: 'GBP' });
+    expect(old.history).toEqual([]);
+    expect(rollSadaqah(old, '2026-11').history[0]).toEqual({ month: '2026-09', target: 100, paid: 40, currency: 'GBP' });
+  });
+  it('knows the previous month across a year boundary', () => {
+    expect(previousMonth('2027-01')).toBe('2026-12');
+    expect(previousMonth('2026-11')).toBe('2026-10');
+  });
+});
+
 describe('bundled content', () => {
   const c = bundled as any;
   it('has every item pointing at a real set, with Quran ranges inside the surah', () => {
@@ -170,7 +229,13 @@ describe('bundled content', () => {
       }
     }
   });
-  it('ships no unverified hadith', () => {
-    expect(c.daily_items).toHaveLength(0);
+  it('ships only the verified Hadith / Sunnah set, each with a reference', () => {
+    const verified = (verifiedDaily as any).items;
+    expect(c.daily_items).toHaveLength(verified.length);
+    for (const d of c.daily_items) {
+      expect(['hadith', 'sunnah']).toContain(d.kind);
+      expect(typeof d.reference === 'string' && d.reference.length > 0).toBe(true);
+      expect(verified.some((v: any) => v.text === d.text && v.reference === d.reference)).toBe(true);
+    }
   });
 });

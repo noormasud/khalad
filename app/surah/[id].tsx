@@ -12,6 +12,8 @@ import { chapter } from '../../src/data/chapters';
 import { getSurah, getVerses } from '../../src/lib/quran';
 import type { SurahData, Verse } from '../../src/lib/quranText';
 import { GOALS } from '../../src/state/model';
+import { GestureDetector } from 'react-native-gesture-handler';
+import { usePinchTextSize } from '../../src/hooks/usePinchTextSize';
 
 export default function SurahReader() {
   const t = useTheme();
@@ -30,6 +32,7 @@ export default function SurahReader() {
   const [error, setError] = useState('');
   const [attempt, setAttempt] = useState(0);
   const [showSettings, setShowSettings] = useState(false);
+  const { gesture: pinch, overlay } = usePinchTextSize();
   const listRef = useRef<FlatList<Verse>>(null);
   const scrolled = useRef(false);
 
@@ -112,6 +115,8 @@ export default function SurahReader() {
       ) : !data ? (
         <Loading label={`Preparing ${ch.name}…`} />
       ) : (
+        <GestureDetector gesture={pinch}>
+          <View style={{ flex: 1 }} collapsable={false}>
         <FlatList
           ref={listRef}
           data={data.verses}
@@ -164,6 +169,9 @@ export default function SurahReader() {
             </View>
           }
         />
+            {overlay}
+          </View>
+        </GestureDetector>
       )}
 
       <View style={{ paddingHorizontal: 20, paddingTop: 10, paddingBottom: 10, gap: 8, borderTopWidth: 1, borderTopColor: t.border, backgroundColor: t.surface }}>

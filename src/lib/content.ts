@@ -82,6 +82,15 @@ export async function loadCachedContent(): Promise<Content> {
   return isContent(cached) ? cached : BUNDLED;
 }
 
+const REMINDER_COLS = 'key,title,subtitle,rule,weekdays,hijri_days,anchor,offset_min,surah,set_key,on_by_default,sort';
+
+/** Reminders, including `day_before` once migration 0002 has run (older databases still work without it). */
+async function fetchReminders() {
+  const withFlag = await supabase.from('sunnah_reminders').select(`${REMINDER_COLS},day_before`).order('sort');
+  if (!withFlag.error) return withFlag;
+  return supabase.from('sunnah_reminders').select(REMINDER_COLS).order('sort');
+}
+
 /** Fetch fresh content. Returns null (keeping the cached copy) on any failure. */
 export async function fetchContent(): Promise<Content | null> {
   try {
@@ -91,10 +100,7 @@ export async function fetchContent(): Promise<Content | null> {
         .from('adhkar_items')
         .select('set_key,sort,type,title,arabic,translation,transliteration,reference,repeat,surah,verse_from,verse_to')
         .order('sort'),
-      supabase
-        .from('sunnah_reminders')
-        .select('key,title,subtitle,rule,weekdays,hijri_days,anchor,offset_min,surah,set_key,on_by_default,sort')
-        .order('sort'),
+      fetchReminders(),
       supabase.from('seasonal_challenges').select('title,subtitle,hijri_month,hijri_days,set_key,surah,sort').order('sort'),
       supabase.from('daily_items').select('id,kind,text,reference,sort').order('sort'),
       supabase.from('ummah_goals').select('id,title,subtitle,unit,target,starts_on,ends_on,surah,verse_from,verse_to,sort').order('sort'),
@@ -117,6 +123,7 @@ export async function fetchContent(): Promise<Content | null> {
       content.adhkar_items = BUNDLED.adhkar_items;
     }
     if (content.sunnah_reminders.length === 0) content.sunnah_reminders = BUNDLED.sunnah_reminders;
+    if (content.daily_items.length === 0) content.daily_items = BUNDLED.daily_items;
     await writeJson(KEY, content);
     return content;
   } catch {

@@ -48,7 +48,7 @@ export function Arabic({ children, scale = 1, center, style }: { children: strin
   const t = useTheme();
   const { settings } = useApp();
   const font = arabicFonts[settings.arabicFont] ?? arabicFonts.noto;
-  const size = arabicSizes[settings.arabicSize] * scale;
+  const size = (arabicSizes[settings.arabicSize] ?? arabicSizes.medium) * scale;
   return (
     <Text
       maxFontSizeMultiplier={1.3}
