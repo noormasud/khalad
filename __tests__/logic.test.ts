@@ -6,6 +6,7 @@ import { cleanTranslation, mapApiVerses, validateSurah } from '../src/lib/quranT
 import { noVoluntaryFast, planNotifications } from '../src/lib/schedule';
 import { bucket, screenOf } from '../src/lib/analytics';
 import { buildWidgetData } from '../src/widgets/data';
+import { updateStatus } from '../src/lib/updates';
 import { DEFAULT_PROGRESS, DEFAULT_SETTINGS, hydrate, normalizeSadaqah, previousMonth, recordVerses, rollSadaqah } from '../src/state/model';
 import { CHAPTERS, TOTAL_VERSES } from '../src/data/chapters';
 import { placeLabel } from '../src/data/cities';
@@ -245,6 +246,19 @@ describe('home-screen widgets', () => {
     expect(buildWidgetData(DEFAULT_SETTINGS, DEFAULT_PROGRESS, bundled as any, now).reading.uri).toBe('khalad://surah/1');
     const met = { ...DEFAULT_PROGRESS, metDays: ['2026-10-23'], pagesByDay: { '2026-10-23': [1] } };
     expect(buildWidgetData(DEFAULT_SETTINGS, met, bundled as any, now).reading.title).toBe('Goal done · MashaAllah');
+  });
+});
+
+describe('remote update switch', () => {
+  it('blocks below the minimum, nudges below the latest, otherwise nothing', () => {
+    expect(updateStatus(100, { min_version_code: 101, latest_version_code: 102 })).toBe('force');
+    expect(updateStatus(101, { min_version_code: 101, latest_version_code: 102 })).toBe('optional');
+    expect(updateStatus(102, { min_version_code: 101, latest_version_code: 102 })).toBe('none');
+    expect(updateStatus(100, { min_version_code: 1, latest_version_code: 100 })).toBe('none');
+  });
+  it('never blocks when the version or rule is unknown', () => {
+    expect(updateStatus(0, { min_version_code: 500 })).toBe('none');
+    expect(updateStatus(100, null)).toBe('none');
   });
 });
 

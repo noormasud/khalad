@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Alert, Platform, Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 import { Button, Card, ProgressBar, Screen, T, TickCircle } from '../../src/components/ui';
@@ -16,6 +16,8 @@ import { dailyPick } from '../../src/lib/content';
 import { chapter } from '../../src/data/chapters';
 import { GOALS } from '../../src/state/model';
 import { pinWidget } from '../../src/widgets/refresh';
+import { openStore, useUpdateStatus } from '../../src/lib/updates';
+import { readJson, writeJson } from '../../src/lib/storage';
 
 type Slot = { key: string; title: string; when: string; state: 'done' | 'now' | 'later'; actions: { label: string; href: string }[] };
 
@@ -174,6 +176,7 @@ export default function Today() {
         </Card>
       ) : null}
 
+      <UpdateCard />
       <WidgetPrompt />
 
       {challenges.length > 0 ? (
@@ -348,6 +351,47 @@ function WidgetPrompt() {
           </Pressable>
         ))}
       </View>
+    </Card>
+  );
+}
+
+/** Gentle "new version" card when this version is below `latest_version_code` in Supabase. Dismissed per version. */
+function UpdateCard() {
+  const t = useTheme();
+  const { status, rule } = useUpdateStatus();
+  const latest = rule?.latest_version_code ?? 0;
+  const [dismissed, setDismissed] = useState<number | null>(null);
+  useEffect(() => {
+    readJson<number>('khalad.updateDismissed', 0).then(setDismissed).catch(() => setDismissed(0));
+  }, []);
+  if (status !== 'optional' || dismissed === null || dismissed >= latest) return null;
+  return (
+    <Card style={{ flexDirection: 'row', alignItems: 'center', gap: 12, backgroundColor: t.accentSoft, borderWidth: 0 }}>
+      <View style={{ flex: 1, gap: 2 }}>
+        <T size={14} weight="bold">A new version of Khalad is ready</T>
+        <T size={12}>{rule?.message || 'Update for the latest fixes and features.'}</T>
+      </View>
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => {
+          track('update_card_tap');
+          openStore();
+        }}
+        style={{ minHeight: 40, paddingHorizontal: 14, borderRadius: 10, backgroundColor: t.inverseBg, justifyContent: 'center' }}
+      >
+        <T size={13} weight="bold" color={t.inverseText}>Update</T>
+      </Pressable>
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel="Not now"
+        hitSlop={10}
+        onPress={() => {
+          setDismissed(latest);
+          writeJson('khalad.updateDismissed', latest).catch(() => undefined);
+        }}
+      >
+        <Icon name="close" size={16} color={t.textMuted} />
+      </Pressable>
     </Card>
   );
 }

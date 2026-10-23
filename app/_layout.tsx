@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Stack, router, usePathname } from 'expo-router';
-import { useColorScheme } from 'react-native';
+import { AppState as RNAppState, useColorScheme } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Notifications from 'expo-notifications';
 import { StatusBar } from 'expo-status-bar';
@@ -30,6 +30,8 @@ import { computeStreak } from '../src/lib/streak';
 import { useContent } from '../src/state/ContentState';
 import { buildWidgetData } from '../src/widgets/data';
 import { refreshWidgets } from '../src/widgets/refresh';
+import { refreshUpdateRule, useUpdateStatus } from '../src/lib/updates';
+import { ForceUpdateScreen } from '../src/components/ForceUpdate';
 import { ErrorBoundary } from '../src/components/ErrorBoundary';
 
 SplashScreen.preventAutoHideAsync().catch(() => undefined);
@@ -64,6 +66,17 @@ function Shell({ fontsReady }: { fontsReady: boolean }) {
     return () => clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [ready, progress.metDays, progress.pagesByDay, progress.versesByDay, progress.lastRead, settings.goal, settings.location, settings.method, settings.hanafi, settings.adjustments, settings.use24h, content.daily_items, today]);
+
+  // Remote update switch: checked at launch and whenever the app comes back to the front.
+  const update = useUpdateStatus();
+  useEffect(() => {
+    refreshUpdateRule().catch(() => undefined);
+    const sub = RNAppState.addEventListener('change', (s) => s === 'active' && refreshUpdateRule().catch(() => undefined));
+    return () => sub.remove();
+  }, []);
+  useEffect(() => {
+    if (update.status === 'force') track('force_update_shown');
+  }, [update.status]);
 
   // Which screens get used (and which don't).
   useEffect(() => {
@@ -117,7 +130,9 @@ function Shell({ fontsReady }: { fontsReady: boolean }) {
   return (
     <View style={{ flex: 1, backgroundColor: t.bg }}>
       <StatusBar style={t.dark ? 'light' : 'dark'} />
-      {loaded ? (
+      {loaded && update.status === 'force' ? (
+        <ForceUpdateScreen message={update.rule?.message} />
+      ) : loaded ? (
         <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: t.bg }, animation: 'slide_from_right' }}>
           <Stack.Screen name="(tabs)" />
           <Stack.Screen name="onboarding" options={{ animation: 'fade' }} />
