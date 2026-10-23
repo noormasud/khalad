@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { Pressable, View } from 'react-native';
+import { AppState, Platform, Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 import { OnboardingFrame } from '../../src/components/Onboarding';
 import { Button, T } from '../../src/components/ui';
@@ -11,6 +11,32 @@ import { requestPermission } from '../../src/lib/notifications';
 import { nextPrayer, PRAYER_LABELS } from '../../src/lib/prayer';
 import { formatTime } from '../../src/lib/dates';
 import { setAnalytics, track } from '../../src/lib/analytics';
+import { pinWidget } from '../../src/widgets/refresh';
+
+/**
+ * Waits while the phone's "Add widget" prompt is on screen. The prompt covers the app, so we
+ * resume when the app is active again; if it never left (no prompt shown), carry on quickly.
+ */
+function waitForPrompt(): Promise<void> {
+  return new Promise((resolve) => {
+    let left = false;
+    let done = false;
+    const finish = () => {
+      if (done) return;
+      done = true;
+      sub.remove();
+      clearTimeout(quick);
+      clearTimeout(cap);
+      resolve();
+    };
+    const sub = AppState.addEventListener('change', (state) => {
+      if (state !== 'active') left = true;
+      else if (left) setTimeout(finish, 400);
+    });
+    const quick = setTimeout(() => !left && AppState.currentState === 'active' && finish(), 2500);
+    const cap = setTimeout(finish, 60000);
+  });
+}
 
 export default function LockScreenStep() {
   const t = useTheme();
@@ -48,11 +74,26 @@ export default function LockScreenStep() {
   const turnOn = async () => {
     setBusy(true);
     const granted = await requestPermission();
-    setBusy(false);
     if (!granted) {
+      setBusy(false);
       setNote('Notifications are off for Khalad, so the lock-screen line can’t show. You can allow them in your phone’s Settings → Apps → Khalad, or continue with “Maybe later”.');
       return;
     }
+    // Then offer the two home-screen widgets, one after the other. Android shows its own
+    // confirm prompt for each; an app can never place a widget without the person agreeing.
+    let placed = 0;
+    if (Platform.OS === 'android') {
+      for (const name of ['NextPrayer', 'HadithOfDay']) {
+        const closed = waitForPrompt(); // start listening before the prompt covers the app
+        const asked = await pinWidget(name);
+        track('widget_pin_request', { widget: name, from: 'onboarding', shown: asked });
+        if (!asked) break; // launcher can't do it; the Today card explains the manual way
+        placed += 1;
+        await closed;
+      }
+    }
+    setBusy(false);
+    if (placed === 2) updateSettings({ widgetPromptDone: true });
     finish(true, defaults());
   };
 
@@ -60,7 +101,7 @@ export default function LockScreenStep() {
     <OnboardingFrame
       step={4}
       title="See the next prayer without opening the app"
-      subtitle="A quiet line on your lock screen showing the next prayer. No sound, no adhan."
+      subtitle="A quiet line on your lock screen, plus small Next prayer and Hadith of the day widgets on your home screen. No sound, no adhan."
       footer={
         <>
           <Button label="Turn on" variant="accent" onPress={turnOn} loading={busy} />
