@@ -4,6 +4,7 @@ import { toHijri } from '../src/lib/hijri';
 import { addDays, dayKey, formatTime } from '../src/lib/dates';
 import { cleanTranslation, mapApiVerses, validateSurah } from '../src/lib/quranText';
 import { noVoluntaryFast, planNotifications } from '../src/lib/schedule';
+import { bucket, screenOf } from '../src/lib/analytics';
 import { DEFAULT_PROGRESS, DEFAULT_SETTINGS, hydrate, normalizeSadaqah, previousMonth, recordVerses, rollSadaqah } from '../src/state/model';
 import { CHAPTERS, TOTAL_VERSES } from '../src/data/chapters';
 import { placeLabel } from '../src/data/cities';
@@ -207,6 +208,21 @@ describe('sadaqah months', () => {
   it('knows the previous month across a year boundary', () => {
     expect(previousMonth('2027-01')).toBe('2026-12');
     expect(previousMonth('2026-11')).toBe('2026-10');
+  });
+});
+
+describe('analytics helpers', () => {
+  it('names screens without personal detail', () => {
+    expect(screenOf('/')).toEqual({ screen: 'today' });
+    expect(screenOf('/surah/18')).toEqual({ screen: 'surah', id: '18' });
+    expect(screenOf('/adhkar/morning')).toEqual({ screen: 'adhkar', id: 'morning' });
+    expect(screenOf('/settings/prayer')).toEqual({ screen: 'settings_prayer' });
+  });
+  it('rounds counts into buckets', () => {
+    expect([0, 3, 12, 40, 99, 500].map(bucket)).toEqual(['0', '1-5', '6-20', '21-50', '51-100', '100+']);
+  });
+  it('is on by default', () => {
+    expect(DEFAULT_SETTINGS.analytics).toBe(true);
   });
 });
 

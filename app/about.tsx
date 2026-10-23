@@ -34,7 +34,7 @@ export default function About() {
       <Card>
         <T size={14} weight="bold">Your privacy</T>
         <T size={13} muted>
-          No ads and no tracking SDKs. Location, reading progress and sadaqah stay on your phone. Anonymous usage is shared only if you turn it on.
+          No ads and no tracking SDKs. Location, reading progress and sadaqah amounts stay on your phone. Anonymous usage (which screens and features are used) is shared to help improve Khalad; turn it off any time in More.
         </T>
       </Card>
       <Button label="Refresh content" variant="soft" loading={refreshing} onPress={refresh} />

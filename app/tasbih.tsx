@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Pressable, View } from 'react-native';
 import Svg, { Circle } from 'react-native-svg';
 import * as Haptics from 'expo-haptics';
 import { Arabic, Header, Screen, T } from '../src/components/ui';
 import { useTheme } from '../src/theme';
 import { useApp } from '../src/state/AppState';
+import { bucket, track } from '../src/lib/analytics';
 
 // Plain dhikr phrases (not Quran text).
 const PHRASES = [
@@ -25,7 +26,13 @@ export default function Tasbih() {
   const cur = PHRASES[k];
   const totalToday = progress.tasbih.day === today ? progress.tasbih.count : 0;
 
+  const taps = useRef(0);
+  useEffect(() => () => {
+    if (taps.current > 0) track('tasbih_session', { taps: bucket(taps.current) });
+  }, []);
+
   const tap = () => {
+    taps.current += 1;
     const c = count + 1;
     updateProgress((p) => ({ ...p, tasbih: { day: today, count: (p.tasbih.day === today ? p.tasbih.count : 0) + 1 } }));
     if (c >= cur.target) {

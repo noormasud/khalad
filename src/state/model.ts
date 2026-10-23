@@ -50,7 +50,7 @@ export const DEFAULT_SETTINGS: Settings = {
   prayerLine: false,
   reminders: {},
   salahChecklist: false,
-  analytics: false,
+  analytics: true, // anonymous usage, on by default; off switch in More
   anonId: '',
   theme: 'system',
   arabicFont: 'noto',

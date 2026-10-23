@@ -16,7 +16,7 @@ export default function LockScreenStep() {
   const t = useTheme();
   const { settings, updateSettings } = useApp();
   const { content } = useContent();
-  const [stats, setStats] = useState(false);
+  const [stats, setStats] = useState(settings.analytics);
   const [busy, setBusy] = useState(false);
   const [note, setNote] = useState('');
 
@@ -40,9 +40,9 @@ export default function LockScreenStep() {
   }, [settings.onboarded]);
 
   const finish = (prayerLine: boolean, reminders: Record<string, boolean>) => {
-    setAnalytics(stats, settings.anonId);
     if (stats) track('onboarding_done', { goal: settings.goal, hanafi: settings.hanafi, method: settings.method, lock_line: prayerLine });
     updateSettings({ prayerLine, reminders, analytics: stats, onboarded: true });
+    setAnalytics(stats, settings.anonId);
   };
 
   const turnOn = async () => {
@@ -103,7 +103,7 @@ export default function LockScreenStep() {
           {stats ? <Icon name="check" size={14} strokeWidth={3} color={t.onAccent} /> : null}
         </View>
         <T size={13} style={{ flex: 1 }}>
-          Help improve Khalad by sharing anonymous usage, like which reading goal you picked. Never your location or name.
+          Share anonymous usage, like which features get used, so we know what to improve. Never your location, name or sadaqah amounts. You can turn this off any time in More.
         </T>
       </Pressable>
       {note ? <T size={13} color={t.danger}>{note}</T> : null}

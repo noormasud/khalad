@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View } from 'react-native';
-import { Stack, router } from 'expo-router';
+import { Stack, router, usePathname } from 'expo-router';
+import { useColorScheme } from 'react-native';
 import * as SplashScreen from 'expo-splash-screen';
 import * as Notifications from 'expo-notifications';
 import { StatusBar } from 'expo-status-bar';
@@ -23,14 +24,18 @@ import { AnimatedSplash } from '../src/components/Splash';
 import { useTheme } from '../src/theme';
 import { useNotificationSync } from '../src/hooks/useNotificationSync';
 import { configureNotifications } from '../src/lib/notifications';
-import { newAnonId, setAnalytics } from '../src/lib/analytics';
+import { newAnonId, screenOf, setAnalytics, track } from '../src/lib/analytics';
+import { readJson, writeJson } from '../src/lib/storage';
+import { computeStreak } from '../src/lib/streak';
 import { ErrorBoundary } from '../src/components/ErrorBoundary';
 
 SplashScreen.preventAutoHideAsync().catch(() => undefined);
 
 function Shell({ fontsReady }: { fontsReady: boolean }) {
   const t = useTheme();
-  const { ready, settings, updateSettings } = useApp();
+  const { ready, settings, updateSettings, progress, today } = useApp();
+  const scheme = useColorScheme();
+  const pathname = usePathname();
   const [splashGone, setSplashGone] = useState(false);
   const loaded = ready && fontsReady;
 
@@ -48,11 +53,49 @@ function Shell({ fontsReady }: { fontsReady: boolean }) {
     setAnalytics(settings.analytics, settings.anonId);
   }, [ready, settings.analytics, settings.anonId, updateSettings]);
 
+  // Which screens get used (and which don't).
+  useEffect(() => {
+    if (!pathname) return;
+    const { screen, id } = screenOf(pathname);
+    track('screen_view', id ? { screen, id } : { screen });
+  }, [pathname]);
+
+  // Once a day: an "app opened" event with a snapshot of the person's choices.
+  useEffect(() => {
+    if (!ready || !settings.onboarded || !settings.anonId) return;
+    let alive = true;
+    (async () => {
+      const last = await readJson<string>('khalad.lastOpenDay', '');
+      if (!alive || last === today) return;
+      await writeJson('khalad.lastOpenDay', today);
+      const streak = computeStreak({ metDays: progress.metDays, pausedDays: progress.pausedDays, freezesPerMonth: 2, today });
+      track('app_open', {
+        goal: settings.goal,
+        streak: streak.current,
+        freezes_left: streak.freezesLeftThisMonth,
+        paused: progress.paused,
+        theme: settings.theme,
+        dark: (settings.theme === 'system' ? scheme : settings.theme) === 'dark',
+        tr_lang: settings.translationLang,
+        tr_on: settings.showTranslation,
+        text_size: settings.arabicSize,
+        font: settings.arabicFont,
+        lock_line: settings.prayerLine,
+        reminders_on: Object.values(settings.reminders).filter(Boolean).length,
+      });
+    })();
+    return () => {
+      alive = false;
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, settings.onboarded, settings.anonId, today]);
+
   // Tapping a reminder opens the right screen (only routes we created).
   useEffect(() => {
     const sub = Notifications.addNotificationResponseReceivedListener((res) => {
       const route = res.notification.request.content.data?.route;
       if (typeof route === 'string' && /^\/(surah\/\d{1,3}|adhkar\/[a-z0-9_]{2,40}|deeds)?$/.test(route)) {
+        track('notification_tap', { target: route === '/' ? 'prayer_line' : route.slice(1).replace('/', '_') });
         router.push(route as never);
       }
     });

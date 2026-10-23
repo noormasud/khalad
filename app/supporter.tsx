@@ -5,6 +5,7 @@ import { Button, Card, Screen, T } from '../src/components/ui';
 import { Icon } from '../src/components/Icon';
 import { useTheme } from '../src/theme';
 import { SUPPORT_EMAIL } from '../src/lib/config';
+import { track } from '../src/lib/analytics';
 
 // Payments open in a later update, once Google Play subscription products are set up.
 // Until then this screen is honest about it and collects interest by email only.
@@ -38,7 +39,10 @@ export default function Supporter() {
       </T>
       <Button
         label="Tell me when it opens"
-        onPress={() => Linking.openURL(`mailto:${SUPPORT_EMAIL}?subject=Founding%20Supporter`).catch(() => undefined)}
+        onPress={() => {
+          track('supporter_interest');
+          Linking.openURL(`mailto:${SUPPORT_EMAIL}?subject=Founding%20Supporter`).catch(() => undefined);
+        }}
       />
       <Button label="Maybe later" variant="ghost" onPress={() => router.back()} />
     </Screen>

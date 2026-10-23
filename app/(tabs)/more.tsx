@@ -61,7 +61,7 @@ export default function More() {
       <Card style={{ paddingVertical: 0 }}>
         <ToggleRow
           label="Share anonymous usage"
-          sub="Helps decide what to build next. Never location or name."
+          sub="Shows which features get used. Never your location, name or amounts."
           value={settings.analytics}
           onChange={(v) => {
             updateSettings({ analytics: v });

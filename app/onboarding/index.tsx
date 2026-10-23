@@ -21,7 +21,7 @@ export default function Welcome() {
       </View>
       <View style={{ gap: 10 }}>
         <Button label="Bismillah, let’s begin" variant="accent" onPress={() => router.push('/onboarding/location')} />
-        <T size={12} muted style={{ textAlign: 'center' }}>No ads. No sign-up. Your data stays on your phone.</T>
+        <T size={12} muted style={{ textAlign: 'center' }}>No ads. No sign-up. Your reading and sadaqah stay on your phone.</T>
       </View>
     </SafeAreaView>
   );

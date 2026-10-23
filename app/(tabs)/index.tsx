@@ -5,6 +5,7 @@ import { Button, Card, ProgressBar, Screen, T, TickCircle } from '../../src/comp
 import { Icon } from '../../src/components/Icon';
 import { useTheme } from '../../src/theme';
 import { useApp } from '../../src/state/AppState';
+import { track } from '../../src/lib/analytics';
 import { useContent } from '../../src/state/ContentState';
 import { usePrayerTimes } from '../../src/hooks/usePrayer';
 import { formatShortDate, formatTime } from '../../src/lib/dates';
@@ -210,7 +211,14 @@ export default function Today() {
                       <T size={15} weight="bold">{s.title}</T>
                       <T size={12} muted>{`Now · ${s.when}`}</T>
                     </View>
-                    <Button label={s.actions[0].label} onPress={() => router.push(s.actions[0].href as never)} style={{ minHeight: 40 }} />
+                    <Button
+                      label={s.actions[0].label}
+                      onPress={() => {
+                        track('today_tap', { slot: s.key, target: s.actions[0].href.split('?')[0] });
+                        router.push(s.actions[0].href as never);
+                      }}
+                      style={{ minHeight: 40 }}
+                    />
                   </Card>
                 ) : (
                   <>
@@ -223,7 +231,10 @@ export default function Today() {
                         <Pressable
                           key={a.href}
                           accessibilityRole="button"
-                          onPress={() => router.push(a.href as never)}
+                          onPress={() => {
+                            track('today_tap', { slot: s.key, target: a.href.split('?')[0] });
+                            router.push(a.href as never);
+                          }}
                           style={{ minHeight: 40, paddingHorizontal: 14, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: t.surface, borderWidth: 1, borderColor: t.border }}
                         >
                           <T size={13} weight="semibold" numberOfLines={1} style={{ flexShrink: 0 }}>

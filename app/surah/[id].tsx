@@ -14,6 +14,7 @@ import type { SurahData, Verse } from '../../src/lib/quranText';
 import { GOALS } from '../../src/state/model';
 import { GestureDetector } from 'react-native-gesture-handler';
 import { usePinchTextSize } from '../../src/hooks/usePinchTextSize';
+import { bucket, track } from '../../src/lib/analytics';
 
 export default function SurahReader() {
   const t = useTheme();
@@ -67,8 +68,17 @@ export default function SurahReader() {
     const verses = viewableItems.map((v) => v.item).filter(Boolean) as Verse[];
     if (verses.length === 0) return;
     markRef.current(verses.map((v) => ({ key: v.key, page: v.page })));
+    verses.forEach((v) => seenRef.current.add(v.key));
     lastRef.current(surah, verses[0].number);
   }).current;
+  // One "read_session" per visit: which surah and roughly how many ayahs were read.
+  const seenRef = useRef(new Set<string>());
+  useEffect(() => {
+    const seen = seenRef.current;
+    return () => {
+      if (seen.size > 0) track('read_session', { surah, ayahs: bucket(seen.size), from_reminder: showMark });
+    };
+  }, [surah, showMark]);
   const markRef = useRef(markVersesRead);
   markRef.current = markVersesRead;
   const lastRef = useRef(setLastRead);

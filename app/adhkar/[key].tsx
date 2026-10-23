@@ -15,6 +15,7 @@ import { getVerses } from '../../src/lib/quran';
 import { chapter } from '../../src/data/chapters';
 import type { Verse } from '../../src/lib/quranText';
 import { usePinchTextSize } from '../../src/hooks/usePinchTextSize';
+import { track } from '../../src/lib/analytics';
 
 type Loaded = { verses?: Verse[]; error?: string };
 
@@ -68,6 +69,7 @@ export default function AdhkarReader() {
   const finish = () => {
     setFinished(true);
     markAdhkarDone(set.key);
+    track('adhkar_done', { set: set.key, category: set.category, meaning_on: settings.adhkarMeaning });
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
   };
 
