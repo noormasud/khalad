@@ -74,6 +74,35 @@
             "minSdkVersion": 24
           }
         }
+      ],
+      [
+        "react-native-android-widget",
+        {
+          "widgets": [
+            {
+              "name": "HadithOfDay",
+              "label": "Hadith of the day",
+              "description": "One verified hadith or sunnah, new each day",
+              "previewImage": "./assets/widget-preview/hadith.png",
+              "minWidth": "150dp",
+              "minHeight": "150dp",
+              "targetCellWidth": 2,
+              "targetCellHeight": 2,
+              "updatePeriodMillis": 1800000
+            },
+            {
+              "name": "TodayReading",
+              "label": "Today’s reading",
+              "description": "Your daily goal, where to continue, and your streak",
+              "previewImage": "./assets/widget-preview/reading.png",
+              "minWidth": "150dp",
+              "minHeight": "150dp",
+              "targetCellWidth": 2,
+              "targetCellHeight": 2,
+              "updatePeriodMillis": 1800000
+            }
+          ]
+        }
       ]
     ],
     "experiments": {

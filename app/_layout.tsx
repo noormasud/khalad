@@ -27,6 +27,9 @@ import { configureNotifications } from '../src/lib/notifications';
 import { newAnonId, screenOf, setAnalytics, track } from '../src/lib/analytics';
 import { readJson, writeJson } from '../src/lib/storage';
 import { computeStreak } from '../src/lib/streak';
+import { useContent } from '../src/state/ContentState';
+import { buildWidgetData } from '../src/widgets/data';
+import { refreshWidgets } from '../src/widgets/refresh';
 import { ErrorBoundary } from '../src/components/ErrorBoundary';
 
 SplashScreen.preventAutoHideAsync().catch(() => undefined);
@@ -52,6 +55,15 @@ function Shell({ fontsReady }: { fontsReady: boolean }) {
     if (!settings.anonId) updateSettings({ anonId: newAnonId() });
     setAnalytics(settings.analytics, settings.anonId);
   }, [ready, settings.analytics, settings.anonId, updateSettings]);
+
+  // Keep home-screen widgets in step with reading, streak and today's hadith.
+  const { content } = useContent();
+  useEffect(() => {
+    if (!ready) return;
+    const id = setTimeout(() => refreshWidgets(buildWidgetData(settings, progress, content)), 1200);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, progress.metDays, progress.pagesByDay, progress.versesByDay, progress.lastRead, settings.goal, content.daily_items, today]);
 
   // Which screens get used (and which don't).
   useEffect(() => {

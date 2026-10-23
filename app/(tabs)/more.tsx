@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Linking, Pressable, View } from 'react-native';
+import { Alert, Linking, Platform, Pressable, View } from 'react-native';
 import { router } from 'expo-router';
 import Constants from 'expo-constants';
 import { Card, Row, Screen, T, ToggleRow } from '../../src/components/ui';
@@ -9,7 +9,8 @@ import { useTheme } from '../../src/theme';
 import { useApp } from '../../src/state/AppState';
 import { METHOD_LABELS } from '../../src/lib/prayer';
 import { computeStreak } from '../../src/lib/streak';
-import { setAnalytics } from '../../src/lib/analytics';
+import { setAnalytics, track } from '../../src/lib/analytics';
+import { pinWidget } from '../../src/widgets/refresh';
 import { PRIVACY_URL, SUPPORT_EMAIL } from '../../src/lib/config';
 
 export default function More() {
@@ -17,6 +18,17 @@ export default function More() {
   const { settings, updateSettings, progress, today } = useApp();
   const [reading, setReading] = useState(false);
   const streak = computeStreak({ metDays: progress.metDays, pausedDays: progress.pausedDays, freezesPerMonth: 2, today });
+
+  const addWidget = async (name: string) => {
+    track('widget_pin_request', { widget: name });
+    const ok = await pinWidget(name);
+    if (!ok) {
+      Alert.alert(
+        'Add the widget yourself',
+        'Touch and hold an empty space on your home screen, tap Widgets, find Khalad, then drag the widget onto your home screen.',
+      );
+    }
+  };
 
   return (
     <Screen>
@@ -38,6 +50,14 @@ export default function More() {
         <Row icon="flame" label="Reading streak" value={`${streak.current} days`} onPress={() => router.push('/streak')} />
         <Row icon="book" label="Reading" value="Font, size, translation" onPress={() => setReading(true)} last />
       </Card>
+
+      {Platform.OS === 'android' ? (
+        <Card style={{ paddingVertical: 0 }}>
+          <T size={13} weight="bold" style={{ paddingTop: 12 }}>Home-screen widgets</T>
+          <Row icon="heart" label="Hadith of the day" value="Add" onPress={() => addWidget('HadithOfDay')} />
+          <Row icon="book" label="Today’s reading" value="Add" onPress={() => addWidget('TodayReading')} last />
+        </Card>
+      ) : null}
 
       <Card style={{ paddingVertical: 0 }}>
         <Row icon="bell" label="Notifications" value={settings.prayerLine ? 'Lock-screen line on' : 'Off'} onPress={() => router.push('/settings/notifications')} />

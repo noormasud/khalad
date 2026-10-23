@@ -5,6 +5,7 @@ import { addDays, dayKey, formatTime } from '../src/lib/dates';
 import { cleanTranslation, mapApiVerses, validateSurah } from '../src/lib/quranText';
 import { noVoluntaryFast, planNotifications } from '../src/lib/schedule';
 import { bucket, screenOf } from '../src/lib/analytics';
+import { buildWidgetData } from '../src/widgets/data';
 import { DEFAULT_PROGRESS, DEFAULT_SETTINGS, hydrate, normalizeSadaqah, previousMonth, recordVerses, rollSadaqah } from '../src/state/model';
 import { CHAPTERS, TOTAL_VERSES } from '../src/data/chapters';
 import { placeLabel } from '../src/data/cities';
@@ -223,6 +224,24 @@ describe('analytics helpers', () => {
   });
   it('is on by default', () => {
     expect(DEFAULT_SETTINGS.analytics).toBe(true);
+  });
+});
+
+describe('home-screen widgets', () => {
+  const now = new Date(2026, 9, 23, 9, 0);
+  it('shows a verified daily item and where to continue reading', () => {
+    const progress = { ...DEFAULT_PROGRESS, lastRead: { surah: 18, verse: 10 }, pagesByDay: { '2026-10-23': [293] } };
+    const w = buildWidgetData({ ...DEFAULT_SETTINGS, goal: 'two' }, progress, bundled as any, now);
+    expect(w.daily?.reference).toBeTruthy();
+    expect(w.reading.title).toBe('Continue Al-Kahf');
+    expect(w.reading.detail).toBe('1 of 2 pages');
+    expect(w.reading.progress).toBe(0.5);
+    expect(w.reading.uri).toBe('khalad://surah/18?verse=10');
+  });
+  it('starts at Al-Fatihah for a new reader, and says when the goal is done', () => {
+    expect(buildWidgetData(DEFAULT_SETTINGS, DEFAULT_PROGRESS, bundled as any, now).reading.uri).toBe('khalad://surah/1');
+    const met = { ...DEFAULT_PROGRESS, metDays: ['2026-10-23'], pagesByDay: { '2026-10-23': [1] } };
+    expect(buildWidgetData(DEFAULT_SETTINGS, met, bundled as any, now).reading.title).toBe('Goal done · MashaAllah');
   });
 });
 
