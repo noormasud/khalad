@@ -33,6 +33,9 @@ export function T({
   const t = useTheme();
   return (
     <Text
+      // Android's default "highQuality" line breaking can push the last word onto a hidden
+      // second line with custom fonts (e.g. "Surah Mulk" showing only "Surah").
+      textBreakStrategy="simple"
       {...rest}
       maxFontSizeMultiplier={1.4}
       style={[

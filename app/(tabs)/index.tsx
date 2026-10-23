@@ -224,9 +224,9 @@ export default function Today() {
                           key={a.href}
                           accessibilityRole="button"
                           onPress={() => router.push(a.href as never)}
-                          style={{ minHeight: 40, paddingHorizontal: 12, borderRadius: 10, justifyContent: 'center', backgroundColor: t.surface, borderWidth: 1, borderColor: t.border }}
+                          style={{ minHeight: 40, paddingHorizontal: 14, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: t.surface, borderWidth: 1, borderColor: t.border }}
                         >
-                          <T size={13} weight="semibold">{a.label}</T>
+                          <T size={13} weight="semibold" numberOfLines={1} style={{ flexShrink: 0 }}>{a.label}</T>
                         </Pressable>
                       ))}
                     </View>
