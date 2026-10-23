@@ -226,7 +226,10 @@ export default function Today() {
                           onPress={() => router.push(a.href as never)}
                           style={{ minHeight: 40, paddingHorizontal: 14, borderRadius: 10, justifyContent: 'center', alignItems: 'center', backgroundColor: t.surface, borderWidth: 1, borderColor: t.border }}
                         >
-                          <T size={13} weight="semibold" numberOfLines={1} style={{ flexShrink: 0 }}>{a.label}</T>
+                          <T size={13} weight="semibold" numberOfLines={1} style={{ flexShrink: 0 }}>
+                            {/* Non-breaking spaces: the label can never wrap, so no word can be hidden. */}
+                            {a.label.replace(/ /g, '\u00A0')}
+                          </T>
                         </Pressable>
                       ))}
                     </View>
