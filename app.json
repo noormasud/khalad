@@ -121,8 +121,10 @@
     },
     "extra": {
       "eas": {
-        "projectId": ""
-      }
-    }
+        "projectId": "3f682cc8-9421-4f23-ad1a-51f2efb2ab8b"
+      },
+      "router": {}
+    },
+    "owner": "khaladtheapp"
   }
 }
