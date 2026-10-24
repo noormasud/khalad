@@ -112,3 +112,26 @@ export function planNotifications(input: PlanInput): PlannedNotification[] {
 
   return out.filter((n) => n.at.getTime() > input.now.getTime() + 30000).sort((a, b) => a.at.getTime() - b.at.getTime());
 }
+
+/**
+ * The lock-screen line as it should read now: the next prayer, "now" being the latest one passed.
+ * `since` is that prayer's time, so this line is replaced in order by the scheduled ones.
+ */
+export function currentPrayerLine(
+  now: Date,
+  timesForDate: (d: Date) => DayTimes,
+  use24h = false,
+): { title: string; body: string; since: number } | null {
+  const noon = (d: Date, add: number) => new Date(d.getFullYear(), d.getMonth(), d.getDate() + add, 12);
+  const days = [timesForDate(noon(now, -1)), timesForDate(noon(now, 0)), timesForDate(noon(now, 1))];
+  const list = days.flatMap((t) => SALAH.map((name) => ({ name, at: t[name] })));
+  const idx = list.findIndex((p) => p.at.getTime() > now.getTime());
+  if (idx <= 0) return null;
+  const next = list[idx];
+  const prev = list[idx - 1];
+  return {
+    title: `${PRAYER_LABELS[next.name]} ${formatTime(next.at, use24h)}`,
+    body: `Next prayer · now ${PRAYER_LABELS[prev.name]}`,
+    since: prev.at.getTime(),
+  };
+}

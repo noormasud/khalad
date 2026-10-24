@@ -1,11 +1,12 @@
 import * as Notifications from 'expo-notifications';
 import { Platform } from 'react-native';
-import { planNotifications, type ReminderRule } from './schedule';
+import { currentPrayerLine, planNotifications, type ReminderRule } from './schedule';
 import type { DayTimes } from './prayer';
 
 // Quiet by design: no adhan audio. Prayer lines are silent; reminders use the default soft sound.
 
 let configured = false;
+const PRAYER_CHANNEL = 'prayer_line';
 
 export async function configureNotifications(): Promise<void> {
   if (configured) return;
@@ -19,10 +20,14 @@ export async function configureNotifications(): Promise<void> {
     }),
   });
   if (Platform.OS === 'android') {
-    await Notifications.setNotificationChannelAsync('prayer', {
+    // Android never changes a channel after creation, so the lock-screen-friendly version gets a new id.
+    // LOW importance is hidden from many lock screens ("silent notifications"); DEFAULT with no sound
+    // and no vibration shows there quietly, without popping up.
+    await Notifications.deleteNotificationChannelAsync('prayer').catch(() => undefined);
+    await Notifications.setNotificationChannelAsync(PRAYER_CHANNEL, {
       name: 'Next prayer (silent)',
       description: 'A quiet line on your lock screen showing the next prayer time',
-      importance: Notifications.AndroidImportance.LOW,
+      importance: Notifications.AndroidImportance.DEFAULT,
       sound: null,
       vibrationPattern: null,
       enableVibrate: false,
@@ -95,11 +100,30 @@ async function doReschedule(input: RescheduleInput): Promise<void> {
         body: n.body || undefined,
         data: n.data,
         sound: n.channel === 'reminders' ? 'default' : undefined,
-        priority: n.channel === 'prayer' ? Notifications.AndroidNotificationPriority.LOW : Notifications.AndroidNotificationPriority.DEFAULT,
+        priority: Notifications.AndroidNotificationPriority.DEFAULT,
         autoDismiss: true,
       },
-      trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: n.at, channelId: n.channel },
+      trigger: { type: Notifications.SchedulableTriggerInputTypes.DATE, date: n.at, channelId: n.channel === 'prayer' ? PRAYER_CHANNEL : n.channel },
     });
+  }
+
+  // Show the line straight away (not only from the next prayer time) when none is showing.
+  if (input.prayerLine) {
+    try {
+      const shown = await Notifications.getPresentedNotificationsAsync();
+      if (!shown.some((x) => x.request.identifier.startsWith('prayer-'))) {
+        const line = currentPrayerLine(new Date(), input.timesForDate, input.use24h);
+        if (line) {
+          await Notifications.scheduleNotificationAsync({
+            identifier: `prayer-${line.since}`,
+            content: { title: line.title, body: line.body, data: { route: '/' }, autoDismiss: true },
+            trigger: { channelId: PRAYER_CHANNEL },
+          });
+        }
+      }
+    } catch {
+      // ignore
+    }
   }
 }
 

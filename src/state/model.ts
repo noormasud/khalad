@@ -49,7 +49,7 @@ export const DEFAULT_SETTINGS: Settings = {
   adjustments: {},
   hijriAdjust: 0,
   goal: 'page',
-  prayerLine: false,
+  prayerLine: true, // lock-screen next-prayer line, on by default (off switch in More → Notifications)
   reminders: {},
   salahChecklist: false,
   analytics: true, // anonymous usage, on by default; off switch in More

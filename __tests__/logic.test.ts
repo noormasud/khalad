@@ -3,7 +3,7 @@ import { computeStreak } from '../src/lib/streak';
 import { toHijri } from '../src/lib/hijri';
 import { addDays, dayKey, formatTime } from '../src/lib/dates';
 import { cleanTranslation, mapApiVerses, validateSurah } from '../src/lib/quranText';
-import { noVoluntaryFast, planNotifications } from '../src/lib/schedule';
+import { currentPrayerLine, noVoluntaryFast, planNotifications } from '../src/lib/schedule';
 import { bucket, screenOf } from '../src/lib/analytics';
 import { buildWidgetData } from '../src/widgets/data';
 import { updateStatus } from '../src/lib/updates';
@@ -142,6 +142,14 @@ describe('notification plan', () => {
     const plan = planNotifications({ now, days: 1, timesForDate: fake, prayerLine: true, reminders: [], enabledReminders: {}, hijriAdjust: 0 });
     expect(plan.map((n) => n.title)).toEqual(['Maghrib 6:00 pm', 'Isha 7:30 pm', 'Fajr 5:00 am']);
     expect(plan.every((n) => n.at > now)).toBe(true);
+  });
+  it('shows the right lock-screen line straight away, matching the scheduled ones', () => {
+    const line = currentPrayerLine(new Date(2026, 9, 22, 13, 0), fake);
+    expect(line?.title).toBe('Asr 4:00 pm');
+    expect(line?.body).toBe('Next prayer · now Dhuhr');
+    expect(line?.since).toBe(new Date(2026, 9, 22, 12, 30).getTime());
+    expect(currentPrayerLine(new Date(2026, 9, 22, 21, 0), fake)?.title).toBe('Fajr 5:00 am');
+    expect(currentPrayerLine(new Date(2026, 9, 22, 3, 0), fake)?.body).toBe('Next prayer · now Isha');
   });
   it('schedules Friday Al-Kahf only on Fridays and only when enabled', () => {
     const kahf = { key: 'kahf', title: 'Surah Al-Kahf', rule: 'weekly' as const, weekdays: [5], anchor: 'sunrise' as const, offset_min: 60, surah: 18 };

@@ -44,7 +44,7 @@ export default function LockScreenStep() {
   const { content } = useContent();
   const [stats, setStats] = useState(settings.analytics);
   const [busy, setBusy] = useState(false);
-  const [note, setNote] = useState('');
+  const [note] = useState('');
 
   const preview = useMemo(() => {
     const loc = settings.location;
@@ -73,12 +73,9 @@ export default function LockScreenStep() {
 
   const turnOn = async () => {
     setBusy(true);
+    // On by default: the only choice is Android's own notification prompt. Declining just leaves the
+    // line off (it can be turned on later in More → Notifications); onboarding still continues.
     const granted = await requestPermission();
-    if (!granted) {
-      setBusy(false);
-      setNote('Notifications are off for Khalad, so the lock-screen line can’t show. You can allow them in your phone’s Settings → Apps → Khalad, or continue with “Maybe later”.');
-      return;
-    }
     // Then offer the two home-screen widgets, one after the other. Android shows its own
     // confirm prompt for each; an app can never place a widget without the person agreeing.
     let placed = 0;
@@ -94,7 +91,7 @@ export default function LockScreenStep() {
     }
     setBusy(false);
     if (placed === 2) updateSettings({ widgetPromptDone: true });
-    finish(true, defaults());
+    finish(granted, granted ? defaults() : {});
   };
 
   return (
@@ -104,8 +101,7 @@ export default function LockScreenStep() {
       subtitle="A quiet line on your lock screen, plus small Next prayer and Hadith of the day widgets on your home screen. No sound, no adhan."
       footer={
         <>
-          <Button label="Turn on" variant="accent" onPress={turnOn} loading={busy} />
-          <Button label="Maybe later" variant="ghost" onPress={() => finish(false, {})} />
+          <Button label="Continue" variant="accent" onPress={turnOn} loading={busy} />
         </>
       }
     >
@@ -120,7 +116,7 @@ export default function LockScreenStep() {
         </View>
       </View>
       <T size={13} muted>
-        Works on every Android phone. Al-Kahf on Fridays and Al-Mulk at night are switched on too; change them any time in Deeds.
+        Works on every Android phone. Al-Kahf on Fridays and Al-Mulk at night are switched on too. Turn any of these off in More → Notifications or Deeds.
       </T>
       <Pressable
         accessibilityRole="checkbox"
