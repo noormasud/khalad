@@ -7,6 +7,7 @@ import { currentPrayerLine, noVoluntaryFast, planNotifications } from '../src/li
 import { bucket, screenOf } from '../src/lib/analytics';
 import { buildWidgetData } from '../src/widgets/data';
 import { updateStatus } from '../src/lib/updates';
+import { pickResume } from '../src/lib/resume';
 import { DEFAULT_PROGRESS, DEFAULT_SETTINGS, hydrate, normalizeSadaqah, previousMonth, recordVerses, rollSadaqah } from '../src/state/model';
 import { CHAPTERS, TOTAL_VERSES } from '../src/data/chapters';
 import { placeLabel } from '../src/data/cities';
@@ -267,6 +268,23 @@ describe('remote update switch', () => {
   it('never blocks when the version or rule is unknown', () => {
     expect(updateStatus(0, { min_version_code: 500 })).toBe('none');
     expect(updateStatus(100, null)).toBe('none');
+  });
+});
+
+describe('resume after the app was closed in the background', () => {
+  const now = 1_800_000_000_000;
+  it('returns to the same screen and spot within 20 minutes', () => {
+    expect(pickResume({ path: '/surah/18?verse=45', at: now - 5 * 60000 }, now)).toBe('/surah/18?verse=45');
+    expect(pickResume({ path: '/adhkar/evening?i=7', at: now - 19 * 60000 }, now)).toBe('/adhkar/evening?i=7');
+    expect(pickResume({ path: '/surah/67?verse=3&mark=1', at: now - 60000 }, now)).toBe('/surah/67?verse=3&mark=1');
+    expect(pickResume({ path: '/tasbih', at: now - 60000 }, now)).toBe('/tasbih');
+  });
+  it('goes to Today after 20 minutes, and never restores unsafe or one-off screens', () => {
+    expect(pickResume({ path: '/surah/18?verse=45', at: now - 21 * 60000 }, now)).toBeNull();
+    expect(pickResume({ path: '/onboarding/goal', at: now - 60000 }, now)).toBeNull();
+    expect(pickResume({ path: '/supporter', at: now - 60000 }, now)).toBeNull();
+    expect(pickResume({ path: 'https://evil.example', at: now - 60000 }, now)).toBeNull();
+    expect(pickResume(null, now)).toBeNull();
   });
 });
 

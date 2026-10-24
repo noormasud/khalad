@@ -17,13 +17,14 @@ import type { Verse } from '../../src/lib/quranText';
 import { usePinchTextSize } from '../../src/hooks/usePinchTextSize';
 import { track } from '../../src/lib/analytics';
 import { goToTab } from '../../src/lib/nav';
+import { setResumePath } from '../../src/lib/resume';
 
 type Loaded = { verses?: Verse[]; error?: string };
 
 export default function AdhkarReader() {
   const t = useTheme();
   const { width } = useWindowDimensions();
-  const { key } = useLocalSearchParams<{ key: string }>();
+  const { key, i: startParam } = useLocalSearchParams<{ key: string; i?: string }>();
   const { content } = useContent();
   const { settings, markAdhkarDone } = useApp();
   const set = content.adhkar_sets.find((s) => s.key === key);
@@ -40,6 +41,23 @@ export default function AdhkarReader() {
   const listRef = useRef<FlatList<AdhkarItem>>(null);
 
   useEffect(() => setCounts(items.map(() => 0)), [items]);
+
+  // Coming back to a saved spot: jump to that dhikr once the set has loaded.
+  const jumped = useRef(false);
+  useEffect(() => {
+    if (jumped.current || items.length === 0) return;
+    jumped.current = true;
+    const i = Math.max(0, Math.min(items.length - 1, Math.trunc(Number(startParam)) || 0));
+    if (i > 0) {
+      setIndex(i);
+      setTimeout(() => listRef.current?.scrollToIndex({ index: i, animated: false }), 60);
+    }
+  }, [items.length, startParam]);
+
+  // Remember which dhikr is open in case Android closes the app in the background.
+  useEffect(() => {
+    setResumePath(finished ? '' : `/adhkar/${key}?i=${index}`);
+  }, [key, index, finished]);
 
   // Quran items: text from the validated Quran.com copy (with translation, so "Meaning" opens instantly).
   useEffect(() => {

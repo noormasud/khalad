@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View } from 'react-native';
 import { Stack, router, usePathname } from 'expo-router';
 import { AppState as RNAppState, useColorScheme } from 'react-native';
@@ -32,6 +32,7 @@ import { buildWidgetData } from '../src/widgets/data';
 import { refreshWidgets } from '../src/widgets/refresh';
 import { refreshUpdateRule, useUpdateStatus } from '../src/lib/updates';
 import { ForceUpdateScreen } from '../src/components/ForceUpdate';
+import { saveResume, setResumePath, takeResume } from '../src/lib/resume';
 import { ErrorBoundary } from '../src/components/ErrorBoundary';
 
 SplashScreen.preventAutoHideAsync().catch(() => undefined);
@@ -77,6 +78,35 @@ function Shell({ fontsReady }: { fontsReady: boolean }) {
   useEffect(() => {
     if (update.status === 'force') track('force_update_shown');
   }, [update.status]);
+
+  // Where the person is, so a cold start soon after can put them back. Surah and adhkar readers
+  // report their own exact spot (ayah / dhikr), so they're skipped here.
+  useEffect(() => {
+    if (!pathname || pathname.startsWith('/surah/') || pathname.startsWith('/adhkar/')) return;
+    setResumePath(pathname);
+  }, [pathname]);
+  useEffect(() => {
+    const sub = RNAppState.addEventListener('change', (s) => {
+      if (s === 'background') saveResume().catch(() => undefined);
+    });
+    return () => sub.remove();
+  }, []);
+  // On a cold start within 20 minutes of leaving, go back to that screen.
+  const restored = useRef(false);
+  useEffect(() => {
+    if (!loaded || !settings.onboarded || restored.current) return;
+    restored.current = true;
+    takeResume()
+      .then((path) => {
+        if (!path) return;
+        track('resume_restored', { screen: path.split('?')[0].split('/')[1] ?? '' });
+        setTimeout(() => {
+          if (['/quran', '/deeds', '/more'].includes(path)) router.navigate(path as never);
+          else router.push(path as never);
+        }, 60);
+      })
+      .catch(() => undefined);
+  }, [loaded, settings.onboarded]);
 
   // Which screens get used (and which don't).
   useEffect(() => {

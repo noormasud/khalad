@@ -16,6 +16,7 @@ import { GestureDetector } from 'react-native-gesture-handler';
 import { usePinchTextSize } from '../../src/hooks/usePinchTextSize';
 import { bucket, track } from '../../src/lib/analytics';
 import { goToTab } from '../../src/lib/nav';
+import { setResumePath } from '../../src/lib/resume';
 
 export default function SurahReader() {
   const t = useTheme();
@@ -71,6 +72,7 @@ export default function SurahReader() {
   const onViewable = useRef(({ viewableItems }: { viewableItems: ViewToken<Verse>[] }) => {
     const verses = viewableItems.map((v) => v.item).filter(Boolean) as Verse[];
     if (verses.length === 0) return;
+    resumeRef.current(verses[0].number);
     if (sunnahRef.current) return;
     markRef.current(verses.map((v) => ({ key: v.key, page: v.page })));
     verses.forEach((v) => seenRef.current.add(v.key));
@@ -84,6 +86,13 @@ export default function SurahReader() {
       if (seen.size > 0) track('read_session', { surah, ayahs: bucket(seen.size), sunnah_mode: sunnahMode });
     };
   }, [surah, sunnahMode]);
+  // Remember the exact ayah in case Android closes the app in the background.
+  const resumeSuffix = `${showMark ? '&mark=1' : ''}${params.from === 'deed' ? '&from=deed' : ''}`;
+  const resumeRef = useRef((verse: number) => setResumePath(`/surah/${surah}?verse=${verse}${resumeSuffix}`));
+  resumeRef.current = (verse: number) => setResumePath(`/surah/${surah}?verse=${verse}${resumeSuffix}`);
+  useEffect(() => {
+    setResumePath(`/surah/${surah}?verse=${startVerse}${resumeSuffix}`);
+  }, [surah, startVerse, resumeSuffix]);
   const sunnahRef = useRef(sunnahMode);
   sunnahRef.current = sunnahMode;
   const markRef = useRef(markVersesRead);
