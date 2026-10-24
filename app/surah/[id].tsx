@@ -15,6 +15,7 @@ import { GOALS } from '../../src/state/model';
 import { GestureDetector } from 'react-native-gesture-handler';
 import { usePinchTextSize } from '../../src/hooks/usePinchTextSize';
 import { bucket, track } from '../../src/lib/analytics';
+import { goToTab } from '../../src/lib/nav';
 
 export default function SurahReader() {
   const t = useTheme();
@@ -204,7 +205,7 @@ export default function SurahReader() {
         )}
         {showMark && data ? (
           markedToday ? (
-            <Button label="Read today ✓  Back to Today" variant="soft" onPress={() => router.back()} />
+            <Button label="Read today ✓  Back to Today" variant="soft" onPress={() => goToTab('/')} />
           ) : (
             <Button
               label={surah === 67 ? 'Mark as read tonight' : 'Mark as read'}

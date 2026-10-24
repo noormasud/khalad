@@ -6,6 +6,7 @@ import { Icon } from '../src/components/Icon';
 import { useTheme } from '../src/theme';
 import { SUPPORT_EMAIL } from '../src/lib/config';
 import { track } from '../src/lib/analytics';
+import { goToTab } from '../src/lib/nav';
 
 // Payments open in a later update, once Google Play subscription products are set up.
 // Until then this screen is honest about it and collects interest by email only.
@@ -42,6 +43,8 @@ export default function Supporter() {
         onPress={() => {
           track('supporter_interest');
           Linking.openURL(`mailto:${SUPPORT_EMAIL}?subject=Founding%20Supporter`).catch(() => undefined);
+          // When they come back from their email app, they land on More rather than this screen.
+          goToTab('/more');
         }}
       />
       <Button label="Maybe later" variant="ghost" onPress={() => router.back()} />

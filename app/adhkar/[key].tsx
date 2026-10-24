@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
-import { router, useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureDetector } from 'react-native-gesture-handler';
 import * as Haptics from 'expo-haptics';
@@ -16,6 +16,7 @@ import { chapter } from '../../src/data/chapters';
 import type { Verse } from '../../src/lib/quranText';
 import { usePinchTextSize } from '../../src/hooks/usePinchTextSize';
 import { track } from '../../src/lib/analytics';
+import { goToTab } from '../../src/lib/nav';
 
 type Loaded = { verses?: Verse[]; error?: string };
 
@@ -101,7 +102,7 @@ export default function AdhkarReader() {
         </View>
         <T size={22} weight="bold">JazakAllahu khayran</T>
         <T size={14} muted style={{ textAlign: 'center' }}>{single ? 'May Allah accept it.' : `${set.title} done for today.`}</T>
-        <Button label="Back" onPress={() => router.back()} style={{ alignSelf: 'stretch', marginTop: 12 }} />
+        <Button label="Back to Today" onPress={() => goToTab('/')} style={{ alignSelf: 'stretch', marginTop: 12 }} />
       </SafeAreaView>
     );
   }
