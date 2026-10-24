@@ -97,7 +97,7 @@ export function planNotifications(input: PlanInput): PlannedNotification[] {
       if (!due || !anchor || !Number.isFinite(r.offset_min)) continue;
       if (before && noVoluntaryFast(h)) continue;
       const at = new Date(anchor.getTime() + r.offset_min * 60000);
-      const route = r.surah ? `/surah/${r.surah}` : r.set_key ? `/adhkar/${r.set_key}` : '/deeds';
+      const route = r.surah ? `/surah/${r.surah}?mark=1` : r.set_key ? `/adhkar/${r.set_key}` : '/deeds';
       const label = r.rule === 'hijri_monthly' ? `${h.day} ${HIJRI_MONTHS[h.month - 1]}` : WEEKDAYS[target.getDay()];
       out.push({
         id: `rem-${r.key}-${at.getTime()}`,

@@ -146,7 +146,7 @@ function GoalCard({ goal }: { goal: UmmahGoal }) {
             label="Read it"
             variant="inverseOnDark"
             style={{ flex: 1 }}
-            onPress={() => router.push(`/surah/${goal.surah}${goal.verse_from ? `?verse=${goal.verse_from}` : ''}`)}
+            onPress={() => router.push(`/surah/${goal.surah}?from=deed${goal.verse_from ? `&verse=${goal.verse_from}` : ''}`)}
           />
         ) : null}
         <Button label={thanks ? 'Counted · JazakAllahu khayran' : 'I did it'} variant="inverseOnDark" style={{ flex: 1 }} loading={busy} onPress={contribute} />

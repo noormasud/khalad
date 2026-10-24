@@ -18,11 +18,14 @@ import { bucket, track } from '../../src/lib/analytics';
 
 export default function SurahReader() {
   const t = useTheme();
-  const params = useLocalSearchParams<{ id: string; verse?: string; mark?: string }>();
+  const params = useLocalSearchParams<{ id: string; verse?: string; mark?: string; from?: string }>();
   const surah = Math.trunc(Number(params.id));
   const ch = chapter(surah);
   const startVerse = Math.max(1, Math.trunc(Number(params.verse)) || 1);
   const showMark = params.mark === '1';
+  // Sunnah surahs (Mulk, Kahf…), reminders and Ummah goals open in "Sunnah mode": they never move
+  // your Quran place or count toward the daily reading goal / khatam. Only the Quran tab does.
+  const sunnahMode = showMark || params.from === 'deed';
 
   const { settings, progress, today, markVersesRead, setLastRead, markSurahDone } = useApp();
   const trId = settings.showTranslation ? settings.translationIds[settings.translationLang] : null;
@@ -67,6 +70,7 @@ export default function SurahReader() {
   const onViewable = useRef(({ viewableItems }: { viewableItems: ViewToken<Verse>[] }) => {
     const verses = viewableItems.map((v) => v.item).filter(Boolean) as Verse[];
     if (verses.length === 0) return;
+    if (sunnahRef.current) return;
     markRef.current(verses.map((v) => ({ key: v.key, page: v.page })));
     verses.forEach((v) => seenRef.current.add(v.key));
     lastRef.current(surah, verses[0].number);
@@ -76,9 +80,11 @@ export default function SurahReader() {
   useEffect(() => {
     const seen = seenRef.current;
     return () => {
-      if (seen.size > 0) track('read_session', { surah, ayahs: bucket(seen.size), from_reminder: showMark });
+      if (seen.size > 0) track('read_session', { surah, ayahs: bucket(seen.size), sunnah_mode: sunnahMode });
     };
-  }, [surah, showMark]);
+  }, [surah, sunnahMode]);
+  const sunnahRef = useRef(sunnahMode);
+  sunnahRef.current = sunnahMode;
   const markRef = useRef(markVersesRead);
   markRef.current = markVersesRead;
   const lastRef = useRef(setLastRead);
@@ -185,11 +191,17 @@ export default function SurahReader() {
       )}
 
       <View style={{ paddingHorizontal: 20, paddingTop: 10, paddingBottom: 10, gap: 8, borderTopWidth: 1, borderTopColor: t.border, backgroundColor: t.surface }}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-          <T size={12} muted>{`Today: ${Math.min(doneToday, target)} of ${target} ${goal.pages > 0 ? (target === 1 ? 'page' : 'pages') : 'ayah'}`}</T>
-          <T size={12} muted>{`Khatam ${Math.floor((progress.khatam.length / 6236) * 100)}%`}</T>
-        </View>
-        <ProgressBar value={target ? doneToday / target : 0} color={t.accent} track={t.divider} height={5} />
+        {sunnahMode ? (
+          <T size={12} muted style={{ textAlign: 'center' }}>Sunnah reading · your Quran place and daily goal stay as they are</T>
+        ) : (
+          <>
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+              <T size={12} muted>{`Today: ${Math.min(doneToday, target)} of ${target} ${goal.pages > 0 ? (target === 1 ? 'page' : 'pages') : 'ayah'}`}</T>
+              <T size={12} muted>{`Khatam ${Math.floor((progress.khatam.length / 6236) * 100)}%`}</T>
+            </View>
+            <ProgressBar value={target ? doneToday / target : 0} color={t.accent} track={t.divider} height={5} />
+          </>
+        )}
         {showMark && data ? (
           markedToday ? (
             <Button label="Read today ✓  Back to Today" variant="soft" onPress={() => router.back()} />
@@ -198,7 +210,6 @@ export default function SurahReader() {
               label={surah === 67 ? 'Mark as read tonight' : 'Mark as read'}
               onPress={() => {
                 markSurahDone(surah);
-                markVersesRead(data.verses.map((v) => ({ key: v.key, page: v.page })));
               }}
             />
           )

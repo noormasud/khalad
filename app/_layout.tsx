@@ -119,8 +119,8 @@ function Shell({ fontsReady }: { fontsReady: boolean }) {
   useEffect(() => {
     const sub = Notifications.addNotificationResponseReceivedListener((res) => {
       const route = res.notification.request.content.data?.route;
-      if (typeof route === 'string' && /^\/(surah\/\d{1,3}|adhkar\/[a-z0-9_]{2,40}|deeds)?$/.test(route)) {
-        track('notification_tap', { target: route === '/' ? 'prayer_line' : route.slice(1).replace('/', '_') });
+      if (typeof route === 'string' && /^\/(surah\/\d{1,3}(\?mark=1)?|adhkar\/[a-z0-9_]{2,40}|deeds)?$/.test(route)) {
+        track('notification_tap', { target: route === '/' ? 'prayer_line' : route.slice(1).split('?')[0].replace('/', '_') });
         router.push(route as never);
       }
     });

@@ -149,7 +149,7 @@ describe('notification plan', () => {
     const on = planNotifications({ now, days: 7, timesForDate: fake, prayerLine: false, reminders: [kahf], enabledReminders: { kahf: true }, hijriAdjust: 0 });
     expect(on).toHaveLength(1);
     expect(on[0].at.getDay()).toBe(5);
-    expect(on[0].data.route).toBe('/surah/18');
+    expect(on[0].data.route).toBe('/surah/18?mark=1'); // Sunnah mode: never moves the Quran place
     const off = planNotifications({ now, days: 7, timesForDate: fake, prayerLine: false, reminders: [kahf], enabledReminders: {}, hijriAdjust: 0 });
     expect(off).toHaveLength(0);
   });
