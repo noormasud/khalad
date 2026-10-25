@@ -31,7 +31,11 @@ export default function SurahReader() {
 
   const { settings, progress, today, markVersesRead, setLastRead, markSurahDone } = useApp();
   const trId = settings.showTranslation ? settings.translationIds[settings.translationLang] : null;
-  const trIds = useMemo(() => (trId ? [trId] : []), [trId]);
+  // Fetch English and Urdu together (cached once), so switching language or showing/hiding the
+  // translation is instant and never needs another download.
+  const enId = settings.translationIds.en;
+  const urId = settings.translationIds.ur;
+  const trIds = useMemo(() => [enId, urId], [enId, urId]);
 
   const [data, setData] = useState<SurahData | null>(null);
   const [bismillah, setBismillah] = useState<string | null>(null);
@@ -147,6 +151,8 @@ export default function SurahReader() {
           ref={listRef}
           data={data.verses}
           keyExtractor={(v) => v.key}
+          // Rows must redraw when reading settings change, not only when the verses do.
+          extraData={`${trId}-${settings.translationLang}-${settings.arabicSize}-${settings.arabicFont}`}
           onViewableItemsChanged={onViewable}
           viewabilityConfig={viewConfig}
           onLayout={scrollToStart}

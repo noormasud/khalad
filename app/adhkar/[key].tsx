@@ -64,14 +64,14 @@ export default function AdhkarReader() {
     let alive = true;
     items.forEach((it, i) => {
       if (it.type !== 'quran' || !it.surah || !it.verse_from || !it.verse_to) return;
-      getVerses(it.surah, it.verse_from, it.verse_to, trId ? [trId] : [])
+      getVerses(it.surah, it.verse_from, it.verse_to, [settings.translationIds.en, settings.translationIds.ur])
         .then((verses) => alive && setQuran((q) => ({ ...q, [i]: { verses } })))
         .catch(() => alive && setQuran((q) => ({ ...q, [i]: { error: 'Couldn’t load these verses. Check your connection.' } })));
     });
     return () => {
       alive = false;
     };
-  }, [items, trId]);
+  }, [items, settings.translationIds.en, settings.translationIds.ur]);
 
   if (!set) {
     return (
@@ -162,6 +162,8 @@ export default function AdhkarReader() {
               scrollEnabled={!single}
               showsHorizontalScrollIndicator={false}
               keyExtractor={(_, i) => String(i)}
+              // Redraw cards when the meaning toggle, verses or reading settings change.
+              extraData={{ shown, quran, trId, meaning: settings.adhkarMeaning, translit: settings.adhkarTransliteration, size: settings.arabicSize, font: settings.arabicFont }}
               getItemLayout={(_, i) => ({ length: width, offset: width * i, index: i })}
               onMomentumScrollEnd={(e) => setIndex(Math.round(e.nativeEvent.contentOffset.x / width))}
               renderItem={({ item, index: i }) => (
