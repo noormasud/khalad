@@ -27,7 +27,7 @@ const monthLabel = (key: string, withYear = false) => {
 
 export default function SadaqahScreen() {
   const t = useTheme();
-  const { progress, updateProgress, today } = useApp();
+  const { progress, updateProgress, today, markDeed } = useApp();
   const month = today.slice(0, 7);
   const s: Sadaqah = rollSadaqah(normalizeSadaqah(progress.sadaqah), month);
 
@@ -55,6 +55,7 @@ export default function SadaqahScreen() {
     });
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
     track('sadaqah_add');
+    markDeed();
     setAmount('');
     setFlash(amt);
     if (flashTimer.current) clearTimeout(flashTimer.current);

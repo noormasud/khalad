@@ -3,6 +3,7 @@ import { readJson, writeJson } from '../lib/storage';
 import { dayKey } from '../lib/dates';
 import { track } from '../lib/analytics';
 import {
+  addDeedDay,
   addToDay,
   DEFAULT_PROGRESS,
   DEFAULT_SETTINGS,
@@ -34,6 +35,8 @@ type Ctx = {
   markAdhkarDone: (setKey: string) => void;
   markSurahDone: (surah: number) => void;
   toggleSalah: (prayer: string) => void;
+  /** A good deed done today (tasbih round, Ummah goal, sadaqah…): keeps the streak going. */
+  markDeed: () => void;
 };
 
 const AppContext = createContext<Ctx | null>(null);
@@ -132,17 +135,19 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
     [],
   );
   const markAdhkarDone = useCallback(
-    (setKey: string) => setProgress((p) => ({ ...p, adhkarDone: addToDay(p.adhkarDone, dayKey(), setKey) })),
+    (setKey: string) => setProgress((p) => addDeedDay({ ...p, adhkarDone: addToDay(p.adhkarDone, dayKey(), setKey) }, dayKey())),
     [],
   );
   const markSurahDone = useCallback(
-    (surah: number) => setProgress((p) => ({ ...p, surahDone: addToDay(p.surahDone, dayKey(), surah) })),
+    (surah: number) => setProgress((p) => addDeedDay({ ...p, surahDone: addToDay(p.surahDone, dayKey(), surah) }, dayKey())),
     [],
   );
   const toggleSalah = useCallback(
     (prayer: string) => setProgress((p) => ({ ...p, salah: toggleInDay(p.salah, dayKey(), prayer) })),
     [],
   );
+
+  const markDeed = useCallback(() => setProgress((p) => addDeedDay(p, dayKey())), []);
 
   const value = useMemo<Ctx>(
     () => ({
@@ -157,8 +162,9 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
       markAdhkarDone,
       markSurahDone,
       toggleSalah,
+      markDeed,
     }),
-    [ready, settings, progress, today, updateSettings, updateProgress, markVersesRead, setLastRead, markAdhkarDone, markSurahDone, toggleSalah],
+    [ready, settings, progress, today, updateSettings, updateProgress, markVersesRead, setLastRead, markAdhkarDone, markSurahDone, toggleSalah, markDeed],
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

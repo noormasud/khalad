@@ -20,7 +20,7 @@ const C = 2 * Math.PI * R;
 
 export default function Tasbih() {
   const t = useTheme();
-  const { progress, updateProgress, today } = useApp();
+  const { progress, updateProgress, today, markDeed } = useApp();
   const [k, setK] = useState(0);
   const [count, setCount] = useState(0);
   const cur = PHRASES[k];
@@ -36,6 +36,7 @@ export default function Tasbih() {
     const c = count + 1;
     updateProgress((p) => ({ ...p, tasbih: { day: today, count: (p.tasbih.day === today ? p.tasbih.count : 0) + 1 } }));
     if (c >= cur.target) {
+      markDeed(); // a completed round keeps the streak going
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
       setK((k + 1) % PHRASES.length);
       setCount(0);

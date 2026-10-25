@@ -14,7 +14,7 @@ import { PRAYER_LABELS, SALAH } from '../../src/lib/prayer';
 import { computeStreak } from '../../src/lib/streak';
 import { dailyPick } from '../../src/lib/content';
 import { chapter } from '../../src/data/chapters';
-import { GOALS } from '../../src/state/model';
+import { GOALS, streakDays } from '../../src/state/model';
 import { pinWidget } from '../../src/widgets/refresh';
 import { openStore, useUpdateStatus } from '../../src/lib/updates';
 import { readJson, writeJson } from '../../src/lib/storage';
@@ -31,8 +31,8 @@ export default function Today() {
   const ramadan = hijri.month === 9;
 
   const streak = useMemo(
-    () => computeStreak({ metDays: progress.metDays, pausedDays: progress.pausedDays, freezesPerMonth: 2, today }),
-    [progress.metDays, progress.pausedDays, today],
+    () => computeStreak({ metDays: streakDays(progress), pausedDays: progress.pausedDays, freezesPerMonth: 2, today }),
+    [progress.metDays, progress.deedDays, progress.pausedDays, today],
   );
 
   const versesToday = progress.versesByDay[today]?.length ?? 0;
@@ -113,7 +113,7 @@ export default function Today() {
         </View>
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel={`Reading streak ${streak.current} days`}
+          accessibilityLabel={`Streak ${streak.current} days`}
           onPress={() => router.push('/streak')}
           style={{ flexDirection: 'row', alignItems: 'center', gap: 6, minHeight: 40, paddingHorizontal: 12, borderRadius: 20, backgroundColor: t.surface, borderWidth: 1, borderColor: t.border }}
         >

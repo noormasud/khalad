@@ -26,7 +26,7 @@ export default function GoalStep() {
     <OnboardingFrame
       step={3}
       title="How much do you want to read each day?"
-      subtitle="No amount is too small. Meeting it keeps your reading streak going."
+      subtitle="No amount is too small. Meeting it, or any adhkar or good deed in Khalad, keeps your streak going."
       footer={
         <Button
           label="Continue"

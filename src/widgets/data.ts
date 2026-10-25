@@ -5,7 +5,7 @@ import { dayKey, formatTime } from '../lib/dates';
 import { PRAYER_LABELS, SALAH, timesFor, type PrayerName } from '../lib/prayer';
 import { computeStreak } from '../lib/streak';
 import { chapter } from '../data/chapters';
-import { GOALS, type Progress, type Settings } from '../state/model';
+import { GOALS, type Progress, type Settings, streakDays } from '../state/model';
 
 export type WidgetData = {
   daily: DailyItem | null;
@@ -28,7 +28,7 @@ export function buildWidgetData(settings: Settings, progress: Progress, content:
   const target = goal.pages > 0 ? goal.pages : goal.verses;
   const done = goal.pages > 0 ? progress.pagesByDay[today]?.length ?? 0 : progress.versesByDay[today]?.length ?? 0;
   const met = progress.metDays.includes(today);
-  const streak = computeStreak({ metDays: progress.metDays, pausedDays: progress.pausedDays, freezesPerMonth: 2, today }).current;
+  const streak = computeStreak({ metDays: streakDays(progress), pausedDays: progress.pausedDays, freezesPerMonth: 2, today }).current;
   const last = progress.lastRead;
   const ch = chapter(last?.surah ?? 1);
   const unit = goal.pages > 0 ? (target === 1 ? 'page' : 'pages') : 'ayah';

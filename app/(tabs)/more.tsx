@@ -9,6 +9,7 @@ import { useTheme } from '../../src/theme';
 import { useApp } from '../../src/state/AppState';
 import { METHOD_LABELS } from '../../src/lib/prayer';
 import { computeStreak } from '../../src/lib/streak';
+import { streakDays } from '../../src/state/model';
 import { setAnalytics, track } from '../../src/lib/analytics';
 import { pinWidget } from '../../src/widgets/refresh';
 import { PRIVACY_URL, SUPPORT_EMAIL } from '../../src/lib/config';
@@ -17,7 +18,7 @@ export default function More() {
   const t = useTheme();
   const { settings, updateSettings, progress, today } = useApp();
   const [reading, setReading] = useState(false);
-  const streak = computeStreak({ metDays: progress.metDays, pausedDays: progress.pausedDays, freezesPerMonth: 2, today });
+  const streak = computeStreak({ metDays: streakDays(progress), pausedDays: progress.pausedDays, freezesPerMonth: 2, today });
 
   const addWidget = async (name: string) => {
     track('widget_pin_request', { widget: name });
@@ -47,7 +48,7 @@ export default function More() {
       <Card style={{ paddingVertical: 0 }}>
         <Row icon="pin" label="Prayer times" value={`${settings.location?.label ?? 'Not set'} · ${settings.hanafi ? 'Hanafi' : 'Standard'}`} onPress={() => router.push('/settings/prayer')} />
         <Row icon="compass" label="Qibla" onPress={() => router.push('/qibla')} />
-        <Row icon="flame" label="Reading streak" value={`${streak.current} days`} onPress={() => router.push('/streak')} />
+        <Row icon="flame" label="Streak" value={`${streak.current} days`} onPress={() => router.push('/streak')} />
         <Row icon="book" label="Reading" value="Font, size, translation" onPress={() => setReading(true)} last />
       </Card>
 

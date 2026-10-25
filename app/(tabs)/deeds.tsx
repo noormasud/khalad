@@ -101,6 +101,7 @@ function Shortcut({ icon, title, sub, onPress }: { icon: IconName; title: string
 
 function GoalCard({ goal }: { goal: UmmahGoal }) {
   const t = useTheme();
+  const { markDeed } = useApp();
   const [total, setTotal] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
   const [thanks, setThanks] = useState(false);
@@ -122,6 +123,7 @@ function GoalCard({ goal }: { goal: UmmahGoal }) {
       if (error) throw error;
       setTotal(Number(data));
       setThanks(true);
+      markDeed();
       setTimeout(() => setThanks(false), 1800);
       track('ummah_goal_contribute', { goal: goal.id });
     } catch {

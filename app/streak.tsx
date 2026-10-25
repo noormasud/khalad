@@ -5,14 +5,15 @@ import { Icon } from '../src/components/Icon';
 import { useTheme } from '../src/theme';
 import { useApp } from '../src/state/AppState';
 import { computeStreak } from '../src/lib/streak';
+import { streakDays } from '../src/state/model';
 import { dayKey, monthName } from '../src/lib/dates';
 
 export default function Streak() {
   const t = useTheme();
   const { progress, today, updateProgress } = useApp();
   const res = useMemo(
-    () => computeStreak({ metDays: progress.metDays, pausedDays: progress.pausedDays, freezesPerMonth: 2, today }),
-    [progress.metDays, progress.pausedDays, today],
+    () => computeStreak({ metDays: streakDays(progress), pausedDays: progress.pausedDays, freezesPerMonth: 2, today }),
+    [progress.metDays, progress.deedDays, progress.pausedDays, today],
   );
 
   const now = new Date();
@@ -20,6 +21,7 @@ export default function Streak() {
   const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
   const lead = (first.getDay() + 6) % 7; // Monday first
   const met = new Set(progress.metDays);
+  const deeds = new Set(progress.deedDays);
   const frozen = new Set(res.frozenDays);
   const paused = new Set(progress.pausedDays);
 
@@ -37,7 +39,7 @@ export default function Streak() {
 
   return (
     <Screen>
-      <Header title="Your reading" />
+      <Header title="Your streak" subtitle="Any day with Quran reading or a good deed in Khalad counts" />
       <Card inverse style={{ flexDirection: 'row', alignItems: 'center', gap: 16, padding: 18 }}>
         <Icon name="flame" size={40} color={t.dark ? t.streak : '#FB923C'} />
         <View>
@@ -60,11 +62,12 @@ export default function Streak() {
           {Array.from({ length: daysInMonth }).map((_, i) => {
             const k = dayKey(new Date(now.getFullYear(), now.getMonth(), i + 1));
             const isMet = met.has(k);
+            const isDeed = !isMet && deeds.has(k);
             const isFrozen = frozen.has(k);
             const isPaused = paused.has(k);
             const isToday = k === today;
-            const bg = isMet ? t.accent : isFrozen ? '#BFDBFE' : isPaused ? t.divider : 'transparent';
-            const fg = isMet ? t.onAccent : isFrozen ? '#1E3A8A' : k > today ? t.textFaint : t.text;
+            const bg = isMet ? t.accent : isDeed ? t.accentSoft : isFrozen ? '#BFDBFE' : isPaused ? t.divider : 'transparent';
+            const fg = isMet ? t.onAccent : isDeed ? t.accentText : isFrozen ? '#1E3A8A' : k > today ? t.textFaint : t.text;
             return (
               <View key={k} style={{ width: `${100 / 7}%` as const, height: 40, padding: 2 }}>
                 <View style={{ flex: 1, borderRadius: 8, backgroundColor: bg, alignItems: 'center', justifyContent: 'center', borderWidth: isToday ? 2 : 0, borderColor: t.text }}>
@@ -75,7 +78,8 @@ export default function Streak() {
           })}
         </View>
         <View style={{ flexDirection: 'row', gap: 14, flexWrap: 'wrap' }}>
-          <Legend color={t.accent} label="Read" />
+          <Legend color={t.accent} label="Read Quran" />
+          <Legend color={t.accentSoft} label="Good deed" />
           <Legend color="#BFDBFE" label="Freeze" />
           <Legend color={t.divider} label="Paused" />
         </View>

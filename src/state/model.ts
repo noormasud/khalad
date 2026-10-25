@@ -74,7 +74,10 @@ export type Progress = {
   versesByDay: Record<string, string[]>;
   /** Mushaf pages touched per day. */
   pagesByDay: Record<string, number[]>;
+  /** Days the Quran reading goal was met. */
   metDays: string[];
+  /** Days with any other good deed: adhkar, duas, Mulk, Kahf, a tasbih round, Ummah goal, sadaqah. */
+  deedDays: string[];
   pausedDays: string[];
   paused: boolean;
   lastRead: { surah: number; verse: number } | null;
@@ -97,6 +100,7 @@ export const DEFAULT_PROGRESS: Progress = {
   versesByDay: {},
   pagesByDay: {},
   metDays: [],
+  deedDays: [],
   pausedDays: [],
   paused: false,
   lastRead: null,
@@ -242,6 +246,17 @@ export function prune(p: Progress): Progress {
     surahDone: trim(p.surahDone),
     salah: trim(p.salah),
     metDays: p.metDays.slice(-KEEP_DAYS * 2),
+    deedDays: p.deedDays.slice(-KEEP_DAYS * 2),
     pausedDays: p.pausedDays.slice(-KEEP_DAYS),
   };
+}
+
+/** Record a good deed today (idempotent). */
+export function addDeedDay(p: Progress, day: string): Progress {
+  return p.deedDays.includes(day) ? p : { ...p, deedDays: [...p.deedDays, day] };
+}
+
+/** Days that keep the streak going: the Quran reading goal OR any other good deed. */
+export function streakDays(p: Pick<Progress, 'metDays' | 'deedDays'>): string[] {
+  return [...new Set([...(p.metDays ?? []), ...(p.deedDays ?? [])])].sort();
 }

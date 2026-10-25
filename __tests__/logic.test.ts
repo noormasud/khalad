@@ -8,7 +8,7 @@ import { bucket, screenOf } from '../src/lib/analytics';
 import { buildWidgetData } from '../src/widgets/data';
 import { updateStatus } from '../src/lib/updates';
 import { pickResume } from '../src/lib/resume';
-import { DEFAULT_PROGRESS, DEFAULT_SETTINGS, hydrate, normalizeSadaqah, previousMonth, recordVerses, rollSadaqah } from '../src/state/model';
+import { addDeedDay, DEFAULT_PROGRESS, DEFAULT_SETTINGS, hydrate, normalizeSadaqah, previousMonth, recordVerses, rollSadaqah, streakDays } from '../src/state/model';
 import { CHAPTERS, TOTAL_VERSES } from '../src/data/chapters';
 import { placeLabel } from '../src/data/cities';
 import { methodForTimeZone, hanafiDefaultForTimeZone } from '../src/lib/prayer';
@@ -285,6 +285,22 @@ describe('resume after the app was closed in the background', () => {
     expect(pickResume({ path: '/supporter', at: now - 60000 }, now)).toBeNull();
     expect(pickResume({ path: 'https://evil.example', at: now - 60000 }, now)).toBeNull();
     expect(pickResume(null, now)).toBeNull();
+  });
+});
+
+describe('streak counts any good deed', () => {
+  it('joins Quran-goal days and deed days', () => {
+    let p = { ...DEFAULT_PROGRESS, metDays: ['2026-10-20'] };
+    p = addDeedDay(p, '2026-10-21');
+    p = addDeedDay(p, '2026-10-21'); // once per day
+    p = addDeedDay(p, '2026-10-22');
+    expect(p.deedDays).toEqual(['2026-10-21', '2026-10-22']);
+    expect(streakDays(p)).toEqual(['2026-10-20', '2026-10-21', '2026-10-22']);
+    const r = computeStreak({ metDays: streakDays(p), pausedDays: [], freezesPerMonth: 2, today: '2026-10-22' });
+    expect(r.current).toBe(3);
+  });
+  it('old saved progress without deed days still works', () => {
+    expect(hydrate(DEFAULT_PROGRESS, { metDays: ['2026-10-22'] }).deedDays).toEqual([]);
   });
 });
 
