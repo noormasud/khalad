@@ -79,3 +79,6 @@ from first_seen f group by 1 order by 1 desc;
 -- 14) Supporter interest and Today taps
 select name, props->>'slot' as slot, props->>'target' as target, count(*)
 from events where name in ('supporter_interest', 'today_tap') group by 1, 2, 3 order by 4 desc;
+
+-- 15) Long-term trends (kept forever, after raw events are pruned at 90 days; needs migration 0005)
+select day, name, screen, people, events from events_daily order by day desc, people desc limit 200;

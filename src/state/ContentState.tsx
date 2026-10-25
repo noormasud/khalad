@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { AppState as RNAppState } from 'react-native';
-import { BUNDLED, type Content, fetchContent, loadCachedContent } from '../lib/content';
+import { BUNDLED, type Content, loadCachedContent, refreshContent } from '../lib/content';
 
 type Ctx = { content: Content; refresh: () => Promise<void>; refreshing: boolean };
 
@@ -11,16 +11,20 @@ export function ContentProvider({ children }: { children: React.ReactNode }) {
   const [content, setContent] = useState<Content>(BUNDLED);
   const [refreshing, setRefreshing] = useState(false);
   const fetchedAt = useRef<number>(0);
+  const current = useRef<Content>(BUNDLED);
+  current.current = content;
   const inFlight = useRef(false);
 
   const refresh = useCallback(async () => {
     if (inFlight.current) return;
     inFlight.current = true;
     setRefreshing(true);
-    const fresh = await fetchContent();
+    const fresh = await refreshContent(current.current);
     if (fresh) {
       fetchedAt.current = fresh.fetchedAt ?? Date.now();
-      setContent(fresh);
+      // Same server version as what's on screen: only the timestamp changed, so skip the re-render.
+      const unchanged = fresh.contentVersion != null && fresh.contentVersion === current.current.contentVersion && current.current !== BUNDLED;
+      if (!unchanged) setContent(fresh);
     }
     setRefreshing(false);
     inFlight.current = false;

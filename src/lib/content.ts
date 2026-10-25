@@ -67,6 +67,8 @@ export type Content = {
   daily_items: DailyItem[];
   ummah_goals: UmmahGoal[];
   fetchedAt?: number;
+  /** Server's content_version when this copy was downloaded (bumped automatically on any content edit). */
+  contentVersion?: number;
 };
 
 const KEY = 'khalad.content.v1';
@@ -89,6 +91,36 @@ async function fetchReminders() {
   const withFlag = await supabase.from('sunnah_reminders').select(`${REMINDER_COLS},day_before`).order('sort');
   if (!withFlag.error) return withFlag;
   return supabase.from('sunnah_reminders').select(REMINDER_COLS).order('sort');
+}
+
+/** The server's content version: a tiny request. Null when unknown (offline / not set up). */
+export async function fetchContentVersion(): Promise<number | null> {
+  try {
+    const { data, error } = await supabase.from('app_config').select('value').eq('key', 'content_version').maybeSingle();
+    if (error || data == null) return null;
+    const v = Number(data.value);
+    return Number.isFinite(v) && v > 0 ? v : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Download content only when it changed on the server. If the version matches the copy on the
+ * phone, just mark it as checked (a few bytes instead of the whole set).
+ */
+export async function refreshContent(current: Content): Promise<Content | null> {
+  const version = await fetchContentVersion();
+  if (version != null && current.contentVersion === version && current.fetchedAt) {
+    const touched = { ...current, fetchedAt: Date.now() };
+    await writeJson(KEY, touched);
+    return touched;
+  }
+  const fresh = await fetchContent();
+  if (!fresh) return null;
+  const withVersion = version != null ? { ...fresh, contentVersion: version } : fresh;
+  if (version != null) await writeJson(KEY, withVersion);
+  return withVersion;
 }
 
 /** Fetch fresh content. Returns null (keeping the cached copy) on any failure. */
