@@ -15,7 +15,10 @@
       "android": {
         "buildType": "app-bundle"
       },
-      "node": "20.19.4"
+      "node": "20.19.4",
+      "buildArtifactPaths": [
+        "android/app/build/outputs/mapping/release/mapping.txt"
+      ]
     }
   },
   "submit": {
