@@ -11,6 +11,7 @@
   --ink: #0c0c0c;        /* the black band */
   --on-ink: #ffffff;
   --on-ink-muted: #b9b9b5;
+  --on-ink-line: #2a2a28;
   --dot: #1b7f47;        /* the brand's single green dot */
   --mark-filter: invert(1); /* the خلد mark is white artwork: black on light pages */
   --display: "Manrope", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -23,13 +24,13 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --bg: #0b0b0b; --fg: #f3f3f1; --muted: #a3a3a0; --line: #262625; --soft: #151514;
-    --ink: #f3f3f1; --on-ink: #0b0b0b; --on-ink-muted: #4c4c4a; --dot: #4ade80; --mark-filter: none;
+    --ink: #f3f3f1; --on-ink: #0b0b0b; --on-ink-muted: #4c4c4a; --on-ink-line: #d6d6d2; --dot: #4ade80; --mark-filter: none;
     color-scheme: dark;
   }
 }
 :root[data-theme="dark"] {
   --bg: #0b0b0b; --fg: #f3f3f1; --muted: #a3a3a0; --line: #262625; --soft: #151514;
-  --ink: #f3f3f1; --on-ink: #0b0b0b; --on-ink-muted: #4c4c4a; --dot: #4ade80; --mark-filter: none;
+  --ink: #f3f3f1; --on-ink: #0b0b0b; --on-ink-muted: #4c4c4a; --on-ink-line: #d6d6d2; --dot: #4ade80; --mark-filter: none;
   color-scheme: dark;
 }
 
@@ -127,20 +128,22 @@ p { margin: 0; }
 .item h3 { font-size: 20px; font-weight: 700; letter-spacing: -0.02em; }
 .item p { color: var(--muted); font-size: 16px; }
 
-/* Promise */
-.promise { border-top: 1px solid var(--line); }
+/* Promise: second black band */
+.promise { background: var(--ink); color: var(--on-ink); }
+.promise .intro { color: var(--on-ink-muted); }
 .promise .wrap { padding-block: 88px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 48px; align-items: start; }
 .nos { list-style: none; margin: 0; padding: 0; display: grid; }
-.nos li { display: flex; justify-content: space-between; gap: 16px; padding-block: 18px; border-bottom: 1px solid var(--line); font-size: 18px; font-weight: 600; }
-.nos li span { color: var(--muted); font-weight: 400; font-size: 15px; text-align: right; }
+.nos li { display: flex; justify-content: space-between; gap: 16px; padding-block: 18px; border-bottom: 1px solid var(--on-ink-line); font-size: 18px; font-weight: 600; }
+.nos li:first-child { border-top: 1px solid var(--on-ink-line); }
+.nos li span { color: var(--on-ink-muted); font-weight: 400; font-size: 15px; text-align: right; }
 
 /* CTA */
-.cta .wrap { padding-block: 40px 100px; display: grid; justify-items: start; gap: 24px; }
+.cta .wrap { padding-block: 96px 100px; display: grid; justify-items: start; gap: 24px; }
 .cta h2 { font-size: clamp(36px, 5.6vw, 68px); font-weight: 800; letter-spacing: -0.045em; line-height: 1; }
 .cta .ar { font-family: var(--arabic); font-size: clamp(40px, 6vw, 72px); line-height: 1.2; color: var(--muted); }
 
 /* Footer */
-.foot { border-top: 1px solid var(--line); }
+.foot { background: var(--soft); }
 .foot .wrap { padding-block: 32px 40px; display: flex; flex-wrap: wrap; gap: 14px 28px; justify-content: space-between; font-size: 14px; color: var(--muted); }
 .foot nav { display: flex; gap: 20px; flex-wrap: wrap; }
 .foot a { color: var(--muted); }
