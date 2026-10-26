@@ -12,7 +12,7 @@ import { computeStreak } from '../../src/lib/streak';
 import { streakDays } from '../../src/state/model';
 import { setAnalytics, track } from '../../src/lib/analytics';
 import { pinWidget } from '../../src/widgets/refresh';
-import { PRIVACY_URL, SUPPORT_EMAIL } from '../../src/lib/config';
+import { PRIVACY_URL, SUPPORT_EMAIL, TERMS_URL } from '../../src/lib/config';
 
 export default function More() {
   const t = useTheme();
@@ -92,6 +92,7 @@ export default function More() {
         />
         <Row label="Share your thoughts" onPress={() => Linking.openURL(`mailto:${SUPPORT_EMAIL}?subject=Khalad%20feedback`).catch(() => undefined)} />
         <Row label="Privacy policy" onPress={() => Linking.openURL(PRIVACY_URL).catch(() => undefined)} />
+        <Row label="Terms of use" onPress={() => Linking.openURL(TERMS_URL).catch(() => undefined)} />
         <Row label="About & sources" onPress={() => router.push('/about')} last />
       </Card>
 

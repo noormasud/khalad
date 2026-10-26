@@ -6,5 +6,8 @@ export const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_RGt0La7_l8xvo2XNUm3p3Q_V
 
 export const QURAN_API = 'https://api.quran.com/api/v4';
 
-export const SUPPORT_EMAIL = 'team@khalad.app';
-export const PRIVACY_URL = 'https://www.khalad.app/privacy';
+export const SUPPORT_EMAIL = 'khalad.global@gmail.com';
+// Our website (Vercel). khalad.app is no longer ours: never link to it.
+export const WEBSITE_URL = 'https://khalad-global.vercel.app';
+export const PRIVACY_URL = `${WEBSITE_URL}/privacy`;
+export const TERMS_URL = `${WEBSITE_URL}/terms`;

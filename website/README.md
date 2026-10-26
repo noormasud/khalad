@@ -1,4 +1,4 @@
-# khalad.app website
+# Khalad website (khalad-global.vercel.app)
 
 Plain HTML/CSS, no framework. Edit page text in `build.py` and styles in `src/site.css`, then:
 

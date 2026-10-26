@@ -13,7 +13,8 @@ import shutil
 HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "src")
 PLAY = "https://play.google.com/store/apps/details?id=com.islamicapp.khalad"
-EMAIL = "team@khalad.app"
+EMAIL = "khalad.global@gmail.com"
+SITE = "https://khalad-global.vercel.app"  # change here if Vercel gives the project another address
 UPDATED = "26 October 2026"
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@700&display=swap">')
@@ -42,7 +43,7 @@ def header(L, current):
 
 def footer(L):
     return f"""<footer class="foot"><div class="wrap">
-  <span>© 2026 Khalad LTD · <span class="email">{EMAIL}</span></span>
+  <span>© 2026 Khalad LTD · <a class="email" href="mailto:{EMAIL}">{EMAIL}</a></span>
   <nav aria-label="Footer"><a href="{L['home']}">Home</a><a href="{L['privacy']}">Privacy policy</a><a href="{L['terms']}">Terms of use</a><a href="{PLAY}" rel="noopener">Google Play</a></nav>
 </div></footer>"""
 
@@ -266,15 +267,15 @@ def build_public():
     for key, (title, desc, fn) in PAGES.items():
         folder = out if key == "home" else os.path.join(out, key)
         os.makedirs(folder, exist_ok=True)
-        canonical = "https://www.khalad.app/" + ("" if key == "home" else key)
+        canonical = SITE + "/" + ("" if key == "home" else key)
         with open(os.path.join(folder, "index.html"), "w", encoding="utf-8") as f:
             f.write(doc(title, desc, fn(L), '<link rel="stylesheet" href="/site.css">', "/icon.png", canonical))
     with open(os.path.join(out, "vercel.json"), "w") as f:
         f.write('{ "cleanUrls": true, "trailingSlash": false }\n')
     with open(os.path.join(out, "robots.txt"), "w") as f:
-        f.write("User-agent: *\nAllow: /\nSitemap: https://www.khalad.app/sitemap.xml\n")
+        f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
     with open(os.path.join(out, "sitemap.xml"), "w") as f:
-        urls = "".join(f"<url><loc>https://www.khalad.app/{p}</loc></url>" for p in ("", "privacy", "terms"))
+        urls = "".join(f"<url><loc>{SITE}/{p}</loc></url>" for p in ("", "privacy", "terms"))
         f.write(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
     return out
 
