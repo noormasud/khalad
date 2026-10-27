@@ -99,8 +99,16 @@ def header(L, current):
 </div></header>"""
 
 
+GUIDE_LINKS = [("qibla", "Qibla direction"), ("prayer-times", "Prayer times"), ("islamic-date", "Islamic date today"),
+               ("white-days-fasting", "White days fasting"), ("monday-thursday-fasting", "Monday & Thursday fasting"),
+               ("surah-al-mulk", "Surah Al-Mulk"), ("surah-al-kahf", "Surah Al-Kahf on Friday"),
+               ("morning-evening-adhkar", "Morning & evening adhkar"), ("daily-duas", "Daily duas"), ("tasbih", "Online tasbih")]
+
+
 def footer(L):
+    guides = "".join(f'<a href="{L["to"](p)}">{t}</a>' for p, t in GUIDE_LINKS)
     return f"""<footer class="foot"><div class="wrap">
+  <nav class="guides" aria-label="Guides">{guides}</nav>
   <span>© 2026 Khalad LTD · <a class="email" href="mailto:{EMAIL}">{EMAIL}</a></span>
   <nav aria-label="Footer"><a href="{L['home']}">Home</a><a href="{L['app']}">Islamic apps</a><a href="{L['privacy']}">Privacy policy</a><a href="{L['terms']}">Terms of use</a><a href="{PLAY}" rel="noopener">Google Play</a></nav>
 </div></footer>"""
@@ -360,11 +368,11 @@ PAGES = {
 }
 
 
-def jsonld(key, canonical):
+def jsonld(key, canonical):  # noqa: E302
     """Structured data so Google understands this is an app (and what it does)."""
     import json
     org = {"@type": "Organization", "name": "Khalad LTD", "url": SITE, "email": EMAIL, "logo": SITE + "/icon.png"}
-    faq_list = FAQ if key == "home" else APP_FAQ if key == "islamic-apps" else None
+    faq_list = FAQ if key == "home" else APP_FAQ if key == "islamic-apps" else PAGE_FAQ.get(key)
     if faq_list is None:
         return ""
     app = {
@@ -384,6 +392,9 @@ def jsonld(key, canonical):
     if key in ("home", "islamic-apps"):
         out = '<script type="application/ld+json">' + json.dumps(app, ensure_ascii=False) + '</script>\n' + out
     return out
+
+
+PAGE_FAQ = {}
 
 
 def doc(title, desc, body, css_tag, icon_href, canonical, key=""):
@@ -420,13 +431,30 @@ def doc(title, desc, body, css_tag, icon_href, canonical, key=""):
 """
 
 
+def links_public():
+    return {"home": "/", "privacy": "/privacy", "terms": "/terms", "app": "/islamic-apps", "mark": "/khalad-mark.png",
+            "to": lambda p: "/" + p.strip("/"),
+            "script": lambda name: f'<script src="/js/{name}" defer></script>'}
+
+
+def links_preview(depth, mark):
+    pre = "../" * depth
+    return {"home": pre if depth else "#", "privacy": pre + "privacy/index.html", "terms": pre + "terms/index.html",
+            "app": pre + "islamic-apps/index.html", "mark": mark,
+            "to": lambda p: pre + p.strip("/") + "/index.html",
+            "script": lambda name: "<script>" + read("js/" + name) + "</script>"}
+
+
 def build_public():
     out = os.path.join(HERE, "public")
     shutil.rmtree(out, ignore_errors=True)
     os.makedirs(out)
     for f in ("site.css", "khalad-mark.png", "icon.png", "og.png"):
         shutil.copy(os.path.join(SRC, f), os.path.join(out, f))
-    L = {"home": "/", "privacy": "/privacy", "terms": "/terms", "app": "/islamic-apps", "mark": "/khalad-mark.png"}
+    os.makedirs(os.path.join(out, "js"), exist_ok=True)
+    for f in os.listdir(os.path.join(SRC, "js")):
+        shutil.copy(os.path.join(SRC, "js", f), os.path.join(out, "js", f))
+    L = links_public()
     for key, (title, desc, fn) in PAGES.items():
         folder = out if key == "home" else os.path.join(out, key)
         os.makedirs(folder, exist_ok=True)
@@ -438,7 +466,7 @@ def build_public():
     with open(os.path.join(out, "robots.txt"), "w") as f:
         f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
     with open(os.path.join(out, "sitemap.xml"), "w") as f:
-        urls = "".join(f"<url><loc>{SITE}/{p}</loc></url>" for p in ("", "islamic-apps", "privacy", "terms"))
+        urls = "".join(f"<url><loc>{SITE}/{'' if p == 'home' else p}</loc></url>" for p in PAGES)
         f.write(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
     return out
 
@@ -447,23 +475,26 @@ def build_preview():
     """Self-contained copy for previewing (inline CSS and logo). Home page is a body fragment."""
     out = os.path.join(HERE, "preview")
     shutil.rmtree(out, ignore_errors=True)
-    os.makedirs(os.path.join(out, "privacy"))
-    os.makedirs(os.path.join(out, "terms"))
+    os.makedirs(out)
     css = "<style>" + read("site.css") + "</style>"
     with open(os.path.join(SRC, "khalad-mark.png"), "rb") as f:
         mark = "data:image/png;base64," + base64.b64encode(f.read()).decode()
     title, desc, fn = PAGES["home"]
-    L = {"home": "#", "privacy": "privacy/index.html", "terms": "terms/index.html", "app": "islamic-apps/index.html", "mark": mark}
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
-        f.write(f'<title>{title}</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n{FONTS}\n{css}\n{fn(L)}\n')
-    L2 = {"home": "../", "privacy": "../privacy/index.html", "terms": "../terms/index.html", "app": "../islamic-apps/index.html", "mark": mark}
-    for key in ("privacy", "terms", "islamic-apps"):
+        f.write(f'<title>{title}</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n{FONTS}\n{css}\n{fn(links_preview(0, mark))}\n')
+    for key, (title, desc, fn) in PAGES.items():
+        if key == "home":
+            continue
         os.makedirs(os.path.join(out, key), exist_ok=True)
-        title, desc, fn = PAGES[key]
         with open(os.path.join(out, key, "index.html"), "w", encoding="utf-8") as f:
-            f.write(doc(title, desc, fn(L2), css, "data:,", ""))
+            f.write(doc(title, desc, fn(links_preview(key.count("/") + 1, mark)), css, "data:,", ""))
     return out
 
+
+import guides  # noqa: E402  (pages for Qibla, prayer times, fasting, surahs, adhkar, duas, tasbih)
+_g_pages, _g_faq = guides.pages(header=header, footer=footer, PLAY=PLAY, PLAY_ICON=PLAY_ICON, SRC=SRC)
+PAGES.update(_g_pages)
+PAGE_FAQ.update(_g_faq)
 
 if __name__ == "__main__":
     print("site:", build_public())

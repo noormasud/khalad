@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Online Tasbih Counter (Digital Tasbeeh) · Khalad</title>
+<meta name="description" content="A free online tasbih counter: tap to count SubhanAllah 33, Alhamdulillah 33 and Allahu Akbar 34. Works on your phone.">
+<link rel="canonical" href="https://khalad-global.vercel.app/tasbih">
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0c0c0c">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Khalad">
+<meta property="og:title" content="Online Tasbih Counter (Digital Tasbeeh) · Khalad">
+<meta property="og:description" content="A free online tasbih counter: tap to count SubhanAllah 33, Alhamdulillah 33 and Allahu Akbar 34. Works on your phone.">
+<meta property="og:url" content="https://khalad-global.vercel.app/tasbih">
+<meta property="og:image" content="https://khalad-global.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="/icon.png">
+
+<link rel="icon" href="/icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@700&display=swap">
+<link rel="stylesheet" href="/site.css">
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <a class="brand" href="/" aria-label="Khalad home"><img src="/khalad-mark.png" alt="" width="44" height="26"><span class="wordmark">Khalad<i>.</i></span></a>
+  <nav class="nav" aria-label="Main">
+    <a class="hide-sm" href="/privacy">Privacy</a>
+    <a class="hide-sm" href="/terms">Terms</a>
+    <a class="pill" href="https://play.google.com/store/apps/details?id=com.islamicapp.khalad" rel="noopener">Get the app</a>
+  </nav>
+</div></header>
+<main class="guide">
+<section class="g-hero"><div class="wrap">
+  <p class="eyebrow">Online tasbih</p>
+  <h1>Online tasbih counter</h1>
+  <p class="lede">A simple digital tasbih: tap to count SubhanAllah, Alhamdulillah and Allahu Akbar.</p>
+</div></section>
+<section class="g-body"><div class="wrap">
+  <div class="tb" id="tb">
+    <div class="seg" role="group" aria-label="Dhikr">
+      <button type="button" data-i="0" aria-pressed="true">SubhanAllah</button>
+      <button type="button" data-i="1" aria-pressed="false">Alhamdulillah</button>
+      <button type="button" data-i="2" aria-pressed="false">Allahu Akbar</button>
+    </div>
+    <button type="button" class="tb-tap" id="tb-tap" aria-label="Count one">
+      <span class="tb-count" id="tb-count">0</span><span class="tb-of" id="tb-of">of 33</span>
+    </button>
+    <p class="muted tb-hint">Tap the circle, or press the space bar. <button type="button" class="linkish" id="tb-reset">Reset</button></p>
+    <p class="muted" id="tb-total" aria-live="polite"></p>
+  </div>
+  <div class="prose">
+    <h2>The tasbih after salah</h2>
+    <p>After each fard prayer, many Muslims say SubhanAllah 33 times, Alhamdulillah 33 times and Allahu Akbar 34 times. This counter moves to the next phrase automatically.</p>
+  </div>
+</div></section>
+<script src="/js/tasbih.js" defer></script>
+<section class="app-cta"><div class="wrap">
+  <div><h2>A tasbih that remembers</h2><p>Khalad's tasbih works offline with gentle vibration, and every completed round keeps your streak going.</p></div>
+  <a class="btn invert" href="https://play.google.com/store/apps/details?id=com.islamicapp.khalad" rel="noopener"><svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4.2 2.6a1.2 1.2 0 0 0-.6 1.06v16.68c0 .44.23.83.6 1.05l9.3-9.39z"/><path d="m16.6 15.1-2.4-2.4-9.2 9.3c.4.12.85.07 1.24-.15z" opacity=".75"/><path d="m20 10.6-2.95-1.7-2.85 2.89 2.85 2.88L20 13.4a1.6 1.6 0 0 0 0-2.8z" opacity=".9"/><path d="M6.24 1.95A1.6 1.6 0 0 0 5 1.8l9.2 9.29 2.4-2.42z" opacity=".6"/></svg>Get Khalad on Google Play</a>
+</div></section>
+</main>
+<footer class="foot"><div class="wrap">
+  <nav class="guides" aria-label="Guides"><a href="/qibla">Qibla direction</a><a href="/prayer-times">Prayer times</a><a href="/islamic-date">Islamic date today</a><a href="/white-days-fasting">White days fasting</a><a href="/monday-thursday-fasting">Monday & Thursday fasting</a><a href="/surah-al-mulk">Surah Al-Mulk</a><a href="/surah-al-kahf">Surah Al-Kahf on Friday</a><a href="/morning-evening-adhkar">Morning & evening adhkar</a><a href="/daily-duas">Daily duas</a><a href="/tasbih">Online tasbih</a></nav>
+  <span>© 2026 Khalad LTD · <a class="email" href="mailto:khalad.global@gmail.com">khalad.global@gmail.com</a></span>
+  <nav aria-label="Footer"><a href="/">Home</a><a href="/islamic-apps">Islamic apps</a><a href="/privacy">Privacy policy</a><a href="/terms">Terms of use</a><a href="https://play.google.com/store/apps/details?id=com.islamicapp.khalad" rel="noopener">Google Play</a></nav>
+</div></footer>
+<div class="appbar" role="complementary" aria-label="Khalad app"><span><b>Khalad</b> · free, no ads</span><a href="https://play.google.com/store/apps/details?id=com.islamicapp.khalad" rel="noopener">Get the app</a></div>
+</body>
+</html>
