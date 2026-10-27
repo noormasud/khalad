@@ -1,1 +1,1 @@
-{ "cleanUrls": true, "trailingSlash": false }
+{ "cleanUrls": true, "trailingSlash": false, "redirects": [{ "source": "/islamic-app", "destination": "/islamic-apps", "permanent": true }] }

@@ -92,7 +92,6 @@ def header(L, current):
     return f"""<header class="top"><div class="wrap">
   <a class="brand" href="{L['home']}" aria-label="Khalad home"><img src="{L['mark']}" alt="" width="44" height="26"><span class="wordmark">Khalad<i>.</i></span></a>
   <nav class="nav" aria-label="Main">
-    <a class="hide-sm" href="{L['app']}"{cur('islamic-app')}>Why Khalad</a>
     <a class="hide-sm" href="{L['privacy']}"{cur('privacy')}>Privacy</a>
     <a class="hide-sm" href="{L['terms']}"{cur('terms')}>Terms</a>
     <a class="pill" href="{PLAY}" rel="noopener">Get the app</a>
@@ -103,7 +102,7 @@ def header(L, current):
 def footer(L):
     return f"""<footer class="foot"><div class="wrap">
   <span>© 2026 Khalad LTD · <a class="email" href="mailto:{EMAIL}">{EMAIL}</a></span>
-  <nav aria-label="Footer"><a href="{L['home']}">Home</a><a href="{L['app']}">Islamic app</a><a href="{L['privacy']}">Privacy policy</a><a href="{L['terms']}">Terms of use</a><a href="{PLAY}" rel="noopener">Google Play</a></nav>
+  <nav aria-label="Footer"><a href="{L['home']}">Home</a><a href="{L['app']}">Islamic apps</a><a href="{L['privacy']}">Privacy policy</a><a href="{L['terms']}">Terms of use</a><a href="{PLAY}" rel="noopener">Google Play</a></nav>
 </div></footer>"""
 
 
@@ -141,7 +140,7 @@ def home(L):
 
 <section class="section"><div class="wrap">
   <h2>Everything for your day. Nothing that shouts.</h2>
-  <p class="intro">Built for Muslims in Pakistan and around the world, in English and Urdu. <a href="{L['app']}">See how Khalad compares with typical Islamic apps</a>.</p>
+  <p class="intro">Built for Muslims in Pakistan and around the world, in English and Urdu.</p>
   <div class="grid">
     <div class="item"><h3>Prayer times, quietly</h3><p>Accurate times for where you are, Hanafi or standard Asr. The next prayer sits on your lock screen. No adhan going off at the wrong moment.</p></div>
     <div class="item"><h3>A daily Quran goal</h3><p>From one ayah to one juz a day, with Urdu and English translation. Pick up exactly where you left off.</p></div>
@@ -298,7 +297,7 @@ def islamic_app(L):
     rows = "".join(f'<tr><th scope="row">{a}</th><td>{k}</td><td>{o}</td></tr>' for a, k, o in COMPARE)
     checks = "".join(f'<div class="item"><h3>{t}</h3><p>{d}</p></div>' for t, d in CHECKLIST)
     faqs = "".join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q, a in APP_FAQ)
-    return f"""{header(L, 'islamic-app')}
+    return f"""{header(L, 'islamic-apps')}
 <main>
 <section class="hero hero-sm"><div class="wrap one">
   <p class="eyebrow">Islamic app for Android · Free · No ads</p>
@@ -357,7 +356,7 @@ PAGES = {
              "Free Islamic app: prayer times on your lock screen, daily Quran with Urdu & English translation, adhkar, Qibla and a verified hadith. No ads.", home),
     "privacy": ("Privacy policy · Khalad", "How Khalad handles your data: no ads, no sign-up, location stays on your phone.", privacy),
     "terms": ("Terms of use · Khalad", "The terms for using the Khalad app and website.", terms),
-    "islamic-app": ("Islamic App with Quran, Prayer Times & Adhkar, No Ads · Khalad",
+    "islamic-apps": ("Islamic App with Quran, Prayer Times & Adhkar, No Ads · Khalad",
                     "A free Islamic app for Android: prayer times, Quran with Urdu translation, adhkar, Qibla and verified hadith. See how Khalad compares.", islamic_app),
 }
 
@@ -366,7 +365,7 @@ def jsonld(key, canonical):
     """Structured data so Google understands this is an app (and what it does)."""
     import json
     org = {"@type": "Organization", "name": "Khalad LTD", "url": SITE, "email": EMAIL, "logo": SITE + "/icon.png"}
-    faq_list = FAQ if key == "home" else APP_FAQ if key == "islamic-app" else None
+    faq_list = FAQ if key == "home" else APP_FAQ if key == "islamic-apps" else None
     if faq_list is None:
         return ""
     app = {
@@ -383,7 +382,7 @@ def jsonld(key, canonical):
     faq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
         {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq_list]}
     out = '<script type="application/ld+json">' + json.dumps(faq, ensure_ascii=False) + '</script>'
-    if key in ("home", "islamic-app"):
+    if key in ("home", "islamic-apps"):
         out = '<script type="application/ld+json">' + json.dumps(app, ensure_ascii=False) + '</script>\n' + out
     return out
 
@@ -428,7 +427,7 @@ def build_public():
     os.makedirs(out)
     for f in ("site.css", "khalad-mark.png", "icon.png", "og.png"):
         shutil.copy(os.path.join(SRC, f), os.path.join(out, f))
-    L = {"home": "/", "privacy": "/privacy", "terms": "/terms", "app": "/islamic-app", "mark": "/khalad-mark.png"}
+    L = {"home": "/", "privacy": "/privacy", "terms": "/terms", "app": "/islamic-apps", "mark": "/khalad-mark.png"}
     for key, (title, desc, fn) in PAGES.items():
         folder = out if key == "home" else os.path.join(out, key)
         os.makedirs(folder, exist_ok=True)
@@ -436,11 +435,11 @@ def build_public():
         with open(os.path.join(folder, "index.html"), "w", encoding="utf-8") as f:
             f.write(doc(title, desc, fn(L), '<link rel="stylesheet" href="/site.css">', "/icon.png", canonical, key))
     with open(os.path.join(out, "vercel.json"), "w") as f:
-        f.write('{ "cleanUrls": true, "trailingSlash": false }\n')
+        f.write('{ "cleanUrls": true, "trailingSlash": false, "redirects": [{ "source": "/islamic-app", "destination": "/islamic-apps", "permanent": true }] }\n')
     with open(os.path.join(out, "robots.txt"), "w") as f:
         f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
     with open(os.path.join(out, "sitemap.xml"), "w") as f:
-        urls = "".join(f"<url><loc>{SITE}/{p}</loc></url>" for p in ("", "islamic-app", "privacy", "terms"))
+        urls = "".join(f"<url><loc>{SITE}/{p}</loc></url>" for p in ("", "islamic-apps", "privacy", "terms"))
         f.write(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
     return out
 
@@ -455,11 +454,11 @@ def build_preview():
     with open(os.path.join(SRC, "khalad-mark.png"), "rb") as f:
         mark = "data:image/png;base64," + base64.b64encode(f.read()).decode()
     title, desc, fn = PAGES["home"]
-    L = {"home": "#", "privacy": "privacy/index.html", "terms": "terms/index.html", "app": "islamic-app/index.html", "mark": mark}
+    L = {"home": "#", "privacy": "privacy/index.html", "terms": "terms/index.html", "app": "islamic-apps/index.html", "mark": mark}
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
         f.write(f'<title>{title}</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n{FONTS}\n{css}\n{fn(L)}\n')
-    L2 = {"home": "../", "privacy": "../privacy/index.html", "terms": "../terms/index.html", "app": "../islamic-app/index.html", "mark": mark}
-    for key in ("privacy", "terms", "islamic-app"):
+    L2 = {"home": "../", "privacy": "../privacy/index.html", "terms": "../terms/index.html", "app": "../islamic-apps/index.html", "mark": mark}
+    for key in ("privacy", "terms", "islamic-apps"):
         os.makedirs(os.path.join(out, key), exist_ok=True)
         title, desc, fn = PAGES[key]
         with open(os.path.join(out, key, "index.html"), "w", encoding="utf-8") as f:
