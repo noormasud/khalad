@@ -81,6 +81,38 @@ def direction_words(b):
     return short, f"{abs(diff):.0f}° {side[0] if diff > 0 else side[1]} of due {cards[near]}"
 
 
+HIJRI_MONTHS = ["Muharram", "Safar", "Rabi' al-Awwal", "Rabi' al-Thani", "Jumada al-Ula", "Jumada al-Akhirah",
+                "Rajab", "Sha'ban", "Ramadan", "Shawwal", "Dhul Qa'dah", "Dhul Hijjah"]
+
+
+def to_hijri(d):
+    """Tabular Hijri date, the same algorithm as the app (src/lib/hijri.ts)."""
+    y, m, dd = d.year, d.month, d.day
+    a = (14 - m) // 12
+    yy, mm = y + 4800 - a, m + 12 * a - 3
+    jdn = dd + (153 * mm + 2) // 5 + 365 * yy + yy // 4 - yy // 100 + yy // 400 - 32045
+    l0 = jdn - 1948440 + 10632
+    n = (l0 - 1) // 10631
+    l1 = l0 - 10631 * n + 354
+    j = ((10985 - l1) // 5316) * ((50 * l1) // 17719) + (l1 // 5670) * ((43 * l1) // 15238)
+    l2 = l1 - ((30 - j) // 15) * ((17719 * j) // 50) - (j // 16) * ((15238 * j) // 43) + 29
+    month = (24 * l2) // 709
+    return 30 * n + j - 30, month, l2 - (709 * month) // 24
+
+
+def hijri_month_starts(today, count=24):
+    """[(hijri_year, month, gregorian_date)] for the first day of each month, from this month on."""
+    import datetime
+    out, d = [], today - datetime.timedelta(days=31)
+    end = today + datetime.timedelta(days=count * 30 + 31)
+    while d <= end and len(out) < count + 1:
+        y, m, day = to_hijri(d)
+        if day == 1:
+            out.append((y, m, d))
+        d += datetime.timedelta(days=1)
+    return [x for x in out if x[2] + datetime.timedelta(days=29) >= today][:count]
+
+
 def esc(t):
     return html.escape(t, quote=False)
 
@@ -356,6 +388,9 @@ def pages(header, footer, PLAY, PLAY_ICON, SRC, qr):
 
     # ---------------- Islamic date ----------------
     def hijri_page(L):
+        import datetime
+        starts = hijri_month_starts(datetime.date.today())
+        rows = "".join(f'<tr><th scope="row">{HIJRI_MONTHS[m - 1]}</th><td>{y} AH</td><td>{d.strftime("%A")} {d.day} {d.strftime("%B %Y")}</td></tr>' for y, m, d in starts)
         body = f"""<section class="g-body"><div class="wrap prose">
   <div class="today-card" id="hijri" aria-live="polite"><span class="muted" id="hijri-greg">Today</span><b id="hijri-date">…</b><span class="ar" lang="ar" dir="rtl" id="hijri-ar"></span></div>
   <noscript><p>Turn on JavaScript to see today's Islamic date.</p></noscript>
@@ -365,6 +400,9 @@ def pages(header, footer, PLAY, PLAY_ICON, SRC, qr):
     <li>Muharram</li><li>Safar</li><li>Rabi' al-Awwal</li><li>Rabi' al-Thani</li><li>Jumada al-Ula</li><li>Jumada al-Akhirah</li>
     <li>Rajab</li><li>Sha'ban</li><li>Ramadan</li><li>Shawwal</li><li>Dhul Qa'dah</li><li>Dhul Hijjah</li>
   </ol>
+  <h2>Islamic calendar {starts[0][0]}–{starts[-1][0]} AH</h2>
+  <p>When each Islamic month is expected to begin, by the calculated calendar. Moon sighting can move a date by a day.</p>
+  <div class="table-scroll"><table class="hcal"><thead><tr><th scope="col">Month</th><th scope="col">Year</th><th scope="col">Expected start</th></tr></thead><tbody>{rows}</tbody></table></div>
   <p class="muted">See also: <a href="{L["to"]("white-days-fasting")}">this month's white days</a>.</p>
 </div></section>
 {L["script"]("hijri.js")}"""

@@ -331,3 +331,7 @@ p { margin: 0; }
 .cta-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
 .app-cta .qr { border-color: transparent; }
 @media (max-width: 860px), (hover: none) and (pointer: coarse) { .qr { display: none; } }
+
+.hcal { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+.hcal th, .hcal td { text-align: left; padding: 10px 12px 10px 0; border-bottom: 1px solid var(--line); }
+.hcal thead th { color: var(--muted); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; font-weight: 600; }
