@@ -343,7 +343,7 @@ def pages(header, footer, PLAY, PLAY_ICON, SRC):
   </div>
   <div class="prose">
     {f'<p class="muted">Prayer times in other cities in {esc(c["country"])}: {others}</p>' if others else ''}
-    <p class="muted"><a href="{L["to"]("prayer-times")}">All cities</a> · <a href="{L["to"]("qibla/" + c["slug"])}">Qibla direction in {esc(c["name"])}</a></p>
+    <p class="muted"><a href="{L["to"]("prayer-times")}">All cities</a>{'' if c["slug"] == "makkah" else f' · <a href="{L["to"]("qibla/" + c["slug"])}">Qibla direction in {esc(c["name"])}</a>'}</p>
   </div>
 </div></section>
 {L["script"]("adhan.min.js")}
