@@ -7,6 +7,7 @@ Writes the deployable site to website/public/ (index, /privacy, /terms) and a se
 preview copy to website/preview/. Edit the page content below and the styles in src/site.css.
 """
 import base64
+import re
 import os
 import shutil
 
@@ -82,6 +83,14 @@ CHECKLIST = [
 ]
 
 
+def qr(label="Scan to get the app"):
+    """Play Store QR code for computers (hidden on phones, where the button is easier).
+    Made with segno 1.6.1 and checked to decode to the Play listing."""
+    svg = read("play-qr.svg").replace('width="41" height="41"', 'viewBox="0 0 41 41" shape-rendering="crispEdges" aria-hidden="true"')
+    svg = re.sub(r"<title>.*?</title>", "", svg)
+    return f'<div class="qr" role="img" aria-label="QR code: {label} on Google Play">{svg}<span>{label}</span></div>'
+
+
 def read(name):
     with open(os.path.join(SRC, name), encoding="utf-8") as f:
         return f.read()
@@ -126,6 +135,7 @@ def home(L):
     <div class="actions">
       <a class="btn solid" href="{PLAY}" rel="noopener">{PLAY_ICON}Get it on Google Play</a>
       <a class="btn line" href="{L['privacy']}">Our privacy promise</a>
+      {qr("Scan to download")}
     </div>
     <p class="fine">No sign-up. No adhan noise. Your location stays on your phone.</p>
   </div>
@@ -181,7 +191,7 @@ def home(L):
 <section class="cta"><div class="wrap">
   <span class="ar" lang="ar" dir="rtl">خلد</span>
   <h2>Begin with one ayah today.</h2>
-  <a class="btn solid" href="{PLAY}" rel="noopener">{PLAY_ICON}Get Khalad on Google Play</a>
+  <div class="actions"><a class="btn solid" href="{PLAY}" rel="noopener">{PLAY_ICON}Get Khalad on Google Play</a>{qr("Or scan with your phone")}</div>
 </div></section>
 </main>
 {footer(L)}"""
@@ -314,6 +324,7 @@ def islamic_app(L):
   <div class="actions">
     <a class="btn solid" href="{PLAY}" rel="noopener">{PLAY_ICON}Get Khalad on Google Play</a>
     <a class="btn line" href="{L['home']}">See the app</a>
+    {qr("Scan to download")}
   </div>
 </div></section>
 
@@ -353,7 +364,7 @@ def islamic_app(L):
 <section class="cta"><div class="wrap">
   <span class="ar" lang="ar" dir="rtl">خلد</span>
   <h2>Try Khalad today. It's free.</h2>
-  <a class="btn solid" href="{PLAY}" rel="noopener">{PLAY_ICON}Get it on Google Play</a>
+  <div class="actions"><a class="btn solid" href="{PLAY}" rel="noopener">{PLAY_ICON}Get it on Google Play</a>{qr("Or scan with your phone")}</div>
 </div></section>
 </main>
 {footer(L)}"""
@@ -493,7 +504,7 @@ def build_preview():
 
 
 import guides  # noqa: E402  (pages for Qibla, prayer times, fasting, surahs, adhkar, duas, tasbih)
-_g_pages, _g_faq = guides.pages(header=header, footer=footer, PLAY=PLAY, PLAY_ICON=PLAY_ICON, SRC=SRC)
+_g_pages, _g_faq = guides.pages(header=header, footer=footer, PLAY=PLAY, PLAY_ICON=PLAY_ICON, SRC=SRC, qr=qr)
 PAGES.update(_g_pages)
 PAGE_FAQ.update(_g_faq)
 

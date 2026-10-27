@@ -170,14 +170,14 @@ DUAS = [
 
 
 # ---------------------------------------------------------------------------------------------
-def pages(header, footer, PLAY, PLAY_ICON, SRC):
+def pages(header, footer, PLAY, PLAY_ICON, SRC, qr):
     cities = load_cities(SRC)
     P, FAQS = {}, {}
 
     def cta(L, title, text, label="Get Khalad on Google Play"):
         return f"""<section class="app-cta"><div class="wrap">
   <div><h2>{title}</h2><p>{text}</p></div>
-  <a class="btn invert" href="{PLAY}" rel="noopener">{PLAY_ICON}{label}</a>
+  <div class="cta-actions"><a class="btn invert" href="{PLAY}" rel="noopener">{PLAY_ICON}{label}</a>{qr("Scan with your phone")}</div>
 </div></section>"""
 
     def appbar():
