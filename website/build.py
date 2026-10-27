@@ -151,16 +151,15 @@ def home(L):
   </div>
 </div></section>
 
-<section class="promise"><div class="wrap">
-  <div><h2>Quiet by design.</h2>
-  <p class="intro">A worship app should never sell your attention. Khalad keeps what's yours on your phone.</p></div>
-  <ul class="nos">
-    <li>No ads<span>Not now, not later</span></li>
-    <li>No sign-up<span>Open it and begin</span></li>
-    <li>Location stays on your phone<span>Used only to work out prayer times</span></li>
-    <li>No adhan noise<span>Silent prayer times, soft reminders</span></li>
-    <li>Verified sources<span>Quran text from Quran.com, hadith checked</span></li>
-  </ul>
+<section class="promise compare-band" id="why" aria-labelledby="why-h"><div class="wrap block">
+  <div><h2 id="why-h">Why Khalad</h2>
+  <p class="intro">A worship app should never sell your attention. Here is how Khalad compares with typical Islamic apps.</p></div>
+  <div class="table-scroll">
+    <table class="cmp">
+      <thead><tr><th scope="col"></th><th scope="col">Khalad</th><th scope="col">Common in other apps</th></tr></thead>
+      <tbody>{"".join(f'<tr><th scope="row">{a}</th><td data-label="Khalad">{k}</td><td data-label="Common in other apps">{o}</td></tr>' for a, k, o in COMPARE)}</tbody>
+    </table>
+  </div>
 </div></section>
 
 <section class="faq" aria-labelledby="faq-h"><div class="wrap">
@@ -294,7 +293,7 @@ def terms(L):
 
 
 def islamic_app(L):
-    rows = "".join(f'<tr><th scope="row">{a}</th><td>{k}</td><td>{o}</td></tr>' for a, k, o in COMPARE)
+    rows = "".join(f'<tr><th scope="row">{a}</th><td data-label="Khalad">{k}</td><td data-label="Common in other apps">{o}</td></tr>' for a, k, o in COMPARE)
     checks = "".join(f'<div class="item"><h3>{t}</h3><p>{d}</p></div>' for t, d in CHECKLIST)
     faqs = "".join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q, a in APP_FAQ)
     return f"""{header(L, 'islamic-apps')}
