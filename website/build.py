@@ -45,6 +45,42 @@ FAQ = [
 ]
 
 
+APP_FAQ = [
+    ("What is the best Islamic app for daily use?",
+     "The best Islamic app is the one you open every day. Look for accurate prayer times for your location and madhab, a trusted Quran text with translation in your language, hadith that show their references, and no ads pulling you away. Khalad was built around exactly those things."),
+    ("Is there an Islamic app without ads?",
+     "Yes. Khalad has no ads at all, and no sign-up. Everything you use today is free."),
+    ("Which Islamic app has the Quran with Urdu translation?",
+     "Khalad shows the Quran from Quran.com with Urdu or English translation, and remembers the exact ayah where you stopped."),
+    ("Is there an Islamic app with home-screen widgets?",
+     "Yes. Khalad has three Android widgets: the next prayer, a verified hadith of the day, and today's Quran reading. It also shows the next prayer on your lock screen."),
+    ("Does Khalad work offline?",
+     "Prayer times and the Qibla are calculated on your phone, so they work offline. Any surah you have opened once stays available offline too."),
+    ("Is Khalad free?",
+     "Yes. Khalad is free on Android. If we add an optional supporter plan later, the basics will stay free."),
+]
+
+COMPARE = [
+    ("Ads", "None, ever", "Banner and full-screen ads are common"),
+    ("Sign-up", "Not needed. Open it and begin", "Often asks you to create an account"),
+    ("Adhan", "Silent prayer times, soft reminders you choose", "Adhan audio is often on by default"),
+    ("Your location", "Used on your phone only, never sent to us", "Varies. Check each app's privacy policy"),
+    ("Hadith", "Every hadith shows its reference, checked against published collections", "References are often missing"),
+    ("Next prayer", "On your lock screen and in a widget", "Usually means opening the app"),
+    ("Streaks", "Any good deed counts, with two freezes a month", "Often reset after one missed day"),
+    ("Quran translation", "Urdu and English, from Quran.com", "Varies"),
+]
+
+CHECKLIST = [
+    ("Prayer times that match your masjid", "Calculated for your exact location, with the usual method for your region and a choice of Hanafi or standard Asr. You should be able to adjust each prayer by a few minutes."),
+    ("A Quran text you can trust", "The Arabic should come from a known source, such as Quran.com, with translations named so you know whose words you are reading."),
+    ("Hadith with references", "Every hadith should show where it comes from, like Sahih al-Bukhari 6465, so you can check it yourself."),
+    ("Nothing that distracts from worship", "No ads in the middle of adhkar, no popups, no noise you didn't ask for."),
+    ("Respect for your privacy", "You shouldn't need an account to read the Quran, and your location shouldn't leave your phone."),
+    ("Help with consistency", "Small daily goals, gentle reminders for Surah Al-Mulk and Al-Kahf, and a streak that forgives a missed day."),
+]
+
+
 def read(name):
     with open(os.path.join(SRC, name), encoding="utf-8") as f:
         return f.read()
@@ -56,6 +92,7 @@ def header(L, current):
     return f"""<header class="top"><div class="wrap">
   <a class="brand" href="{L['home']}" aria-label="Khalad home"><img src="{L['mark']}" alt="" width="44" height="26"><span class="wordmark">Khalad<i>.</i></span></a>
   <nav class="nav" aria-label="Main">
+    <a class="hide-sm" href="{L['app']}"{cur('islamic-app')}>Why Khalad</a>
     <a class="hide-sm" href="{L['privacy']}"{cur('privacy')}>Privacy</a>
     <a class="hide-sm" href="{L['terms']}"{cur('terms')}>Terms</a>
     <a class="pill" href="{PLAY}" rel="noopener">Get the app</a>
@@ -66,7 +103,7 @@ def header(L, current):
 def footer(L):
     return f"""<footer class="foot"><div class="wrap">
   <span>© 2026 Khalad LTD · <a class="email" href="mailto:{EMAIL}">{EMAIL}</a></span>
-  <nav aria-label="Footer"><a href="{L['home']}">Home</a><a href="{L['privacy']}">Privacy policy</a><a href="{L['terms']}">Terms of use</a><a href="{PLAY}" rel="noopener">Google Play</a></nav>
+  <nav aria-label="Footer"><a href="{L['home']}">Home</a><a href="{L['app']}">Islamic app</a><a href="{L['privacy']}">Privacy policy</a><a href="{L['terms']}">Terms of use</a><a href="{PLAY}" rel="noopener">Google Play</a></nav>
 </div></footer>"""
 
 
@@ -104,7 +141,7 @@ def home(L):
 
 <section class="section"><div class="wrap">
   <h2>Everything for your day. Nothing that shouts.</h2>
-  <p class="intro">Built for Muslims in Pakistan and around the world, in English and Urdu.</p>
+  <p class="intro">Built for Muslims in Pakistan and around the world, in English and Urdu. <a href="{L['app']}">See how Khalad compares with typical Islamic apps</a>.</p>
   <div class="grid">
     <div class="item"><h3>Prayer times, quietly</h3><p>Accurate times for where you are, Hanafi or standard Asr. The next prayer sits on your lock screen. No adhan going off at the wrong moment.</p></div>
     <div class="item"><h3>A daily Quran goal</h3><p>From one ayah to one juz a day, with Urdu and English translation. Pick up exactly where you left off.</p></div>
@@ -257,11 +294,71 @@ def terms(L):
 {footer(L)}"""
 
 
+def islamic_app(L):
+    rows = "".join(f'<tr><th scope="row">{a}</th><td>{k}</td><td>{o}</td></tr>' for a, k, o in COMPARE)
+    checks = "".join(f'<div class="item"><h3>{t}</h3><p>{d}</p></div>' for t, d in CHECKLIST)
+    faqs = "".join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q, a in APP_FAQ)
+    return f"""{header(L, 'islamic-app')}
+<main>
+<section class="hero hero-sm"><div class="wrap one">
+  <p class="eyebrow">Islamic app for Android · Free · No ads</p>
+  <h1 class="h1-sm">An Islamic app that stays quiet.</h1>
+  <p class="lede">Khalad brings together what you need every day as a Muslim: accurate prayer times, the Quran with Urdu and English translation, morning and evening adhkar, the Qibla and a verified hadith. No ads, no sign-up and no adhan noise.</p>
+  <div class="actions">
+    <a class="btn solid" href="{PLAY}" rel="noopener">{PLAY_ICON}Get Khalad on Google Play</a>
+    <a class="btn line" href="{L['home']}">See the app</a>
+  </div>
+</div></section>
+
+<section class="section tight"><div class="wrap">
+  <h2>What to look for in an Islamic app</h2>
+  <p class="intro">Whichever app you choose, these are the things that matter most for daily worship.</p>
+  <div class="grid">{checks}</div>
+</div></section>
+
+<section class="promise compare-band" aria-labelledby="cmp-h"><div class="wrap block">
+  <h2 id="cmp-h">How Khalad compares with typical Islamic apps</h2>
+  <div class="table-scroll">
+    <table class="cmp">
+      <thead><tr><th scope="col"></th><th scope="col">Khalad</th><th scope="col">Common in other apps</th></tr></thead>
+      <tbody>{rows}</tbody>
+    </table>
+  </div>
+</div></section>
+
+<section class="section tight"><div class="wrap">
+  <h2>Everything in one calm place</h2>
+  <div class="grid">
+    <div class="item"><h3>Prayer times &amp; Qibla</h3><p>For your exact location, on your lock screen and in a widget. Adjust any prayer by a few minutes.</p></div>
+    <div class="item"><h3>Quran reading</h3><p>A daily goal from one ayah to one juz, Urdu and English translation, pinch to resize, and your place remembered.</p></div>
+    <div class="item"><h3>Adhkar &amp; duas</h3><p>Morning, evening, night and after salah, plus everyday duas. Tap to count, meaning one tap away.</p></div>
+    <div class="item"><h3>Sunnah reminders</h3><p>Surah Al-Mulk at night, Al-Kahf on Friday, and Monday, Thursday and white days fasts the evening before.</p></div>
+    <div class="item"><h3>Hadith of the day</h3><p>One verified hadith or sunnah each day, always with its reference.</p></div>
+    <div class="item"><h3>Streaks &amp; sadaqah</h3><p>A streak that counts any good deed, and a private sadaqah tracker only you can see.</p></div>
+  </div>
+</div></section>
+
+<section class="faq" aria-labelledby="faq-h2"><div class="wrap">
+  <h2 id="faq-h2">Common questions</h2>
+  <div class="qs">{faqs}</div>
+</div></section>
+
+<section class="cta"><div class="wrap">
+  <span class="ar" lang="ar" dir="rtl">خلد</span>
+  <h2>Try Khalad today. It's free.</h2>
+  <a class="btn solid" href="{PLAY}" rel="noopener">{PLAY_ICON}Get it on Google Play</a>
+</div></section>
+</main>
+{footer(L)}"""
+
+
 PAGES = {
     "home": ("Khalad: Quran, Prayer Times, Adhkar & Qibla App (No Ads)",
              "Free Islamic app: prayer times on your lock screen, daily Quran with Urdu & English translation, adhkar, Qibla and a verified hadith. No ads.", home),
     "privacy": ("Privacy policy · Khalad", "How Khalad handles your data: no ads, no sign-up, location stays on your phone.", privacy),
     "terms": ("Terms of use · Khalad", "The terms for using the Khalad app and website.", terms),
+    "islamic-app": ("Islamic App with Quran, Prayer Times & Adhkar, No Ads · Khalad",
+                    "A free Islamic app for Android: prayer times, Quran with Urdu translation, adhkar, Qibla and verified hadith. See how Khalad compares.", islamic_app),
 }
 
 
@@ -269,7 +366,8 @@ def jsonld(key, canonical):
     """Structured data so Google understands this is an app (and what it does)."""
     import json
     org = {"@type": "Organization", "name": "Khalad LTD", "url": SITE, "email": EMAIL, "logo": SITE + "/icon.png"}
-    if key != "home":
+    faq_list = FAQ if key == "home" else APP_FAQ if key == "islamic-app" else None
+    if faq_list is None:
         return ""
     app = {
         "@context": "https://schema.org", "@type": "MobileApplication", "name": "Khalad",
@@ -283,9 +381,11 @@ def jsonld(key, canonical):
                         "Verified hadith of the day", "Surah Mulk and Surah Kahf reminders", "Home-screen widgets"],
     }
     faq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ]}
-    return ('<script type="application/ld+json">' + json.dumps(app, ensure_ascii=False) + '</script>\n'
-            '<script type="application/ld+json">' + json.dumps(faq, ensure_ascii=False) + '</script>')
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq_list]}
+    out = '<script type="application/ld+json">' + json.dumps(faq, ensure_ascii=False) + '</script>'
+    if key in ("home", "islamic-app"):
+        out = '<script type="application/ld+json">' + json.dumps(app, ensure_ascii=False) + '</script>\n' + out
+    return out
 
 
 def doc(title, desc, body, css_tag, icon_href, canonical, key=""):
@@ -328,7 +428,7 @@ def build_public():
     os.makedirs(out)
     for f in ("site.css", "khalad-mark.png", "icon.png", "og.png"):
         shutil.copy(os.path.join(SRC, f), os.path.join(out, f))
-    L = {"home": "/", "privacy": "/privacy", "terms": "/terms", "mark": "/khalad-mark.png"}
+    L = {"home": "/", "privacy": "/privacy", "terms": "/terms", "app": "/islamic-app", "mark": "/khalad-mark.png"}
     for key, (title, desc, fn) in PAGES.items():
         folder = out if key == "home" else os.path.join(out, key)
         os.makedirs(folder, exist_ok=True)
@@ -340,7 +440,7 @@ def build_public():
     with open(os.path.join(out, "robots.txt"), "w") as f:
         f.write(f"User-agent: *\nAllow: /\nSitemap: {SITE}/sitemap.xml\n")
     with open(os.path.join(out, "sitemap.xml"), "w") as f:
-        urls = "".join(f"<url><loc>{SITE}/{p}</loc></url>" for p in ("", "privacy", "terms"))
+        urls = "".join(f"<url><loc>{SITE}/{p}</loc></url>" for p in ("", "islamic-app", "privacy", "terms"))
         f.write(f'<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">{urls}</urlset>\n')
     return out
 
@@ -355,11 +455,12 @@ def build_preview():
     with open(os.path.join(SRC, "khalad-mark.png"), "rb") as f:
         mark = "data:image/png;base64," + base64.b64encode(f.read()).decode()
     title, desc, fn = PAGES["home"]
-    L = {"home": "#", "privacy": "privacy/index.html", "terms": "terms/index.html", "mark": mark}
+    L = {"home": "#", "privacy": "privacy/index.html", "terms": "terms/index.html", "app": "islamic-app/index.html", "mark": mark}
     with open(os.path.join(out, "index.html"), "w", encoding="utf-8") as f:
         f.write(f'<title>{title}</title>\n<meta name="claude:viewport-fit-sides" content="cover">\n{FONTS}\n{css}\n{fn(L)}\n')
-    L2 = {"home": "../", "privacy": "../privacy/index.html", "terms": "../terms/index.html", "mark": mark}
-    for key in ("privacy", "terms"):
+    L2 = {"home": "../", "privacy": "../privacy/index.html", "terms": "../terms/index.html", "app": "../islamic-app/index.html", "mark": mark}
+    for key in ("privacy", "terms", "islamic-app"):
+        os.makedirs(os.path.join(out, key), exist_ok=True)
         title, desc, fn = PAGES[key]
         with open(os.path.join(out, key, "index.html"), "w", encoding="utf-8") as f:
             f.write(doc(title, desc, fn(L2), css, "data:,", ""))

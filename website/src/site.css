@@ -134,6 +134,21 @@ p { margin: 0; }
 .nos li:first-child { border-top: 1px solid var(--on-ink-line); }
 .nos li span { color: var(--on-ink-muted); font-weight: 400; font-size: 15px; text-align: right; }
 
+/* Islamic app page */
+.hero-sm { padding-block: 40px 72px; }
+.wrap.one { display: block; }
+.wrap.one > * { max-width: 860px; }
+.h1-sm { font-weight: 800; font-size: clamp(40px, 6.4vw, 76px); line-height: 1; letter-spacing: -0.05em; margin-block: 18px 22px; }
+.section.tight { padding-block: 80px; }
+.promise .wrap.block { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; }
+.table-scroll { overflow-x: auto; }
+.cmp { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 16px; }
+.cmp th, .cmp td { text-align: left; vertical-align: top; padding: 16px 14px 16px 0; border-bottom: 1px solid var(--on-ink-line); }
+.cmp thead th { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--on-ink-muted); font-weight: 600; }
+.cmp tbody th { font-weight: 700; width: 22%; }
+.cmp tbody td:nth-child(2) { font-weight: 600; width: 39%; }
+.cmp tbody td:nth-child(3) { color: var(--on-ink-muted); }
+
 /* FAQ */
 .faq .wrap { padding-block: 96px 24px; display: grid; gap: 32px; }
 .faq h2 { font-size: clamp(32px, 4.4vw, 52px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.02; }
