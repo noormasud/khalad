@@ -6,8 +6,20 @@
 <title>Privacy policy · Khalad</title>
 <meta name="description" content="How Khalad handles your data: no ads, no sign-up, location stays on your phone.">
 
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0c0c0c">
+
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Khalad">
 <meta property="og:title" content="Privacy policy · Khalad">
 <meta property="og:description" content="How Khalad handles your data: no ads, no sign-up, location stays on your phone.">
+
+<meta property="og:image" content="https://khalad-global.vercel.app/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="/icon.png">
+
 <link rel="icon" href="data:,">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@700&display=swap">
 <style>/* Khalad — black & white, one green dot. Layout: a narrow editorial column, big Manrope type, a phone that shows the product. */
@@ -145,6 +157,17 @@ p { margin: 0; }
 .nos li { display: flex; justify-content: space-between; gap: 16px; padding-block: 18px; border-bottom: 1px solid var(--on-ink-line); font-size: 18px; font-weight: 600; }
 .nos li:first-child { border-top: 1px solid var(--on-ink-line); }
 .nos li span { color: var(--on-ink-muted); font-weight: 400; font-size: 15px; text-align: right; }
+
+/* FAQ */
+.faq .wrap { padding-block: 96px 24px; display: grid; gap: 32px; }
+.faq h2 { font-size: clamp(32px, 4.4vw, 52px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.02; }
+.qs { display: grid; border-top: 1.5px solid var(--fg); }
+.qs details { border-bottom: 1px solid var(--line); }
+.qs summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; padding-block: 20px; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+.qs summary::-webkit-details-marker { display: none; }
+.qs summary::after { content: "+"; font-weight: 400; font-size: 24px; line-height: 1; color: var(--muted); flex-shrink: 0; }
+.qs details[open] summary::after { content: "\2212"; }
+.qs details p { color: var(--muted); padding-bottom: 22px; max-width: 46em; }
 
 /* CTA */
 .cta .wrap { padding-block: 96px 100px; display: grid; justify-items: start; gap: 24px; }

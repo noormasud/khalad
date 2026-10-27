@@ -134,6 +134,17 @@ p { margin: 0; }
 .nos li:first-child { border-top: 1px solid var(--on-ink-line); }
 .nos li span { color: var(--on-ink-muted); font-weight: 400; font-size: 15px; text-align: right; }
 
+/* FAQ */
+.faq .wrap { padding-block: 96px 24px; display: grid; gap: 32px; }
+.faq h2 { font-size: clamp(32px, 4.4vw, 52px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.02; }
+.qs { display: grid; border-top: 1.5px solid var(--fg); }
+.qs details { border-bottom: 1px solid var(--line); }
+.qs summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; padding-block: 20px; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+.qs summary::-webkit-details-marker { display: none; }
+.qs summary::after { content: "+"; font-weight: 400; font-size: 24px; line-height: 1; color: var(--muted); flex-shrink: 0; }
+.qs details[open] summary::after { content: "\2212"; }
+.qs details p { color: var(--muted); padding-bottom: 22px; max-width: 46em; }
+
 /* CTA */
 .cta .wrap { padding-block: 96px 100px; display: grid; justify-items: start; gap: 24px; }
 .cta h2 { font-size: clamp(36px, 5.6vw, 68px); font-weight: 800; letter-spacing: -0.045em; line-height: 1; }

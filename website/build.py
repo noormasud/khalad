@@ -15,12 +15,34 @@ SRC = os.path.join(HERE, "src")
 PLAY = "https://play.google.com/store/apps/details?id=com.islamicapp.khalad"
 EMAIL = "khalad.global@gmail.com"
 SITE = "https://khalad-global.vercel.app"  # change here if Vercel gives the project another address
+# Paste the content="…" value from Google Search Console (HTML tag method) to verify the site:
+GOOGLE_SITE_VERIFICATION = ""
 UPDATED = "26 October 2026"
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@700&display=swap">')
 PLAY_ICON = ('<svg viewBox="0 0 24 24" aria-hidden="true" fill="currentColor"><path d="M4.2 2.6a1.2 1.2 0 0 0-.6 1.06v16.68c0 .44.23.83.6 1.05l9.3-9.39z"/>'
              '<path d="m16.6 15.1-2.4-2.4-9.2 9.3c.4.12.85.07 1.24-.15z" opacity=".75"/><path d="m20 10.6-2.95-1.7-2.85 2.89 2.85 2.88L20 13.4a1.6 1.6 0 0 0 0-2.8z" opacity=".9"/>'
              '<path d="M6.24 1.95A1.6 1.6 0 0 0 5 1.8l9.2 9.29 2.4-2.42z" opacity=".6"/></svg>')
+
+
+FAQ = [
+    ("Is there a good Islamic app without ads?",
+     "Yes. Khalad is free on Android with no ads and no sign-up. It covers prayer times, daily Quran reading, adhkar, Qibla and a hadith of the day."),
+    ("How can I see prayer times on my phone's lock screen?",
+     "Khalad shows the next prayer as a quiet line on your Android lock screen, for example \u201cAsr 4:27 pm\u201d, and updates it at each prayer time. There are also small home-screen widgets for the next prayer."),
+    ("Does Khalad play the adhan?",
+     "No. Khalad is quiet by design: prayer times appear silently and reminders use a soft sound."),
+    ("Can I read the Quran with Urdu or English translation?",
+     "Yes. Khalad shows the Quran text from Quran.com with Urdu or English translation, lets you set a daily reading goal from one ayah to one juz, and remembers where you stopped."),
+    ("Does Khalad remind me to read Surah Al-Mulk and Surah Al-Kahf?",
+     "Yes. Khalad gently reminds you to read Surah Al-Mulk at night and Surah Al-Kahf on Fridays, and opens the surah for you. You can also turn on reminders for Monday and Thursday fasts and the white days."),
+    ("Which prayer time calculation does Khalad use?",
+     "Khalad picks the usual method for your region, such as the University of Islamic Sciences, Karachi in Pakistan, and lets you choose Hanafi or standard Asr. You can adjust any prayer by a few minutes."),
+    ("Does Khalad show the Qibla direction?",
+     "Yes. Khalad works out the Qibla from your location and shows it with your phone's compass."),
+    ("Is Khalad available on iPhone?",
+     "Not yet. Khalad is available on Android first."),
+]
 
 
 def read(name):
@@ -53,7 +75,7 @@ def home(L):
 <main>
 <section class="hero"><div class="wrap">
   <div>
-    <p class="eyebrow">Free on Android · No ads</p>
+    <p class="eyebrow">Quran, prayer times &amp; adhkar app · Free on Android · No ads</p>
     <h1><span>Small deeds.</span><span>Every day.</span><span class="last">Forever<i>.</i></span></h1>
     <p class="lede">Khalad is a quiet Islamic app for the small acts that last: your daily Quran, prayer times, morning and evening adhkar, Surah Mulk at night and Al-Kahf on Fridays.</p>
     <div class="actions">
@@ -103,6 +125,13 @@ def home(L):
     <li>No adhan noise<span>Silent prayer times, soft reminders</span></li>
     <li>Verified sources<span>Quran text from Quran.com, hadith checked</span></li>
   </ul>
+</div></section>
+
+<section class="faq" aria-labelledby="faq-h"><div class="wrap">
+  <h2 id="faq-h">Questions</h2>
+  <div class="qs">
+    {"".join(f'<details><summary>{q}</summary><p>{a}</p></details>' for q, a in FAQ)}
+  </div>
 </div></section>
 
 <section class="cta"><div class="wrap">
@@ -229,13 +258,37 @@ def terms(L):
 
 
 PAGES = {
-    "home": ("Khalad", "Khalad: a quiet Islamic app for prayer times, daily Quran and adhkar. No ads, no sign-up.", home),
+    "home": ("Khalad: Quran, Prayer Times, Adhkar & Qibla App (No Ads)",
+             "Free Islamic app: prayer times on your lock screen, daily Quran with Urdu & English translation, adhkar, Qibla and a verified hadith. No ads.", home),
     "privacy": ("Privacy policy · Khalad", "How Khalad handles your data: no ads, no sign-up, location stays on your phone.", privacy),
     "terms": ("Terms of use · Khalad", "The terms for using the Khalad app and website.", terms),
 }
 
 
-def doc(title, desc, body, css_tag, icon_href, canonical):
+def jsonld(key, canonical):
+    """Structured data so Google understands this is an app (and what it does)."""
+    import json
+    org = {"@type": "Organization", "name": "Khalad LTD", "url": SITE, "email": EMAIL, "logo": SITE + "/icon.png"}
+    if key != "home":
+        return ""
+    app = {
+        "@context": "https://schema.org", "@type": "MobileApplication", "name": "Khalad",
+        "operatingSystem": "Android", "applicationCategory": "LifestyleApplication",
+        "description": PAGES["home"][1], "url": canonical, "installUrl": PLAY, "downloadUrl": PLAY,
+        "image": SITE + "/og.png", "inLanguage": ["en", "ur"],
+        "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"},
+        "publisher": org,
+        "featureList": ["Prayer times for your location", "Next prayer on the lock screen", "Daily Quran reading goal",
+                        "Urdu and English Quran translation", "Morning, evening and night adhkar", "Qibla direction",
+                        "Verified hadith of the day", "Surah Mulk and Surah Kahf reminders", "Home-screen widgets"],
+    }
+    faq = {"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+        {"@type": "Question", "name": q, "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in FAQ]}
+    return ('<script type="application/ld+json">' + json.dumps(app, ensure_ascii=False) + '</script>\n'
+            '<script type="application/ld+json">' + json.dumps(faq, ensure_ascii=False) + '</script>')
+
+
+def doc(title, desc, body, css_tag, icon_href, canonical, key=""):
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -244,8 +297,20 @@ def doc(title, desc, body, css_tag, icon_href, canonical):
 <title>{title}</title>
 <meta name="description" content="{desc}">
 {f'<link rel="canonical" href="{canonical}">' if canonical else ''}
+<meta name="robots" content="index, follow">
+<meta name="theme-color" content="#0c0c0c">
+{f'<meta name="google-site-verification" content="{GOOGLE_SITE_VERIFICATION}">' if GOOGLE_SITE_VERIFICATION and key == "home" else ''}
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Khalad">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
+{f'<meta property="og:url" content="{canonical}">' if canonical else ''}
+<meta property="og:image" content="{SITE}/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="/icon.png">
+{jsonld(key, canonical) if canonical else ''}
 <link rel="icon" href="{icon_href}">
 {FONTS}
 {css_tag}
@@ -261,7 +326,7 @@ def build_public():
     out = os.path.join(HERE, "public")
     shutil.rmtree(out, ignore_errors=True)
     os.makedirs(out)
-    for f in ("site.css", "khalad-mark.png", "icon.png"):
+    for f in ("site.css", "khalad-mark.png", "icon.png", "og.png"):
         shutil.copy(os.path.join(SRC, f), os.path.join(out, f))
     L = {"home": "/", "privacy": "/privacy", "terms": "/terms", "mark": "/khalad-mark.png"}
     for key, (title, desc, fn) in PAGES.items():
@@ -269,7 +334,7 @@ def build_public():
         os.makedirs(folder, exist_ok=True)
         canonical = SITE + "/" + ("" if key == "home" else key)
         with open(os.path.join(folder, "index.html"), "w", encoding="utf-8") as f:
-            f.write(doc(title, desc, fn(L), '<link rel="stylesheet" href="/site.css">', "/icon.png", canonical))
+            f.write(doc(title, desc, fn(L), '<link rel="stylesheet" href="/site.css">', "/icon.png", canonical, key))
     with open(os.path.join(out, "vercel.json"), "w") as f:
         f.write('{ "cleanUrls": true, "trailingSlash": false }\n')
     with open(os.path.join(out, "robots.txt"), "w") as f:

@@ -1,4 +1,4 @@
-<title>Khalad</title>
+<title>Khalad: Quran, Prayer Times, Adhkar & Qibla App (No Ads)</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@700&display=swap">
 <style>/* Khalad — black & white, one green dot. Layout: a narrow editorial column, big Manrope type, a phone that shows the product. */
@@ -137,6 +137,17 @@ p { margin: 0; }
 .nos li:first-child { border-top: 1px solid var(--on-ink-line); }
 .nos li span { color: var(--on-ink-muted); font-weight: 400; font-size: 15px; text-align: right; }
 
+/* FAQ */
+.faq .wrap { padding-block: 96px 24px; display: grid; gap: 32px; }
+.faq h2 { font-size: clamp(32px, 4.4vw, 52px); font-weight: 800; letter-spacing: -0.04em; line-height: 1.02; }
+.qs { display: grid; border-top: 1.5px solid var(--fg); }
+.qs details { border-bottom: 1px solid var(--line); }
+.qs summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; gap: 16px; padding-block: 20px; font-size: 19px; font-weight: 700; letter-spacing: -0.01em; }
+.qs summary::-webkit-details-marker { display: none; }
+.qs summary::after { content: "+"; font-weight: 400; font-size: 24px; line-height: 1; color: var(--muted); flex-shrink: 0; }
+.qs details[open] summary::after { content: "\2212"; }
+.qs details p { color: var(--muted); padding-bottom: 22px; max-width: 46em; }
+
 /* CTA */
 .cta .wrap { padding-block: 96px 100px; display: grid; justify-items: start; gap: 24px; }
 .cta h2 { font-size: clamp(36px, 5.6vw, 68px); font-weight: 800; letter-spacing: -0.045em; line-height: 1; }
@@ -200,7 +211,7 @@ p { margin: 0; }
 <main>
 <section class="hero"><div class="wrap">
   <div>
-    <p class="eyebrow">Free on Android · No ads</p>
+    <p class="eyebrow">Quran, prayer times &amp; adhkar app · Free on Android · No ads</p>
     <h1><span>Small deeds.</span><span>Every day.</span><span class="last">Forever<i>.</i></span></h1>
     <p class="lede">Khalad is a quiet Islamic app for the small acts that last: your daily Quran, prayer times, morning and evening adhkar, Surah Mulk at night and Al-Kahf on Fridays.</p>
     <div class="actions">
@@ -250,6 +261,13 @@ p { margin: 0; }
     <li>No adhan noise<span>Silent prayer times, soft reminders</span></li>
     <li>Verified sources<span>Quran text from Quran.com, hadith checked</span></li>
   </ul>
+</div></section>
+
+<section class="faq" aria-labelledby="faq-h"><div class="wrap">
+  <h2 id="faq-h">Questions</h2>
+  <div class="qs">
+    <details><summary>Is there a good Islamic app without ads?</summary><p>Yes. Khalad is free on Android with no ads and no sign-up. It covers prayer times, daily Quran reading, adhkar, Qibla and a hadith of the day.</p></details><details><summary>How can I see prayer times on my phone's lock screen?</summary><p>Khalad shows the next prayer as a quiet line on your Android lock screen, for example “Asr 4:27 pm”, and updates it at each prayer time. There are also small home-screen widgets for the next prayer.</p></details><details><summary>Does Khalad play the adhan?</summary><p>No. Khalad is quiet by design: prayer times appear silently and reminders use a soft sound.</p></details><details><summary>Can I read the Quran with Urdu or English translation?</summary><p>Yes. Khalad shows the Quran text from Quran.com with Urdu or English translation, lets you set a daily reading goal from one ayah to one juz, and remembers where you stopped.</p></details><details><summary>Does Khalad remind me to read Surah Al-Mulk and Surah Al-Kahf?</summary><p>Yes. Khalad gently reminds you to read Surah Al-Mulk at night and Surah Al-Kahf on Fridays, and opens the surah for you. You can also turn on reminders for Monday and Thursday fasts and the white days.</p></details><details><summary>Which prayer time calculation does Khalad use?</summary><p>Khalad picks the usual method for your region, such as the University of Islamic Sciences, Karachi in Pakistan, and lets you choose Hanafi or standard Asr. You can adjust any prayer by a few minutes.</p></details><details><summary>Does Khalad show the Qibla direction?</summary><p>Yes. Khalad works out the Qibla from your location and shows it with your phone's compass.</p></details><details><summary>Is Khalad available on iPhone?</summary><p>Not yet. Khalad is available on Android first.</p></details>
+  </div>
 </div></section>
 
 <section class="cta"><div class="wrap">
