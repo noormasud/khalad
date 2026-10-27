@@ -16,7 +16,7 @@ PLAY = "https://play.google.com/store/apps/details?id=com.islamicapp.khalad"
 EMAIL = "khalad.global@gmail.com"
 SITE = "https://khalad-global.vercel.app"  # change here if Vercel gives the project another address
 # Paste the content="…" value from Google Search Console (HTML tag method) to verify the site:
-GOOGLE_SITE_VERIFICATION = ""
+GOOGLE_SITE_VERIFICATION = "drDQQPHSsom2NC0RlZbnCnPtpJaDUP-Nri2KGE_bIJM"
 UPDATED = "26 October 2026"
 FONTS = ('<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>'
          '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Noto+Naskh+Arabic:wght@700&display=swap">')
