@@ -14,6 +14,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SRC = os.path.join(HERE, "src")
 PLAY = "https://play.google.com/store/apps/details?id=com.islamicapp.khalad"
 EMAIL = "khalad.global@gmail.com"
+INSTAGRAM = "https://www.instagram.com/khaladtheapp"
 SITE = "https://khalad-global.vercel.app"  # change here if Vercel gives the project another address
 # Paste the content="…" value from Google Search Console (HTML tag method) to verify the site:
 GOOGLE_SITE_VERIFICATION = "drDQQPHSsom2NC0RlZbnCnPtpJaDUP-Nri2KGE_bIJM"
@@ -110,7 +111,7 @@ def footer(L):
     return f"""<footer class="foot"><div class="wrap">
   <nav class="guides" aria-label="Guides">{guides}</nav>
   <span>© 2026 Khalad LTD · <a class="email" href="mailto:{EMAIL}">{EMAIL}</a></span>
-  <nav aria-label="Footer"><a href="{L['home']}">Home</a><a href="{L['app']}">Islamic apps</a><a href="{L['privacy']}">Privacy policy</a><a href="{L['terms']}">Terms of use</a><a href="{PLAY}" rel="noopener">Google Play</a></nav>
+  <nav aria-label="Footer"><a href="{L['home']}">Home</a><a href="{L['app']}">Islamic apps</a><a href="{L['privacy']}">Privacy policy</a><a href="{L['terms']}">Terms of use</a><a href="{PLAY}" rel="noopener">Google Play</a><a href="{INSTAGRAM}" rel="me noopener">Instagram</a></nav>
 </div></footer>"""
 
 
@@ -371,7 +372,7 @@ PAGES = {
 def jsonld(key, canonical):  # noqa: E302
     """Structured data so Google understands this is an app (and what it does)."""
     import json
-    org = {"@type": "Organization", "name": "Khalad LTD", "url": SITE, "email": EMAIL, "logo": SITE + "/icon.png"}
+    org = {"@type": "Organization", "name": "Khalad LTD", "url": SITE, "email": EMAIL, "logo": SITE + "/icon.png", "sameAs": [INSTAGRAM, PLAY]}
     faq_list = FAQ if key == "home" else APP_FAQ if key == "islamic-apps" else PAGE_FAQ.get(key)
     if faq_list is None:
         return ""
