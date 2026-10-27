@@ -204,6 +204,8 @@ def pages(header, footer, PLAY, PLAY_ICON, SRC):
     def city_list(L, base, fmt):
         groups = {}
         for c in cities:
+            if base == "qibla" and c["slug"] == "makkah":
+                continue
             groups.setdefault(c["country"], []).append(c)
         out = []
         for country, cs in groups.items():
@@ -243,12 +245,14 @@ def pages(header, footer, PLAY, PLAY_ICON, SRC):
                   "Qibla direction from your city: the exact angle from north, how to face it, and a live Qibla compass in the free Khalad app.", qibla_index)
 
     for c in cities:
+        if c["slug"] == "makkah":  # in Makkah you face the Kaaba itself
+            continue
         b, km = qibla(c["lat"], c["lng"])
         short, words = direction_words(b)
         key = "qibla/" + c["slug"]
 
         def qcity(L, c=c, b=b, km=km, short=short, words=words):
-            others = " ".join(f'<a href="{L["to"]("qibla/" + o["slug"])}">{esc(o["name"])}</a>' for o in cities if o["country"] == c["country"] and o is not c)
+            others = " ".join(f'<a href="{L["to"]("qibla/" + o["slug"])}">{esc(o["name"])}</a>' for o in cities if o["country"] == c["country"] and o is not c and o["slug"] != "makkah")
             body = f"""<section class="g-body"><div class="wrap qgrid">
   <figure class="dial" aria-label="Compass showing the Qibla at {b:.0f} degrees from north">
     <svg viewBox="0 0 200 200" role="img">
