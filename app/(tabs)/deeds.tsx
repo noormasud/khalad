@@ -79,9 +79,12 @@ export default function Deeds() {
         <Shortcut icon="heart" title="Duas" sub="For daily moments" onPress={() => router.push('/duas')} />
         <Shortcut icon="beads" title="Tasbih" sub="Tap to count" onPress={() => router.push('/tasbih')} />
       </View>
-      {content.adhkar_sets.some((s) => s.key === 'after_salah') ? (
-        <Shortcut icon="check-circle" title="After salah" sub="Adhkar after the fard prayer" onPress={() => router.push('/adhkar/after_salah')} />
-      ) : null}
+      <View style={{ flexDirection: 'row', gap: 10 }}>
+        {content.adhkar_sets.some((s) => s.key === 'after_salah') ? (
+          <Shortcut icon="check-circle" title="After salah" sub="Adhkar after fard" onPress={() => router.push('/adhkar/after_salah')} />
+        ) : null}
+        <Shortcut icon="heart" title="Ruqyah" sub="Healing duas" onPress={() => router.push('/ruqyah')} />
+      </View>
     </Screen>
   );
 }

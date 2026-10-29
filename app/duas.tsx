@@ -7,6 +7,7 @@ import { fonts, useTheme } from '../src/theme';
 import { useApp } from '../src/state/AppState';
 import { useContent } from '../src/state/ContentState';
 import type { AdhkarSet } from '../src/lib/content';
+import { RUQYAH } from '../src/data/ruqyah';
 
 const GROUPS: { title: string; cat: string }[] = [
   { title: 'Everyday duas', cat: 'duas' },
@@ -59,6 +60,23 @@ export default function Duas() {
           </Pressable>
         ) : null}
       </View>
+
+      {!q.trim() || 'ruqyah healing sick evil eye shifa'.includes(q.trim().toLowerCase()) ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel="Ruqyah. Healing from the Quran and Sunnah. For illness, the evil eye and protection."
+          onPress={() => router.push('/ruqyah')}
+          style={({ pressed }) => ({ borderRadius: 18, padding: 18, gap: 6, backgroundColor: t.inverseBg, opacity: pressed ? 0.85 : 1 })}
+        >
+          <T size={11} weight="bold" color={t.progress} style={{ letterSpacing: 0.6 }}>RUQYAH</T>
+          <T size={17} weight="bold" color={t.inverseText}>Healing from the Quran and Sunnah</T>
+          <T size={12} color={t.inverseMuted} style={{ lineHeight: 18 }}>For illness, the evil eye and protection. For yourself, or to read over someone you love.</T>
+          <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginTop: 6 }}>
+            <T size={12} color={t.inverseMuted}>{`${RUQYAH.filter((r) => r.section !== 'other').length} duas and verses · graded`}</T>
+            <T size={13} weight="bold" color={t.inverseText}>Open ›</T>
+          </View>
+        </Pressable>
+      ) : null}
 
       {GROUPS.map((g) => {
         const list = sets.filter((s) => s.category === g.cat);

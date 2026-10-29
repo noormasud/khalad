@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { FlatList, Pressable, ScrollView, useWindowDimensions, View } from 'react-native';
-import { useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { GestureDetector } from 'react-native-gesture-handler';
 import * as Haptics from 'expo-haptics';
@@ -10,7 +10,7 @@ import { ReaderSettings } from '../../src/components/ReaderSettings';
 import { arabicSizes, useTheme } from '../../src/theme';
 import { useApp } from '../../src/state/AppState';
 import { useContent } from '../../src/state/ContentState';
-import { type AdhkarItem, itemsFor } from '../../src/lib/content';
+import { type AdhkarItem, type AdhkarSet, itemsFor } from '../../src/lib/content';
 import { getVerses } from '../../src/lib/quran';
 import { chapter } from '../../src/data/chapters';
 import type { Verse } from '../../src/lib/quranText';
@@ -18,17 +18,25 @@ import { usePinchTextSize } from '../../src/hooks/usePinchTextSize';
 import { track } from '../../src/lib/analytics';
 import { goToTab } from '../../src/lib/nav';
 import { setResumePath } from '../../src/lib/resume';
+import { RUQYAH_KEY, ruqyahFor, type RuqyahItem } from '../../src/data/ruqyah';
+import { GradePill, GradesSheet } from '../../src/components/Ruqyah';
+
+// Ruqyah is read with this same reader, but it is private: no Today tick, streak or adhkar progress.
+const RUQYAH_SET: AdhkarSet = { key: RUQYAH_KEY, title: 'Ruqyah', subtitle: 'Healing from the Quran and Sunnah', category: 'duas', time_of_day: 'any', weekdays: null, sort: 0 };
 
 type Loaded = { verses?: Verse[]; error?: string };
 
 export default function AdhkarReader() {
   const t = useTheme();
   const { width } = useWindowDimensions();
-  const { key, i: startParam } = useLocalSearchParams<{ key: string; i?: string }>();
+  const { key, i: startParam, for: forParam } = useLocalSearchParams<{ key: string; i?: string; for?: string }>();
   const { content } = useContent();
   const { settings, markAdhkarDone } = useApp();
-  const set = content.adhkar_sets.find((s) => s.key === key);
-  const items = useMemo(() => (set ? itemsFor(content, set.key) : []), [content, set]);
+  const ruqyah = key === RUQYAH_KEY;
+  const who = forParam === 'others' ? 'others' : 'self';
+  const set = ruqyah ? RUQYAH_SET : content.adhkar_sets.find((s) => s.key === key);
+  const items = useMemo<AdhkarItem[]>(() => (ruqyah ? ruqyahFor(who) : set ? itemsFor(content, set.key) : []), [ruqyah, who, content, set]);
+  const [grades, setGrades] = useState<RuqyahItem | null>(null);
   const trId = settings.translationIds[settings.translationLang];
   const { gesture: pinch, overlay } = usePinchTextSize();
 
@@ -56,8 +64,8 @@ export default function AdhkarReader() {
 
   // Remember which dhikr is open in case Android closes the app in the background.
   useEffect(() => {
-    setResumePath(finished ? '' : `/adhkar/${key}?i=${index}`);
-  }, [key, index, finished]);
+    setResumePath(finished ? '' : `/adhkar/${key}?i=${index}${ruqyah ? `&for=${who}` : ''}`);
+  }, [key, index, finished, ruqyah, who]);
 
   // Quran items: text from the validated Quran.com copy (with translation, so "Meaning" opens instantly).
   useEffect(() => {
@@ -87,8 +95,12 @@ export default function AdhkarReader() {
 
   const finish = () => {
     setFinished(true);
-    markAdhkarDone(set.key);
-    track('adhkar_done', { set: set.key, category: set.category, meaning_on: settings.adhkarMeaning });
+    if (ruqyah) {
+      track('ruqyah_done', { for: who, meaning_on: settings.adhkarMeaning });
+    } else {
+      markAdhkarDone(set.key);
+      track('adhkar_done', { set: set.key, category: set.category, meaning_on: settings.adhkarMeaning });
+    }
     Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success).catch(() => undefined);
   };
 
@@ -119,8 +131,12 @@ export default function AdhkarReader() {
           <Icon name="check" size={38} strokeWidth={2.5} color={t.onAccent} />
         </View>
         <T size={22} weight="bold">JazakAllahu khayran</T>
-        <T size={14} muted style={{ textAlign: 'center' }}>{single ? 'May Allah accept it.' : `${set.title} done for today.`}</T>
-        <Button label="Back to Today" onPress={() => goToTab('/')} style={{ alignSelf: 'stretch', marginTop: 12 }} />
+        <T size={14} muted style={{ textAlign: 'center' }}>{ruqyah ? 'May Allah grant complete healing.' : single ? 'May Allah accept it.' : `${set.title} done for today.`}</T>
+        {ruqyah ? (
+          <Button label="Back to Ruqyah" onPress={() => (router.canGoBack() ? router.back() : router.replace('/ruqyah'))} style={{ alignSelf: 'stretch', marginTop: 12 }} />
+        ) : (
+          <Button label="Back to Today" onPress={() => goToTab('/')} style={{ alignSelf: 'stretch', marginTop: 12 }} />
+        )}
       </SafeAreaView>
     );
   }
@@ -189,6 +205,10 @@ export default function AdhkarReader() {
                       </Pressable>
                       <View style={{ alignItems: 'center', gap: 8 }}>
                         <Reference item={item} />
+                        {ruqyah && (item as RuqyahItem).grade ? <GradePill grade={(item as RuqyahItem).grade!} onPress={() => setGrades(item as RuqyahItem)} /> : null}
+                        {ruqyah && item.type === 'quran' && (item as RuqyahItem).note ? (
+                          <T size={12} faint style={{ textAlign: 'center' }}>{(item as RuqyahItem).note}</T>
+                        ) : null}
                         {!settings.adhkarMeaning && hasMeaning(item, quran[i], trId) ? (
                           <Pressable
                             accessibilityRole="button"
@@ -238,6 +258,7 @@ export default function AdhkarReader() {
       {!single ? <T size={11} faint style={{ textAlign: 'center', paddingBottom: 6 }}>Tap the text to count · swipe for next · pinch to resize</T> : null}
 
       <ReaderSettings mode="adhkar" visible={showSettings} onClose={() => setShowSettings(false)} />
+      {ruqyah ? <GradesSheet item={grades} onClose={() => setGrades(null)} /> : null}
     </SafeAreaView>
   );
 }

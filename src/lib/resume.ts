@@ -8,7 +8,7 @@ const KEY = 'khalad.resume.v1';
 
 // Only screens worth returning to, with simple params. Never onboarding, Supporter or tabs' home.
 const ALLOWED =
-  /^\/(surah\/\d{1,3}(\?(verse=\d{1,3})?(&?mark=1)?(&?from=deed)?)?|adhkar\/[a-z0-9_]{2,40}(\?i=\d{1,3})?|duas|tasbih|qibla|sadaqah|streak|about|quran|deeds|more|settings\/(prayer|notifications|city))$/;
+  /^\/(surah\/\d{1,3}(\?(verse=\d{1,3})?(&?mark=1)?(&?from=deed)?)?|adhkar\/[a-z0-9_]{2,40}(\?i=\d{1,3}(&for=(self|others))?)?|duas|ruqyah|tasbih|qibla|sadaqah|streak|about|quran|deeds|more|settings\/(prayer|notifications|city))$/;
 
 let current = '';
 

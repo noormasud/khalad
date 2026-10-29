@@ -8,6 +8,7 @@ import { bucket, screenOf } from '../src/lib/analytics';
 import { buildWidgetData } from '../src/widgets/data';
 import { updateStatus } from '../src/lib/updates';
 import { pickResume } from '../src/lib/resume';
+import { RUQYAH, ruqyahFor } from '../src/data/ruqyah';
 import { addDeedDay, DEFAULT_PROGRESS, DEFAULT_SETTINGS, hydrate, normalizeSadaqah, previousMonth, recordVerses, rollSadaqah, streakDays } from '../src/state/model';
 import { CHAPTERS, TOTAL_VERSES } from '../src/data/chapters';
 import { placeLabel } from '../src/data/cities';
@@ -278,6 +279,9 @@ describe('resume after the app was closed in the background', () => {
     expect(pickResume({ path: '/adhkar/evening?i=7', at: now - 19 * 60000 }, now)).toBe('/adhkar/evening?i=7');
     expect(pickResume({ path: '/surah/67?verse=3&mark=1', at: now - 60000 }, now)).toBe('/surah/67?verse=3&mark=1');
     expect(pickResume({ path: '/tasbih', at: now - 60000 }, now)).toBe('/tasbih');
+    expect(pickResume({ path: '/adhkar/ruqyah?i=4&for=others', at: now - 60000 }, now)).toBe('/adhkar/ruqyah?i=4&for=others');
+    expect(pickResume({ path: '/ruqyah', at: now - 60000 }, now)).toBe('/ruqyah');
+    expect(pickResume({ path: '/adhkar/ruqyah?i=4&for=everyone', at: now - 60000 }, now)).toBeNull();
   });
   it('goes to Today after 20 minutes, and never restores unsafe or one-off screens', () => {
     expect(pickResume({ path: '/surah/18?verse=45', at: now - 21 * 60000 }, now)).toBeNull();
@@ -331,5 +335,19 @@ describe('bundled content', () => {
       expect(typeof d.reference === 'string' && d.reference.length > 0).toBe(true);
       expect(verified.some((v: any) => v.text === d.text && v.reference === d.reference)).toBe(true);
     }
+  });
+});
+
+describe('ruqyah content', () => {
+  it('is complete, graded and split by who it is read for', () => {
+    const ids = new Set(RUQYAH.map((r) => r.id));
+    expect(ids.size).toBe(RUQYAH.length);
+    for (const r of RUQYAH) {
+      if (r.type === 'dua') expect(!!(r.arabic && r.translation && r.reference)).toBe(true);
+      else expect(!!(r.surah && r.verse_from && r.verse_to && r.verse_to >= r.verse_from)).toBe(true);
+      if (r.section !== 'quran') expect(!!r.grade).toBe(true);
+    }
+    expect(ruqyahFor('self').some((r) => r.audience === 'others')).toBe(false);
+    expect(ruqyahFor('others').some((r) => r.audience === 'self')).toBe(false);
   });
 });
